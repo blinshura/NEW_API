@@ -394,6 +394,39 @@ def login(iter):
 
             } # 0
 
+            IDFL = {
+                'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '8',
+                'IDFL': '1',
+
+                'SurName': 'ХРОМОВ',
+                'FirstName': 'АЛЕКСАНДР',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                'DateOfBirth': '03.08.1969',
+                'Seria': '4597',
+                'Number': '00522',
+                'Address': '',
+                'Phone': '',
+                'GosNumber': '',
+                'INNIP': '',
+                'OGRN': '',
+                'OGRNIP': '',
+
+                #        ФИО И Дата рождения
+                # ИЛИ    ФИО И Адрес
+                # ИЛИ    ФИО И Номер телефона
+                # ИЛИ    ФИО И ОГРН организации
+                # ИЛИ    ФИО И Паспорт(серия и номер)
+                # ИЛИ    ФИО И ИНН
+                # ИЛИ    ФИО И Номер трансп.средства
+                # ИЛИ    ФИО И ОГРНИП
+                # ИЛИ    Паспорт(серия и номер)
+                # ИЛИ    ИНН
+                # ИЛИ    Номер трансп.средства
+                # ИЛИ    ОГРНИП
+            } # 0
+
 
 
             UL = [ULFNST,
@@ -444,8 +477,11 @@ def login(iter):
             BSIP = [
                 BSIP_BIP,
             ] # 6
+            ID_FL = [
+                IDFL
+            ] # 7
 
-            Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP]
+            Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP,ID_FL]
 
             g.setup(post=Services[6][0],
                     headers={
