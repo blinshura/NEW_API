@@ -42,63 +42,63 @@ def login(iter):
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'FNST' : '1',
-                       'OGRN' : '1177746172790',} #0
+                       'OGRN' : '1177746172790',} # 0
             ULFNSA = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'FNSA' : '1',
-                       'OGRN' : '1177746172790',} #1
+                       'OGRN' : '1177746172790',} # 1
             ULGIBDD = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'GIBDD' : '1',
-                       'OGRN' : '1177746172790',} #2
+                       'OGRN' : '1177746172790',} # 2
             ULBalans = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'Balans' : '1',
-                       'OGRN' : '1177746172790',} #3
+                       'OGRN' : '1177746172790',} # 3
             ULSVI = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'SVI' : '1',
-                       'OGRN' : '1177746172790',} #4
+                       'OGRN' : '1177746172790',} # 4
             ULBenef = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'Benef' : '1',
-                       'OGRN' : '1177746172790',} #5
+                       'OGRN' : '1177746172790',} # 5
             ULAFF = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'AFF' : '1',
-                       'OGRN' : '1177746172790',} #6
+                       'OGRN' : '1177746172790',} # 6
             ULEmployer = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'Employer' : '1',
-                       'OGRN' : '1177746172790',} #7
+                       'OGRN' : '1177746172790',} # 7
             ULExtSource = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'ExtSource' : '1',
-                       'OGRN' : '1177746172790',} #8
+                       'OGRN' : '1177746172790',} # 8
 
             IPIPT = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'IPT' : '1',
-                            'OGRNIP' : '312751502300034',}  #0
+                            'OGRNIP' : '312751502300034',}  # 0
             IPIPA = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'IPA' : '1',
-                            'OGRNIP' : '312751502300034',} #1
+                            'OGRNIP' : '312751502300034',} # 1
             IPExtendedIP = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'ExtendedIP' : '1',
-                            'OGRNIP' : '312751502300034',} #2
+                            'OGRNIP' : '312751502300034',} # 2
             IPEmployer = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
@@ -111,12 +111,12 @@ def login(iter):
                                 'House' : '',
                                 'Flat' : '',
                                 'Phone' : '',
-                          } #3
+                          } # 3
             IPExtSource = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'ExtSource' : '1',
-                            'OGRNIP' : '312751502300034',} #4
+                            'OGRNIP' : '312751502300034',} # 4
 
             FLGIBDD = { 'Type': 'Request',
                         'WorkingDirectory' : WD,
@@ -127,7 +127,7 @@ def login(iter):
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
-                        'Number' : '321321',}  #0
+                        'Number' : '321321',}  # 0
             FLCASBO = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -311,6 +311,89 @@ def login(iter):
                 'Number': '321321',
                 'RegionExp': '45'}  # 12
 
+            PASP_UPassporta = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '4',
+                       'UPassporta' : '1',
+                        'Seria': '4500',
+                        'Number': '375473',} # 0
+            PASP_PPFMS = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '4',
+                       'PPFMS' : '1',
+                        'Seria': '4500',
+                        'Number': '375473',} # 1
+
+            BSUL_BS = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '5',
+                       'BS' : '1',
+                        'OGRN': '1177746172790',} # 0
+            BSUL_BSPD = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '5',
+                       'BSPD' : '1',
+                        'OGRN': '1177746172790',} # 1
+            BSUL_SVI = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '5',
+                       'SVI' : '1',
+                        'OGRN': '1177746172790',} # 2
+
+            GIBDD_TS = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '6',
+                       'TS' : '1',
+                        'GosNumber': 'М982ММ99',
+                        #'VIN': '',
+                        } # 0
+            GIBDD_BCars = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '6',
+                       'BCars' : '1',
+                        'GosNumber': 'М982ММ99',
+                        #'VIN': '',
+                           } # 1
+            GIBDD_SCars = {'Type': 'Request',
+                       'WorkingDirectory' : WD,
+                       'Event' : '6',
+                       'SCars' : '1',
+                        'GosNumber': 'М982ММ99',
+                        #'VIN': '',
+                           } # 2
+
+            BSIP_BIP = {
+                'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '7',
+                'BIP': '1',
+                'SurName':'ХРОМОВ',
+                'FirstName':'АЛЕКСАНДР',
+                'MiddleName':'ВАЛЕРИАНОВИЧ',
+                'DateOfBirth':'03.08.1969',
+                'Seria':'4597',
+                'Number':'00522',
+                'OGRNIP':'312774618000575',
+                'INNExp':'770404319004',
+                'RegionExp':'45',
+                'CityExp':'МОСКВА',
+                'StreetExp':'ПОЖАРСКИЙ',
+                'HouseExp':'15',
+                'BuildExp':'',
+                'BuildingExp':'',
+                'FlatExp':'6',
+                'PhoneExp':'4956950322',
+                # Или Временная регистрация
+                #     'RegionExpTmp':'',
+                #     'CityExpTmp':'',
+                #     'StreetExpTmp':'',
+                #     'HouseExpTmp':'',
+                #     'BuildExpTmp':'',
+                #     'BuildingExpTmp':'',
+                #     'FlatExpTmp':'',
+
+            } # 0
+
 
 
             UL = [ULFNST,
@@ -322,13 +405,13 @@ def login(iter):
                   ULAFF,
                   ULEmployer,
                   ULExtSource
-                  ]  # 0
+                  ] # 0
             IP = [IPIPT,
                   IPIPA,
                   IPExtendedIP,
                   IPEmployer,
                   IPExtSource
-                  ] #1
+                  ] # 1
             FL = [
                 FLGIBDD,
                 FLCASBO,
@@ -343,16 +426,32 @@ def login(iter):
                 FLSVI,
                 FLExp,
                 FLExtSource,
-            ] #2
+            ] # 2
+            PASP = [
+                PASP_UPassporta,
+                PASP_PPFMS,
+            ] # 3
+            BSUL = [
+                BSUL_BS,
+                BSUL_BSPD,
+                BSUL_SVI,
+            ] # 4
+            GIBDD = [
+                GIBDD_TS,
+                GIBDD_BCars,
+                GIBDD_SCars,
+            ] # 5
+            BSIP = [
+                BSIP_BIP,
+            ] # 6
 
-            Services = [UL,IP,FL]
+            Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP]
 
-            g.setup(post=Services[2][11],
+            g.setup(post=Services[6][0],
                     headers={
                     'Accept-Encoding': 'gzip,deflate',
                     'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            )
+                })
             go = g.go(URL)
             # print(g.xpath_text(PATH))
             xmlBODY = (go.body)
