@@ -118,6 +118,201 @@ def login(iter):
                             'ExtSource' : '1',
                             'OGRNIP' : '312751502300034',} #4
 
+            FLGIBDD = { 'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'GIBDD': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',}  #0
+            FLCASBO = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'CASBO': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',}  # 1
+            FLCASBR = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'CASBR': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',}  # 2
+            FLRaiting = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'Raiting': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',
+                        'IssueDate':'03.08.1969',}  # 3
+            FLRaitingR = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'RaitingR': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',
+                        'IssueDate':'03.08.1969',}  # 4
+            FLRaiting_2 = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'Raiting_2': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',
+                        'IssueDate':'03.08.1969',}  # 5
+            FLRaiting_2R = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'Raiting_2R': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',
+                        'IssueDate':'03.08.1969',}  # 6
+            FLFR = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'FR': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',}  # 7
+            FLAFF = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'AFF': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',}  # 8
+            FLCKKI = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'CKKI': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',
+                        'IssueDate':'03.08.1969',}  # 9
+            FLSVI = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'SVI': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',
+                        'InfoType':'1',} # 10
+            FLExp = {
+                    # Основной блок
+                    'Type': 'Request',
+                    'WorkingDirectory': WD,
+                    'Event': '3',
+                    'Exp': '1',
+                    'SurName':'ХРОМОВ',
+                    'FirstName':'АЛЕКСАНДР',
+                    'MiddleName':'ВАЛЕРИАНОВИЧ',
+                    'DateOfBirth':'03.08.1969',
+                    'Seria':'3213',
+                    'Number':'321321',
+                    'INNExp':'770404319004',
+                    # Блок Адрес Постоянный
+                    'RegionExp':'45',
+                    'CityExp':'МОСКВА',
+                    'StreetExp':'ПОЖАРСКИЙ',
+                    'HouseExp':'15',
+                    'BuildExp':'',              # или
+                    'BuildingExp':'',
+                    'FlatExp':'6',
+                    'PhoneExp':'',
+                    # Блок Адрес Временный
+                        # 'RegionExpTmp':'45',
+                        # 'CityExpTmp':'МОСКВА',
+                        # 'StreetExpTmp':'ПОЖАРСКИЙ',
+                        # 'HouseExpTmp':'15',
+                        # 'BuildExpTmp':'',
+                        # 'BuildingExpTmp':'',
+                        # 'FlatExpTmp':'6',
+                    # НЕОБЯЗАТЕЛЬНЫЙ блок Поиск архивных данных
+                        # 'ExpArch':'',
+                        # 'SurNameArch':'',
+                        # 'FirstNameArch':'',
+                        # 'MiddleNameArch':'',
+                        # 'SeriaArch':'',
+                        # 'NumberArch':'',
+                    # НЕОБЯЗАТЕЛЬНЫЙ блок Проверка работодателя
+                    # Роботодатель ЮЛ
+                        'OrgExp':'1',
+                        'OGRNOrgExp':'1154205015832', # INNOrgExp
+                        'NameOrgExp':'ВЕСТА',
+                        'RegionOrgExp':'32',
+                        'CityOrgExp':'КЕМЕРОВО',
+                        'StreetOrgExp':'ЛЕНИНА',          # или
+                        'HouseOrgExp':'128',
+                        'BuildOrgExp':'',
+                        'BuildingOrgExp':'',
+                        'FlatOrgExp':'709',
+                        'PhoneOrgExp':'',
+                        # Роботодатель ИП
+                        # 'IPExp':'',
+                        # 'OGRNIPExp':'', # INNIPExp
+                        # 'FIOIPExp':'',
+                        # 'RegionIPExp':'',
+                        # 'CityIPExp':'',
+                        # 'StreetIPExp':'',
+                        # 'HouseIPExp':'',
+                        # 'BuildIPExp':'',
+                        # 'BuildingIPExp':'',
+                        # 'FlatIPExp':'',
+                        # 'PhoneIPExp':'',
+
+            }  # 11
+            FLExtSource = {
+                'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '3',
+                'ExtSource': '1',
+                'SurName': 'ХРОМОВ',
+                'FirstName': 'АЛЕКСАНДР',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ ',
+                'DateOfBirth': '03.08.1969',
+                'Seria': '3213',
+                'Number': '321321',
+                'RegionExp': '45'}  # 12
+
+
+
             UL = [ULFNST,
                   ULFNSA,
                   ULGIBDD,
@@ -126,22 +321,34 @@ def login(iter):
                   ULBenef,
                   ULAFF,
                   ULEmployer,
-                  ULExtSource]  # 0
+                  ULExtSource
+                  ]  # 0
             IP = [IPIPT,
                   IPIPA,
                   IPExtendedIP,
                   IPEmployer,
-                  IPExtSource] #1
+                  IPExtSource
+                  ] #1
+            FL = [
+                FLGIBDD,
+                FLCASBO,
+                FLCASBR,
+                FLRaiting,
+                FLRaitingR,
+                FLRaiting_2,
+                FLRaiting_2R,
+                FLFR,
+                FLAFF,
+                FLCKKI,
+                FLSVI,
+                FLExp,
+                FLExtSource,
+            ] #2
 
-            Services = [UL,IP]
+            Services = [UL,IP,FL]
 
-            g.setup(post=Services[1][3]
-
-
-
-
-            ,
-                headers={
+            g.setup(post=Services[2][11],
+                    headers={
                     'Accept-Encoding': 'gzip,deflate',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }
@@ -159,28 +366,31 @@ def login(iter):
 
 
 
-            sleep(30)
 
-            g.setup(post={
-                'Type': 'Answer',
-                'WorkingDirectory': WD,
-                'RequestNumber' : RN,
-                'TypeAnswer' : 'HV'
-            },
-                headers={
-                    'Accept-Encoding': 'gzip,deflate',
-                    'Content-Type': 'application/x-www-form-urlencoded',
+            ANS = '3'
+            while ANS == '3':
+                sleep(10)
+                g.setup(post={
+                    'Type': 'Answer',
+                    'WorkingDirectory': WD,
+                    'RequestNumber' : RN,
+                    'TypeAnswer' : 'HV'
+                },
+                    headers={
+                        'Accept-Encoding': 'gzip,deflate',
+                        'Content-Type': 'application/x-www-form-urlencoded',
 
-                }
-            )
-            go = g.go(URL)
-            # print(g.xpath_text(PATH))
-            xmlBODY = (go.body)
-            lx = html.fromstring(xmlBODY)
-            ANS = lx.xpath('//text()')[1]
-            ANSWER = BeautifulSoup(xmlBODY, 'lxml')
-            print(ANSWER)
-            print('ANS ' + str(ANS))
+                    }
+                )
+                go = g.go(URL)
+                # print(g.xpath_text(PATH))
+                xmlBODY = (go.body)
+                lx = html.fromstring(xmlBODY)
+                ANS = lx.xpath('//text()')[1]
+                ANS = str(ANS)
+                ANSWER = BeautifulSoup(xmlBODY, 'lxml')
+                if ANS != '3' : print(ANSWER)
+                print('ANS ' + ANS)
 
 
 
