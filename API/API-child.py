@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import re
 from bs4 import BeautifulSoup
 from grab import *
 from lxml import html
@@ -8,6 +9,7 @@ from time import sleep
 
 URL = '192.168.0.50:3777'
 Exceptions = []
+ERRORS = []
 
 
 def login(iter):
@@ -124,7 +126,7 @@ def login(iter):
                         'GIBDD': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',}  # 0
@@ -134,7 +136,7 @@ def login(iter):
                         'CASBO': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',}  # 1
@@ -144,7 +146,7 @@ def login(iter):
                         'CASBR': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',}  # 2
@@ -154,7 +156,7 @@ def login(iter):
                         'Raiting': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
@@ -165,7 +167,7 @@ def login(iter):
                         'RaitingR': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
@@ -176,7 +178,7 @@ def login(iter):
                         'Raiting_2': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
@@ -187,7 +189,7 @@ def login(iter):
                         'Raiting_2R': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
@@ -198,7 +200,7 @@ def login(iter):
                         'FR': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',}  # 7
@@ -208,7 +210,7 @@ def login(iter):
                         'AFF': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',}  # 8
@@ -218,7 +220,7 @@ def login(iter):
                         'CKKI': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
@@ -229,7 +231,7 @@ def login(iter):
                         'SVI': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ ',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
@@ -305,7 +307,7 @@ def login(iter):
                 'ExtSource': '1',
                 'SurName': 'ХРОМОВ',
                 'FirstName': 'АЛЕКСАНДР',
-                'MiddleName': 'ВАЛЕРИАНОВИЧ ',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ',
                 'DateOfBirth': '03.08.1969',
                 'Seria': '3213',
                 'Number': '321321',
@@ -344,21 +346,21 @@ def login(iter):
                        'WorkingDirectory' : WD,
                        'Event' : '6',
                        'TS' : '1',
-                        'GosNumber': 'М982ММ99',
+                        'GosNumber': 'M775XY27',
                         #'VIN': '',
                         } # 0
             GIBDD_BCars = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '6',
                        'BCars' : '1',
-                        'GosNumber': 'М982ММ99',
+                        'GosNumber': 'M775XY27',
                         #'VIN': '',
                            } # 1
             GIBDD_SCars = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '6',
                        'SCars' : '1',
-                        'GosNumber': 'М982ММ99',
+                        'GosNumber': 'M775XY27',
                         #'VIN': '',
                            } # 2
 
@@ -427,6 +429,84 @@ def login(iter):
                 # ИЛИ    ОГРНИП
             } # 0
 
+            BSUL_RASH = {
+                'Type': 'Request',
+                'Event': '9',
+                'WorkingDirectory': WD,
+                # -----------------------------------------------------------------------------------------------------------------------
+                'NameOrg': 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "НЕОКОМПАНИ"',
+                'OGRN': '1066367043038',
+                'INN': '6367053858',
+                'KPP': '636701001',
+                'RegistrationDate': '25.03.1994',
+                'authCapital': '10000',
+                'OKVED': '14.12',
+                # -----------------------------------------------------------------------------------------------------------------------
+                'addressList[0][addressType]': 'L',
+                'addressList[0][Region]': '80',
+                'addressList[0][City]': 'УФА',
+                'addressList[0][Street]': 'МЕНДЕЛЕЕВА',
+                'addressList[0][House]': '134',
+                'addressList[0][Build]': '10',  ###
+                'addressList[0][Building]': '',  ###
+                'addressList[0][Office]': '',  ###
+
+                'contactInfo[0][Phone]': '4958555668',
+                'contactInfo[0][Fax]': '4959555668',  ###
+                # Директор
+                'leaderInfoList[0][LeaderCode]': 'L1',
+                'leaderInfoList[0][SurName]': 'Ахметов',
+                'leaderInfoList[0][FirstName]': 'Фаиль',
+                'leaderInfoList[0][MiddleName]': 'Сагитович',  ###
+                'leaderInfoList[0][DateOfBirth]': '22.01.1963',
+                'leaderInfoList[0][Seria]': '8097',
+                'leaderInfoList[0][Number]': '011436',
+                # ФЛ Участники
+                'participantInfoList[0][ParticipantCode]': 'P1',
+                'participantInfoList[0][SurName]': 'Карпов',
+                'participantInfoList[0][FirstName]': 'Сергей',
+                'participantInfoList[0][MiddleName]': 'Владимирович',  ###
+                'participantInfoList[0][DateOfBirth]': '24.06.1974',
+                'participantInfoList[0][Seria]': '8004',
+                'participantInfoList[0][Number]': '181211',
+                'participantInfoList[0][AuthCapShare]': '54000',
+                # ЮЛ Участники
+                'legalInfoList[0][OGRN]': '1087746801130',
+                'legalInfoList[0][AuthCapShare]': '16000',
+                # -----------------------------------------------------------------------------------------------------------------------
+                'addressList[1][addressType]': 'F',
+                'addressList[1][Region]': '',
+                'addressList[1][City]': 'Москва',
+                'addressList[1][Street]': 'СЕМЕНОВСКАЯ Б',
+                'addressList[1][House]': '40',
+                'addressList[1][Build]': '',
+                'addressList[1][Building]': '18',
+                'addressList[1][Office]': '',
+
+                'contactInfo[1][Phone]': '4990007878',
+                'contactInfo[1][Fax]': '4990007870',
+
+                'leaderInfoList[1][LeaderCode]': 'L2',
+                'leaderInfoList[1][SurName]': 'ЛИЧАГИН',
+                'leaderInfoList[1][FirstName]': 'ПАВЕЛ',
+                'leaderInfoList[1][MiddleName]': 'АНАТОЛЬЕВИЧ',
+                'leaderInfoList[1][DateOfBirth]': '10.10.1965',
+                'leaderInfoList[1][Seria]': '4321',
+                'leaderInfoList[1][Number]': '654321',
+
+                'participantInfoList[1][ParticipantCode]': 'P1',
+                'participantInfoList[1][SurName]': 'ЛИЧАГИН',
+                'participantInfoList[1][FirstName]': 'ПАВЕЛ',
+                'participantInfoList[1][MiddleName]': '',
+                'participantInfoList[1][DateOfBirth]': '10.10.1970',
+                'participantInfoList[1][Seria]': '1234',
+                'participantInfoList[1][Number]': '123456',
+                'participantInfoList[1][AuthCapShare]': '1000',
+
+                'legalInfoList[1][OGRN]': '1027700107599',
+                'legalInfoList[1][AuthCapShare]': '15000'
+            } # 0
+
 
 
             UL = [ULFNST,
@@ -480,52 +560,73 @@ def login(iter):
             ID_FL = [
                 IDFL
             ] # 7
+            BS_R = [
+                BSUL_RASH
+            ] # 8
 
-            Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP,ID_FL]
+            Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP,ID_FL,BS_R]
 
-            g.setup(post=Services[6][0],
-                    headers={
-                    'Accept-Encoding': 'gzip,deflate',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                })
-            go = g.go(URL)
-            # print(g.xpath_text(PATH))
-            xmlBODY = (go.body)
-            lx = html.fromstring(xmlBODY)
-            RN = lx.xpath('//text()')[1]
-            # ANSWER = BeautifulSoup(xmlBODY, 'lxml')
-            # print(ANSWER)
-            print('RN ' + str(RN))
+            for i in Services:
+                for m in i:
+
+                    #-----------------------------------------------------------
+                    m = Services[5][1]
+                    #-----------------------------------------------------------
+
+                    g.setup(post=m,
+                            headers={
+                            'Accept-Encoding': 'gzip,deflate',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        })
+                    go = g.go(URL)
+                    # print(g.xpath_text(PATH))
+                    xmlBODY = (go.body)
+                    lx = html.fromstring(xmlBODY)
+                    RN = lx.xpath('//text()')[1]
+                    re1 = "[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}"
+                    rg = re.compile(re1,re.IGNORECASE|re.DOTALL)
+                    r = rg.search(RN)
+                    if  r:
+                        # ANSWER = BeautifulSoup(xmlBODY, 'lxml')
+                        # print(ANSWER)
+                        print('RN ' + str(RN))
+                        print(m)
+                    else:
+                        ERRORS.append(m)
+                        ERRORS.append(RN)
 
 
 
 
 
 
-            ANS = '3'
-            while ANS == '3':
-                sleep(10)
-                g.setup(post={
-                    'Type': 'Answer',
-                    'WorkingDirectory': WD,
-                    'RequestNumber' : RN,
-                    'TypeAnswer' : 'HV'
-                },
-                    headers={
-                        'Accept-Encoding': 'gzip,deflate',
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                    ANS = '3'
+                    tryes = 8
+                    while ANS == '3' and tryes >= 1:
+                        sleep(5)
+                        g.setup(post={
+                            'Type': 'Answer',
+                            'WorkingDirectory': WD,
+                            'RequestNumber' : RN,
+                            'TypeAnswer' : 'HV'
+                        },
+                            headers={
+                                'Accept-Encoding': 'gzip,deflate',
+                                'Content-Type': 'application/x-www-form-urlencoded',
 
-                    }
-                )
-                go = g.go(URL)
-                # print(g.xpath_text(PATH))
-                xmlBODY = (go.body)
-                lx = html.fromstring(xmlBODY)
-                ANS = lx.xpath('//text()')[1]
-                ANS = str(ANS)
-                ANSWER = BeautifulSoup(xmlBODY, 'lxml')
-                if ANS != '3' : print(ANSWER)
-                print('ANS ' + ANS)
+                            }
+                        )
+                        go = g.go(URL)
+                        # print(g.xpath_text(PATH))
+                        xmlBODY = (go.body)
+                        lx = html.fromstring(xmlBODY)
+                        ANS = lx.xpath('//text()')[1]
+                        ANS = str(ANS)
+                        ANSWER = BeautifulSoup(xmlBODY, 'lxml')
+                        if ANS != '3' : print(ANSWER)
+                        print('ANS ' + ANS)
+                        tryes -= 1
+                        if tryes == 1: ERRORS.append(m)
 
 
 
@@ -586,3 +687,6 @@ for wt in working_threds:       # ждем завершения всех пот�
 
 print('kol-vo potokov vsego ' + str(len(working_threds)))
 print(Exceptions)
+print('ERRORS:')
+for i in ERRORS:
+    print(i)
