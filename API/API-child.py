@@ -7,6 +7,10 @@ from lxml import html
 import threading
 from time import sleep
 
+#import webbrowser
+#webbrowser.open_new_tab('ya.ru')
+
+
 URL = '192.168.0.50:3777'
 Exceptions = []
 ERRORS = []
@@ -569,9 +573,9 @@ def login(iter):
             for i in Services:
                 for m in i:
 
-                    #-----------------------------------------------------------
-                    m = Services[5][1]
-                    #-----------------------------------------------------------
+                    # -----------------------------------------------------------
+                    m = Services[0][1]
+                    # -----------------------------------------------------------
 
                     g.setup(post=m,
                             headers={
@@ -623,7 +627,8 @@ def login(iter):
                         ANS = lx.xpath('//text()')[1]
                         ANS = str(ANS)
                         ANSWER = BeautifulSoup(xmlBODY, 'lxml')
-                        if ANS != '3' : print(ANSWER)
+                        if ANS != '3' :
+                            print(ANSWER)
                         print('ANS ' + ANS)
                         tryes -= 1
                         if tryes == 1: ERRORS.append(m)
