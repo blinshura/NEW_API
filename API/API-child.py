@@ -48,63 +48,75 @@ def login(iter):
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'FNST' : '1',
-                       'OGRN' : '1177746172790',} # 0
+                       'OGRN' : '1177746172790',
+                       'zapros': 'UL-FNST'} # 0
             ULFNSA = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'FNSA' : '1',
-                       'OGRN' : '1177746172790',} # 1
+                       'OGRN' : '1177746172790',
+                      'zapros': 'UL-FNSA'} # 1
             ULGIBDD = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'GIBDD' : '1',
-                       'OGRN' : '1177746172790',} # 2
+                       'OGRN' : '1177746172790',
+                       'zapros': 'UL-GBDD'} # 2
             ULBalans = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'Balans' : '1',
-                       'OGRN' : '1177746172790',} # 3
+                       'OGRN' : '1177746172790',
+                        'zapros': 'UL-Balans'} # 3
             ULSVI = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'SVI' : '1',
-                       'OGRN' : '1177746172790',} # 4
+                       'OGRN' : '1177746172790',
+                     'zapros': 'UL-SVI'} # 4
             ULBenef = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'Benef' : '1',
-                       'OGRN' : '1177746172790',} # 5
+                       'OGRN' : '1177746172790',
+                       'zapros': 'UL-Benef'} # 5
             ULAFF = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'AFF' : '1',
-                       'OGRN' : '1177746172790',} # 6
+                       'OGRN' : '1177746172790',
+                     'zapros': 'UL-AFF'} # 6
             ULEmployer = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'Employer' : '1',
-                       'OGRN' : '1177746172790',} # 7
+                       'OGRN' : '1177746172790',
+                          'zapros': 'UL-Employer'} # 7
             ULExtSource = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
                        'ExtSource' : '1',
-                       'OGRN' : '1177746172790',} # 8
+                       'OGRN' : '1177746172790',
+                           'zapros': 'UL-ExtSource'} # 8
 
             IPIPT = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'IPT' : '1',
-                            'OGRNIP' : '312751502300034',}  # 0
+                            'OGRNIP' : '312751502300034',
+                     'zapros': 'IP-IPT'}  # 0
             IPIPA = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'IPA' : '1',
-                            'OGRNIP' : '312751502300034',} # 1
+                            'OGRNIP' : '312751502300034',
+                     'zapros': 'IP-IPA'} # 1
             IPExtendedIP = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'ExtendedIP' : '1',
-                            'OGRNIP' : '312751502300034',} # 2
+                            'OGRNIP' : '312751502300034',
+                            'zapros': 'IP-ExtendedIP'} # 2
             IPEmployer = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
@@ -117,12 +129,14 @@ def login(iter):
                                 'House' : '',
                                 'Flat' : '',
                                 'Phone' : '',
+                          'zapros': 'IP-Employer'
                           } # 3
             IPExtSource = {'Type': 'Request',
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'ExtSource' : '1',
-                            'OGRNIP' : '312751502300034',} # 4
+                            'OGRNIP' : '312751502300034',
+                           'zapros': 'IP-ExtSource'} # 4
 
             FLGIBDD = { 'Type': 'Request',
                         'WorkingDirectory' : WD,
@@ -133,7 +147,8 @@ def login(iter):
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
-                        'Number' : '321321',}  # 0
+                        'Number' : '321321',
+                        'zapros': 'FL-GIBDD'}  # 0
             FLCASBO = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -143,7 +158,8 @@ def login(iter):
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
-                        'Number' : '321321',}  # 1
+                        'Number' : '321321',
+                       'zapros': 'FL-CASBO'}  # 1
             FLCASBR = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -153,7 +169,8 @@ def login(iter):
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
-                        'Number' : '321321',}  # 2
+                        'Number' : '321321',
+                       'zapros': 'FL-CASBR'}  # 2
             FLRaiting = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -164,7 +181,8 @@ def login(iter):
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
-                        'IssueDate':'03.08.1969',}  # 3
+                        'IssueDate':'03.08.1969',
+                         'zapros': 'FL-Raiting'}  # 3
             FLRaitingR = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -175,7 +193,8 @@ def login(iter):
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
-                        'IssueDate':'03.08.1969',}  # 4
+                        'IssueDate':'03.08.1969',
+                          'zapros': 'FL-RaitingR'}  # 4
             FLRaiting_2 = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -186,7 +205,8 @@ def login(iter):
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
-                        'IssueDate':'03.08.1969',}  # 5
+                        'IssueDate':'03.08.1969',
+                           'zapros': 'FL-Raiting_2'}  # 5
             FLRaiting_2R = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -197,7 +217,8 @@ def login(iter):
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
-                        'IssueDate':'03.08.1969',}  # 6
+                        'IssueDate':'03.08.1969',
+                            'zapros': 'FL-Raitin_2R'}  # 6
             FLFR = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -207,7 +228,8 @@ def login(iter):
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
-                        'Number' : '321321',}  # 7
+                        'Number' : '321321',
+                    'zapros': 'FL-FR'}  # 7
             FLAFF = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -217,7 +239,8 @@ def login(iter):
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
-                        'Number' : '321321',}  # 8
+                        'Number' : '321321',
+                     'zapros': 'FL-AFF'}  # 8
             FLCKKI = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -228,7 +251,8 @@ def login(iter):
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
-                        'IssueDate':'03.08.1969',}  # 9
+                        'IssueDate':'03.08.1969',
+                      'zapros': 'FL-CKKI'}  # 9
             FLSVI = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -239,7 +263,8 @@ def login(iter):
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
-                        'InfoType':'1',} # 10
+                        'InfoType':'1',
+                     'zapros': 'FL-SVI'} # 10
             FLExp = {
                     # Основной блок
                     'Type': 'Request',
@@ -303,6 +328,7 @@ def login(iter):
                         # 'FlatIPExp':'',
                         # 'PhoneIPExp':'',
 
+                'zapros': 'FL-Exp'
             }  # 11
             FLExtSource = {
                 'Type': 'Request',
@@ -315,36 +341,42 @@ def login(iter):
                 'DateOfBirth': '03.08.1969',
                 'Seria': '3213',
                 'Number': '321321',
-                'RegionExp': '45'}  # 12
+                'RegionExp': '45',
+                             'zapros': 'FL-ExtSource'}  # 12
 
             PASP_UPassporta = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '4',
                        'UPassporta' : '1',
                         'Seria': '4500',
-                        'Number': '375473',} # 0
+                        'Number': '375473',
+                               'zapros': 'Pasp-UPassporta'} # 0
             PASP_PPFMS = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '4',
                        'PPFMS' : '1',
                         'Seria': '4500',
-                        'Number': '375473',} # 1
+                        'Number': '375473',
+                          'zapros': 'Pasp-PPFMS'} # 1
 
             BSUL_BS = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '5',
                        'BS' : '1',
-                        'OGRN': '1177746172790',} # 0
+                        'OGRN': '1177746172790',
+                       'zapros': 'BSUL-BS'} # 0
             BSUL_BSPD = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '5',
                        'BSPD' : '1',
-                        'OGRN': '1177746172790',} # 1
+                        'OGRN': '1177746172790',
+                         'zapros': 'BSUL-BSPD'} # 1
             BSUL_SVI = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '5',
                        'SVI' : '1',
-                        'OGRN': '1177746172790',} # 2
+                        'OGRN': '1177746172790',
+                        'zapros': 'BSUL-SVI'} # 2
 
             GIBDD_TS = {'Type': 'Request',
                        'WorkingDirectory' : WD,
@@ -352,6 +384,7 @@ def login(iter):
                        'TS' : '1',
                         'GosNumber': 'M775XY27',
                         #'VIN': '',
+                        'zapros': 'GIBDD-TS'
                         } # 0
             GIBDD_BCars = {'Type': 'Request',
                        'WorkingDirectory' : WD,
@@ -359,6 +392,7 @@ def login(iter):
                        'BCars' : '1',
                         'GosNumber': 'M775XY27',
                         #'VIN': '',
+                           'zapros': 'GIBDD-BCars'
                            } # 1
             GIBDD_SCars = {'Type': 'Request',
                        'WorkingDirectory' : WD,
@@ -366,6 +400,7 @@ def login(iter):
                        'SCars' : '1',
                         'GosNumber': 'M775XY27',
                         #'VIN': '',
+                           'zapros': 'GIBDD-SCars'
                            } # 2
 
             BSIP_BIP = {
@@ -397,7 +432,7 @@ def login(iter):
                 #     'BuildExpTmp':'',
                 #     'BuildingExpTmp':'',
                 #     'FlatExpTmp':'',
-
+                'zapros': 'PSIP-BIP'
             } # 0
 
             IDFL = {
@@ -431,11 +466,13 @@ def login(iter):
                 # ИЛИ    ИНН
                 # ИЛИ    Номер трансп.средства
                 # ИЛИ    ОГРНИП
+                'zapros': 'IDFL'
             } # 0
 
             BSUL_RASH = {
                 'Type': 'Request',
                 'Event': '9',
+                'BSR' : '1',
                 'WorkingDirectory': WD,
                 # -----------------------------------------------------------------------------------------------------------------------
                 'NameOrg': 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "НЕОКОМПАНИ"',
@@ -508,7 +545,8 @@ def login(iter):
                 'participantInfoList[1][AuthCapShare]': '1000',
 
                 'legalInfoList[1][OGRN]': '1027700107599',
-                'legalInfoList[1][AuthCapShare]': '15000'
+                'legalInfoList[1][AuthCapShare]': '15000',
+                'zapros': 'BSUL-Rash'
             } # 0
 
 
@@ -574,7 +612,7 @@ def login(iter):
                 for m in i:
 
                     # -----------------------------------------------------------
-                    m = Services[0][1]
+                    #m = BSUL_BS
                     # -----------------------------------------------------------
 
                     g.setup(post=m,
@@ -594,10 +632,14 @@ def login(iter):
                         # ANSWER = BeautifulSoup(xmlBODY, 'lxml')
                         # print(ANSWER)
                         print('RN ' + str(RN))
-                        print(m)
+
+                        print(m['zapros'])
                     else:
-                        ERRORS.append(m)
+                        print(RN)
+                        print(m['zapros'])
+                        ERRORS.append(m['zapros'])
                         ERRORS.append(RN)
+                        ERRORS.append('---------------------------')
 
 
 
@@ -628,11 +670,16 @@ def login(iter):
                         ANS = str(ANS)
                         ANSWER = BeautifulSoup(xmlBODY, 'lxml')
                         if ANS != '3' :
-                            print(ANSWER)
+                            ANSWER = str(ANSWER)
+                            print(ANSWER[44372:])
                         print('ANS ' + ANS)
                         tryes -= 1
-                        if tryes == 1: ERRORS.append(m)
-
+                        if tryes == 1:
+                            ERRORS.append(m['zapros'])
+                            ERRORS.append(RN + ' Не дождались ответа')
+                            ERRORS.append('---------------------------')
+                            print(' Не дождались ответа')
+                    print('-----------------------------------------------------------------------------------------')
 
 
 
