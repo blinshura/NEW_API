@@ -47,7 +47,7 @@ def login(iter):
             ULFNST = { 'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
-                       'FNST' : '1',
+                       'FNST': '1',
                        'OGRN' : '1177746172790',
                        'zapros': 'UL-FNST'} # 0
             ULFNSA = {'Type': 'Request',
@@ -61,7 +61,7 @@ def login(iter):
                        'Event' : '1',
                        'GIBDD' : '1',
                        'OGRN' : '1177746172790',
-                       'zapros': 'UL-GBDD'} # 2
+                       'zapros': 'UL-GIBDD'} # 2
             ULBalans = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '1',
@@ -145,7 +145,7 @@ def login(iter):
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
-                        'DateOfBirth' :'03.08.1969',
+                        'DateOfBirth' :'31.09.1988',
                         'Seria'	: '3213',
                         'Number' : '321321',
                         'zapros': 'FL-GIBDD'}  # 0
@@ -237,7 +237,7 @@ def login(iter):
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
-                        'DateOfBirth' :'03.08.1969',
+                        'DateOfBirth' :'31.09.1988',
                         'Seria'	: '3213',
                         'Number' : '321321',
                      'zapros': 'FL-AFF'}  # 8
@@ -362,7 +362,7 @@ def login(iter):
             BSUL_BS = {'Type': 'Request',
                        'WorkingDirectory' : WD,
                        'Event' : '5',
-                       'BS' : '1',
+                       'BSUL' : '1',
                         'OGRN': '1177746172790',
                        'zapros': 'BSUL-BS'} # 0
             BSUL_BSPD = {'Type': 'Request',
@@ -608,11 +608,18 @@ def login(iter):
 
             Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP,ID_FL,BS_R]
 
+
             for i in Services:
                 for m in i:
 
+
+            #---------------------------------------------------
+            #services = [IDFL, BSUL_RASH]
+            #for m in services:
+            #---------------------------------------------------
+
                     # -----------------------------------------------------------
-                    #m = BSUL_BS
+                    m = ULExtSource
                     # -----------------------------------------------------------
 
                     g.setup(post=m,
@@ -647,9 +654,9 @@ def login(iter):
 
 
                     ANS = '3'
-                    tryes = 8
+                    tryes = 30
                     while ANS == '3' and tryes >= 1:
-                        sleep(5)
+                        sleep(10)
                         g.setup(post={
                             'Type': 'Answer',
                             'WorkingDirectory': WD,
@@ -674,7 +681,7 @@ def login(iter):
                             print(ANSWER[44372:])
                         print('ANS ' + ANS)
                         tryes -= 1
-                        if tryes == 1:
+                        if tryes < 1:
                             ERRORS.append(m['zapros'])
                             ERRORS.append(RN + ' Не дождались ответа')
                             ERRORS.append('---------------------------')

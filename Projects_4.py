@@ -1,14 +1,22 @@
-import threading
+from grab import Grab
+from lxml import html
+URL = '192.168.0.50:3777'
+g = Grab(timeout=1000, connect_timeout=30)
+g.setup(post= {
+                    'Type': 'Login',
+                    'Login': 'kdinisv',
+                    'Password': '123',
+                    },
+                    headers= {
+                    'Accept-Encoding': 'gzip,deflate',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+            )
+go = g.go(URL)
+#print(g.xpath_text(PATH))
+xmlBODY = (go.body)
+lx = html.fromstring(xmlBODY)
+WD = lx.xpath('//text()')[1]
+print('WD ' + str(WD))
 
 
-def proc(n):
-    print ("Процесс", n)
-
-
-p1 = threading.Thread(target=proc, name="t1", args=["1"])
-p2 = threading.Thread(target=proc, name="t2", args=["2"])
-p1.start()
-p2.start()
-
-t = [[1,2,3],[4,5,6]]
-print(t[1][2])

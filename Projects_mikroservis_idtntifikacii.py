@@ -5,13 +5,13 @@ import json
 from datetime import datetime
 
 g = Grab( follow_location= True,reuse_cookies=True, follow_refresh=True, timeout=1000, connect_timeout=30, debug_post=True, encoding='')
-user = "nbki"
-password = "nbki"
+user = "tester001"
+password = "001"
 url = ('http://192.168.0.118:889/request') #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
 def login():
     i = 0
 
-    while i < 1:
+    while i < 5:
         print(i)
 
         IP = {"Auth": {"UserName":user,"Password":password},
