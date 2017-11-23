@@ -609,17 +609,17 @@ def login(iter):
             Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP,ID_FL,BS_R]
 
 
-            for i in Services:
-                for m in i:
+            #for i in Services:
+                #for m in i:
 
 
             #---------------------------------------------------
-            #services = [IDFL, BSUL_RASH]
-            #for m in services:
+            services = [IDFL, BSUL_RASH]
+            for m in services:
             #---------------------------------------------------
 
                     # -----------------------------------------------------------
-                    m = ULExtSource
+                    #m = ULExtSource
                     # -----------------------------------------------------------
 
                     g.setup(post=m,
