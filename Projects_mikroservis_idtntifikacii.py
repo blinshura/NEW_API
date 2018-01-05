@@ -37,9 +37,9 @@ def login():
                          #"OGRN": "1044217029471",
                          #"INN": "2722016797",
                          "NameOrg": "ООО МОДУЛЬ",
-                         "Address": "01 БАРНАУЛ ПАРТИЗАНСКАЯ 266",
+                         #"Address": "01 БАРНАУЛ ПАРТИЗАНСКАЯ 266",
                          #"Phone": [""],
-                         #"LeaderInfo": "Уваров Вадим Валерьянович",
+                         "LeaderFIO": "Уваров Вадим Валерьянович",
                          }
               }
         UL_sub = str(UL["SubSystem"])
@@ -68,7 +68,7 @@ def login():
         j = random.choice(ran)
 
         #---------------------------------------------------
-        j = UL
+        #j = UL
         #---------------------------------------------------
 
         print(j["SubSystem"])
@@ -95,37 +95,44 @@ def login():
         print(json_string)
         parsed_string = json.loads(json_string)
 
-        if subsystem == UL_sub:
-            #print(parsed_string)
-            print('Date: ' + parsed_string['Date'])
-            print('Time: ' + parsed_string['Time'])
-            print('Response: ' )
-            print('NameOrg: ' + parsed_string['Response']['NameOrg'])
-            for a in parsed_string['Response']['Answer']:
-                print('INN: ' + a['INN'])
-                print('Address: ' + a['Address'])
-                print('OGRN: ' + a['OGRN'])
-                print('Okved: ' + a['Okved'])
-                print('OkvedCode: ' + a['OkvedCode'])
-                print('Status: ' + a['Status'])
-                print('DateOfReg: ' + a['DateOfReg'])
-                print('DateEnd: ' + a['DateEnd']) #parsed_string['Response']['Answer'][0]['DateEnd'])
-                print('Balance: ' + str(parsed_string['Balance']))
-            print('------------------')
+        try:
 
-        if subsystem == IP_sub:
-            # print(parsed_string)
-            print('Date: ' + parsed_string['Date'])
-            print('Time: ' + parsed_string['Time'])
-            print('Response: ')
-            print('OGRNIP: ' + parsed_string['Response']['OGRNIP'])
-            print('INNIP: ' + parsed_string['Response']['INNIP'])
-            print('Status: ' + parsed_string['Response']['Status'])
-            print('MiddleName: ' + parsed_string['Response']['MiddleName'])
-            print('SurName: ' + parsed_string['Response']['SurName'])
-            print('FirstName: ' + parsed_string['Response']['FirstName'])
-            print('DateOfReg: ' + parsed_string['Response']['DateOfReg'])
-            print('Balance: ' + str(parsed_string['Balance']))
+            if subsystem == UL_sub:
+                # print(parsed_string)
+                print('Date: ' + parsed_string['Date'])
+                print('Time: ' + parsed_string['Time'])
+                print('Response: ')
+                print('NameOrg: ' + parsed_string['Response']['NameOrg'])
+                for a in parsed_string['Response']['Answer']:
+                    print('INN: ' + a['INN'])
+                    print('Address: ' + a['Address'])
+                    print('OGRN: ' + a['OGRN'])
+                    print('Okved: ' + a['Okved'])
+                    print('OkvedCode: ' + a['OkvedCode'])
+                    print('Status: ' + a['Status'])
+                    print('DateOfReg: ' + a['DateOfReg'])
+                    print('DateEnd: ' + a['DateEnd'])  # parsed_string['Response']['Answer'][0]['DateEnd'])
+                    print('Balance: ' + str(parsed_string['Balance']))
+                print('------------------')
+
+            if subsystem == IP_sub:
+                # print(parsed_string)
+                print('Date: ' + parsed_string['Date'])
+                print('Time: ' + parsed_string['Time'])
+                print('Response: ')
+                print('OGRNIP: ' + parsed_string['Response']['OGRNIP'])
+                print('INNIP: ' + parsed_string['Response']['INNIP'])
+                print('Status: ' + parsed_string['Response']['Status'])
+                print('MiddleName: ' + parsed_string['Response']['MiddleName'])
+                print('SurName: ' + parsed_string['Response']['SurName'])
+                print('FirstName: ' + parsed_string['Response']['FirstName'])
+                print('DateOfReg: ' + parsed_string['Response']['DateOfReg'])
+                print('Balance: ' + str(parsed_string['Balance']))
+                print('------------------')
+
+
+        except:
+            print(parsed_string)
 
         i+=1
 

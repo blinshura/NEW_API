@@ -23,15 +23,18 @@ print('WD ' + str(WD))
 
 
 
-txt='</tr>'
 
-re1='(<[^>]+>)'	# Tag 1
 
-rg = re.compile(re1,re.IGNORECASE|re.DOTALL)
-m = rg.search(txt)
-if m:
-    tag1=m.group(1)
-    txt=txt.replace(tag1, '!')
-    print ("("+tag1+")"+"\n")
-    print(txt)
 
+
+FLCASBR = {'Type': 'Request',
+                        'WorkingDirectory' : WD,
+                        'Event' : '3',
+                        'CASBR': '1',
+                        'SurName' : 'ХРОМОВ',
+                        'FirstName' : 'АЛЕКСАНДР',
+                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '3213',
+                        'Number' : '321321',
+                       'zapros': 'FL-CASBR'}

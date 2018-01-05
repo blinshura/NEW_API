@@ -7,17 +7,27 @@ from lxml import html
 import threading
 from time import sleep
 
-#import webbrowser
-#webbrowser.open_new_tab('ya.ru')
+
+import ssl
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
 
 
-URL = '192.168.0.50:3777'
+# import logging
+# logger = logging.getLogger('grab')
+# logger.addHandler(logging.StreamHandler())
+# logger.setLevel(logging.DEBUG)
+
+
+
+URL = '192.168.0.135:3777'
 Exceptions = []
 ERRORS = []
 
 
 def login(iter):
-    g = Grab(timeout=1000, connect_timeout=30)
+    g = Grab(timeout=1000, connect_timeout=30, debug_post=False, reuse_cookies=False)
     i = 0
 
     try:
@@ -25,8 +35,8 @@ def login(iter):
 
             g.setup(post= {
                     'Type': 'Login',
-                    'Login': 'kdinisv',
-                    'Password': '123',
+                    'Login': 'demo',
+                    'Password': 'demo',
                     },
                     headers= {
                     'Accept-Encoding': 'gzip,deflate',
@@ -49,6 +59,7 @@ def login(iter):
                        'Event' : '1',
                        'FNST': '1',
                        'OGRN' : '1177746172790',
+                       #'INN': '3213213211',
                        'zapros': 'UL-FNST'} # 0
             ULFNSA = {'Type': 'Request',
                        'WorkingDirectory' : WD,
@@ -103,7 +114,8 @@ def login(iter):
                             'WorkingDirectory' : WD,
                             'Event' : '2',
                             'IPT' : '1',
-                            'OGRNIP' : '312751502300034',
+                            #'OGRNIP' : '312751502300034',
+                     'INNIP': '231400212630',
                      'zapros': 'IP-IPT'}  # 0
             IPIPA = {'Type': 'Request',
                             'WorkingDirectory' : WD,
@@ -187,9 +199,9 @@ def login(iter):
                         'WorkingDirectory' : WD,
                         'Event' : '3',
                         'RaitingR': '1',
-                        'SurName' : 'ХРОМОВ',
-                        'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
+                          'SurName': 'ХРОМОВ',
+                          'FirstName': 'АЛЕКСАНДР',
+                          'MiddleName': 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
                         'Seria'	: '3213',
                         'Number' : '321321',
@@ -221,14 +233,14 @@ def login(iter):
                             'zapros': 'FL-Raitin_2R'}  # 6
             FLFR = {'Type': 'Request',
                         'WorkingDirectory' : WD,
-                        'Event' : '3',
+                        'Event': '3',
                         'FR': '1',
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
-                        'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'DateOfBirth': '03.08.1969',
+                        'Seria': '3213',
+                        'Number': '321321',
                     'zapros': 'FL-FR'}  # 7
             FLAFF = {'Type': 'Request',
                         'WorkingDirectory' : WD,
@@ -271,9 +283,9 @@ def login(iter):
                     'WorkingDirectory': WD,
                     'Event': '3',
                     'Exp': '1',
-                    'SurName':'ХРОМОВ',
-                    'FirstName':'АЛЕКСАНДР',
-                    'MiddleName':'ВАЛЕРИАНОВИЧ',
+                    'SurName' : 'ХРОМОВ',
+                    'FirstName' : 'АЛЕКСАНДР',
+                    'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                     'DateOfBirth':'03.08.1969',
                     'Seria':'3213',
                     'Number':'321321',
@@ -335,9 +347,9 @@ def login(iter):
                 'WorkingDirectory': WD,
                 'Event': '3',
                 'ExtSource': '1',
-                'SurName': 'ХРОМОВ',
-                'FirstName': 'АЛЕКСАНДР',
-                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                'SurName' : 'ХРОМОВ',
+                'FirstName' : 'АЛЕКСАНДР',
+                'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                 'DateOfBirth': '03.08.1969',
                 'Seria': '3213',
                 'Number': '321321',
@@ -553,7 +565,7 @@ def login(iter):
 
             UL = [ULFNST,
                   ULFNSA,
-                  ULGIBDD,
+                  #ULGIBDD,
                   ULBalans,
                   ULSVI,
                   ULBenef,
@@ -568,7 +580,7 @@ def login(iter):
                   IPExtSource
                   ] # 1
             FL = [
-                FLGIBDD,
+                #FLGIBDD,
                 FLCASBO,
                 FLCASBR,
                 FLRaiting,
@@ -606,25 +618,35 @@ def login(iter):
                 BSUL_RASH
             ] # 8
 
-            Services = [UL,IP,FL,PASP,BSUL,GIBDD,BSIP,ID_FL,BS_R]
+            Services = [UL,
+                        IP,
+                        FL,
+                        PASP,
+                        BSUL,
+                        #GIBDD,
+                        BSIP,
+                        ID_FL,
+                        BS_R]
 
+            # ----------------------Основной цикл--------------------------
+            for i in Services:
+                for m in i:
+            # ------------------------------------------------
 
-            #for i in Services:
-                #for m in i:
+            # -----------------------Ручной цикл----------------------------
+            #services = FL
+            #for m in services:
+            # ---------------------------------------------------
 
-
-            #---------------------------------------------------
-            services = [IDFL, BSUL_RASH]
-            for m in services:
-            #---------------------------------------------------
-
-                    # -----------------------------------------------------------
-                    #m = ULExtSource
-                    # -----------------------------------------------------------
-
+            # ----------------------------Точечнй запрос-------------------------------
+            # for i in range(1):
+            #     for ii in range(1):
+            #         m = IDFL
+            # -----------------------------------------------------------
+                    sleep(1)
                     g.setup(post=m,
                             headers={
-                            'Accept-Encoding': 'gzip,deflate',
+                            'Accept-Encoding': 'gzip,defl,utf-8',
                             'Content-Type': 'application/x-www-form-urlencoded',
                         })
                     go = g.go(URL)
@@ -676,12 +698,75 @@ def login(iter):
                         ANS = lx.xpath('//text()')[1]
                         ANS = str(ANS)
                         ANSWER = BeautifulSoup(xmlBODY, 'lxml')
+
+                        # Очистка ответа
                         if ANS != '3' :
                             ANSWER = str(ANSWER)
-                            print(ANSWER[44372:])
+                            clean_answer = ANSWER[54267:]
+
+                            clean_answer = clean_answer.replace('</tr>', '')
+                            clean_answer = clean_answer.replace('</td>', '')
+                            clean_answer = clean_answer.replace('<tr>', '')
+                            clean_answer = clean_answer.replace('<td>', '')
+                            clean_answer = clean_answer.replace('</thead>', '')
+                            clean_answer = clean_answer.replace('<thead>', '')
+                            clean_answer = clean_answer.replace('</tbody>', '')
+                            clean_answer = clean_answer.replace('<tbody>', '')
+                            clean_answer = clean_answer.replace('</th>', '')
+                            clean_answer = clean_answer.replace('<th>', '')
+                            clean_answer = clean_answer.replace('</table>', '')
+                            clean_answer = clean_answer.replace('</div>', '')
+                            clean_answer = clean_answer.replace('<h3 class="text-center">', '')
+                            clean_answer = clean_answer.replace('</h3>', '')
+                            clean_answer = clean_answer.replace('</div>', '')
+                            clean_answer = clean_answer.replace('<table class=', '')
+                            clean_answer = clean_answer.replace('<li>', '')
+                            clean_answer = clean_answer.replace('</answerhtml></documents></answer></body></html><html><p>', '')
+                            clean_answer = clean_answer.replace(']]&gt;</p></html>', '')
+                            clean_answer = clean_answer.replace('<p><strong>', '')
+                            clean_answer = clean_answer.replace('<ol class="condenced">', '')
+                            clean_answer = clean_answer.replace('<h2>', '')
+                            clean_answer = clean_answer.replace('</h2>', '')
+                            clean_answer = clean_answer.replace('<div class="js_section">', '')
+                            clean_answer = clean_answer.replace('</strong>', '')
+                            clean_answer = clean_answer.replace('</p>', '')
+                            clean_answer = clean_answer.replace('</ul>', '')
+                            clean_answer = clean_answer.replace('</span></p>', '')
+                            clean_answer = clean_answer.replace('<span>', '')
+                            clean_answer = clean_answer.replace('</li>', '')
+                            clean_answer = clean_answer.replace('</ol>', '')
+                            clean_answer = clean_answer.replace('<p class="note text-muted"><i>', '')
+                            clean_answer = clean_answer.replace('<h3 class="text-center" data-count', '')
+                            clean_answer = clean_answer.replace('"table fns">', '')
+                            clean_answer = clean_answer.replace('<h2 class="text-center">', '')
+                            clean_answer = clean_answer.replace('="0"', '')
+                            clean_answer = clean_answer.replace('\n\n', '\n')
+                            clean_answer = clean_answer.replace('\n\n', '\n')
+                            clean_answer = clean_answer.replace('<div>', '')
+                            clean_answer = clean_answer.replace('<h3>', '')
+                            clean_answer = clean_answer.replace('</span>', '')
+                            clean_answer = clean_answer.replace('</i>', '')
+                            clean_answer = clean_answer.replace('title=', '')
+                            clean_answer = clean_answer.replace('<p>', '')
+                            clean_answer = clean_answer.replace('<h5>', '')
+                            clean_answer = clean_answer.replace('</h5>', '')
+                            clean_answer = clean_answer.replace('<div class="js_section intro"', '')
+                            clean_answer = clean_answer.replace('<h3>', '')
+                            clean_answer = clean_answer.replace('<td class="legend"', '')
+                            clean_answer = clean_answer.replace('<td class="linked text-center"', '')
+                            clean_answer = clean_answer.replace('<td class="numered text-center"', '')
+                            clean_answer = clean_answer.replace('<td class="legend"', '')
+
+                            clean_answer = clean_answer.replace('>', '')
+
+
+
+                            print(clean_answer)
+
+
                         print('ANS ' + ANS)
                         tryes -= 1
-                        if tryes < 1:
+                        if ANS == '3' and tryes < 1:
                             ERRORS.append(m['zapros'])
                             ERRORS.append(RN + ' Не дождались ответа')
                             ERRORS.append('---------------------------')
