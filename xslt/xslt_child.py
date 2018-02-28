@@ -150,7 +150,7 @@ headers= {
                     }
 
 r = requests.Session()
-r.post(url, data=post, headers=headers)
+r.post(url, verify=False, data=post, headers=headers)
 sid = r.cookies['cronos.sid']
 print(sid)
 
@@ -166,7 +166,7 @@ cooc = {
 #         }
 m=0
 for i in ii:
-    r = requests.get('http://192.168.0.135:80/download/UL/HTML/' + i, cookies=cooc)
+    r = requests.get('http://192.168.0.135:80/download/UL/HTML/' + i, cookies=cooc,  verify=False)
     print(r.text[115:149] +  '     ' + str(m))
     m+=1
 

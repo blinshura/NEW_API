@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 import re
 from bs4 import BeautifulSoup
 from grab import *
@@ -21,37 +22,36 @@ ctx.verify_mode = ssl.CERT_NONE
 
 
 
-URL = '192.168.0.135:3777'
+URL = '192.168.0.50:3777' #'192.168.0.135:3777'
 Exceptions = []
 ERRORS = []
 
 
 def login(iter):
-    g = Grab(timeout=1000, connect_timeout=30, debug_post=False, reuse_cookies=False)
-    i = 0
 
     try:
+        i = 0
+
         while i < iter:
 
-            g.setup(post= {
-                    'Type': 'Login',
-                    'Login': 'demo',
-                    'Password': 'demo',
-                    },
-                    headers= {
-                    'Accept-Encoding': 'gzip,deflate',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    }
+            g = Grab(timeout=1000, connect_timeout=30, debug_post=False, reuse_cookies=False, encoding='')
+            # LOGIN
+            g.setup(post={
+                'Type': 'Login',
+                'Login': 'kdinisv',
+                'Password': '123'
+            },
+                headers={
+                    #'Accept-Encoding': 'gzip,deflate',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                }
             )
             go = g.go(URL)
-            #print(g.xpath_text(PATH))
+            # print(g.xpath_text(PATH))
             xmlBODY = (go.body)
             lx = html.fromstring(xmlBODY)
             WD = lx.xpath('//text()')[1]
             print('WD ' + str(WD))
-
-
-
 
 
             ULFNST = { 'Type': 'Request',
@@ -109,6 +109,7 @@ def login(iter):
                        'ExtSource' : '1',
                        'OGRN' : '1177746172790',
                            'zapros': 'UL-ExtSource'} # 8
+
 
             IPIPT = {'Type': 'Request',
                             'WorkingDirectory' : WD,
@@ -169,8 +170,8 @@ def login(iter):
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                        'zapros': 'FL-CASBO'}  # 1
             FLCASBR = {'Type': 'Request',
                         'WorkingDirectory' : WD,
@@ -180,8 +181,8 @@ def login(iter):
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                        'zapros': 'FL-CASBR'}  # 2
             FLRaiting = {'Type': 'Request',
                         'WorkingDirectory' : WD,
@@ -191,8 +192,8 @@ def login(iter):
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                         'IssueDate':'03.08.1969',
                          'zapros': 'FL-Raiting'}  # 3
             FLRaitingR = {'Type': 'Request',
@@ -203,8 +204,8 @@ def login(iter):
                           'FirstName': 'АЛЕКСАНДР',
                           'MiddleName': 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                         'IssueDate':'03.08.1969',
                           'zapros': 'FL-RaitingR'}  # 4
             FLRaiting_2 = {'Type': 'Request',
@@ -215,8 +216,8 @@ def login(iter):
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                         'IssueDate':'03.08.1969',
                            'zapros': 'FL-Raiting_2'}  # 5
             FLRaiting_2R = {'Type': 'Request',
@@ -227,21 +228,21 @@ def login(iter):
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                         'IssueDate':'03.08.1969',
                             'zapros': 'FL-Raitin_2R'}  # 6
-            FLFR = {'Type': 'Request',
-                        'WorkingDirectory' : WD,
-                        'Event': '3',
-                        'FR': '1',
-                        'SurName' : 'ХРОМОВ',
-                        'FirstName' : 'АЛЕКСАНДР',
-                        'MiddleName' : 'ВАЛЕРИАНОВИЧ',
-                        'DateOfBirth': '03.08.1969',
-                        'Seria': '3213',
-                        'Number': '321321',
-                    'zapros': 'FL-FR'}  # 7
+            # FLFR = {'Type': 'Request',
+            #             'WorkingDirectory' : WD,
+            #             'Event': '3',
+            #             'FR': '1',
+            #             'SurName' : 'ХРОМОВ',
+            #             'FirstName' : 'АЛЕКСАНДР',
+            #             'MiddleName' : 'ВАЛЕРИАНОВИЧ',
+            #             'DateOfBirth': '03.08.1969',
+            #             'Seria': '3213',
+            #             'Number': '321321',
+            #         'zapros': 'FL-FR'}  # 7
             FLAFF = {'Type': 'Request',
                         'WorkingDirectory' : WD,
                         'Event' : '3',
@@ -249,9 +250,9 @@ def login(iter):
                         'SurName' : 'ХРОМОВ',
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
-                        'DateOfBirth' :'31.09.1988',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'DateOfBirth' :'03.08.1969',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                      'zapros': 'FL-AFF'}  # 8
             FLCKKI = {'Type': 'Request',
                         'WorkingDirectory' : WD,
@@ -261,8 +262,8 @@ def login(iter):
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                         'IssueDate':'03.08.1969',
                       'zapros': 'FL-CKKI'}  # 9
             FLSVI = {'Type': 'Request',
@@ -273,8 +274,8 @@ def login(iter):
                         'FirstName' : 'АЛЕКСАНДР',
                         'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                         'DateOfBirth' :'03.08.1969',
-                        'Seria'	: '3213',
-                        'Number' : '321321',
+                        'Seria'	: '4597',
+                        'Number' : '005229',
                         'InfoType':'1',
                      'zapros': 'FL-SVI'} # 10
             FLExp = {
@@ -283,17 +284,17 @@ def login(iter):
                     'WorkingDirectory': WD,
                     'Event': '3',
                     'Exp': '1',
-                    'SurName' : 'ХРОМОВ',
-                    'FirstName' : 'АЛЕКСАНДР',
-                    'MiddleName' : 'ВАЛЕРИАНОВИЧ',
+                    'SurName' : u'хромов',
+                    'FirstName' : u'александр',
+                    'MiddleName' : u'валерианович',
                     'DateOfBirth':'03.08.1969',
-                    'Seria':'3213',
-                    'Number':'321321',
+                    'Seria':'4597',
+                    'Number':'005229',
                     'INNExp':'770404319004',
                     # Блок Адрес Постоянный
                     'RegionExp':'45',
-                    'CityExp':'МОСКВА',
-                    'StreetExp':'ПОЖАРСКИЙ',
+                    'CityExp': u'МОСКВА',
+                    'StreetExp': u'ПОЖАРСКИЙ',
                     'HouseExp':'15',
                     'BuildExp':'',              # или
                     'BuildingExp':'',
@@ -301,8 +302,8 @@ def login(iter):
                     'PhoneExp':'',
                     # Блок Адрес Временный
                         # 'RegionExpTmp':'45',
-                        # 'CityExpTmp':'МОСКВА',
-                        # 'StreetExpTmp':'ПОЖАРСКИЙ',
+                        # 'CityExpTmp':('МОСКВА').encode('utf8'),
+                        # 'StreetExpTmp':('ПОЖАРСКИЙ').encode('utf8'),
                         # 'HouseExpTmp':'15',
                         # 'BuildExpTmp':'',
                         # 'BuildingExpTmp':'',
@@ -351,8 +352,8 @@ def login(iter):
                 'FirstName' : 'АЛЕКСАНДР',
                 'MiddleName' : 'ВАЛЕРИАНОВИЧ',
                 'DateOfBirth': '03.08.1969',
-                'Seria': '3213',
-                'Number': '321321',
+                'Seria': '4597',
+                'Number': '005229',
                 'RegionExp': '45',
                              'zapros': 'FL-ExtSource'}  # 12
 
@@ -373,19 +374,19 @@ def login(iter):
 
             BSUL_BS = {'Type': 'Request',
                        'WorkingDirectory' : WD,
-                       'Event' : '5',
-                       'BSUL' : '1',
+                       'Event' : '1',
+                       'BS' : '1',
                         'OGRN': '1177746172790',
                        'zapros': 'BSUL-BS'} # 0
             BSUL_BSPD = {'Type': 'Request',
                        'WorkingDirectory' : WD,
-                       'Event' : '5',
+                       'Event' : '1',
                        'BSPD' : '1',
                         'OGRN': '1177746172790',
                          'zapros': 'BSUL-BSPD'} # 1
             BSUL_SVI = {'Type': 'Request',
                        'WorkingDirectory' : WD,
-                       'Event' : '5',
+                       'Event' : '1',
                        'SVI' : '1',
                         'OGRN': '1177746172790',
                         'zapros': 'BSUL-SVI'} # 2
@@ -458,7 +459,7 @@ def login(iter):
                 'MiddleName': 'ВАЛЕРИАНОВИЧ',
                 'DateOfBirth': '03.08.1969',
                 'Seria': '4597',
-                'Number': '00522',
+                'Number': '005229',
                 'Address': '',
                 'Phone': '',
                 'GosNumber': '',
@@ -587,7 +588,7 @@ def login(iter):
                 FLRaitingR,
                 FLRaiting_2,
                 FLRaiting_2R,
-                FLFR,
+                #FLFR,
                 FLAFF,
                 FLCKKI,
                 FLSVI,
@@ -628,28 +629,52 @@ def login(iter):
                         ID_FL,
                         BS_R]
 
+
             # ----------------------Основной цикл--------------------------
-            for i in Services:
-                for m in i:
+            # for i in Services:
+            #     for m in i:
             # ------------------------------------------------
 
             # -----------------------Ручной цикл----------------------------
-            #services = FL
-            #for m in services:
+            services = [FLExp,]
+            for m in services:
             # ---------------------------------------------------
 
             # ----------------------------Точечнй запрос-------------------------------
             # for i in range(1):
             #     for ii in range(1):
-            #         m = FLCKKI
+            #         m = FLRaiting_2R
             # -----------------------------------------------------------
-                    sleep(1)
+
+
+                    g.setup(post={
+                        'Type': 'Login',
+                        'Login': 'kdinisv',
+                        'Password': '123'
+                    },
+                        headers={
+                            #'Accept-Encoding': 'gzip,deflate',
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                        }
+                    )
+                    go = g.go(URL)
+                    # print(g.xpath_text(PATH))
+                    xmlBODY = (go.body)
+                    lx = html.fromstring(xmlBODY)
+                    WD = lx.xpath('//text()')[1]
+                    print('WD ' + str(WD))
+
+
+
+
+                    #REQUEST
                     g.setup(post=m,
                             headers={
-                            'Accept-Encoding': 'gzip,defl,utf-8',
-                            'Content-Type': 'application/x-www-form-urlencoded',
+                            #'Accept-Encoding': 'gzip,deflat',
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
                         })
                     go = g.go(URL)
+
                     # print(g.xpath_text(PATH))
                     xmlBODY = (go.body)
                     lx = html.fromstring(xmlBODY)
@@ -672,9 +697,7 @@ def login(iter):
 
 
 
-
-
-
+                    #RESPONSE
                     ANS = '3'
                     tryes = 30
                     while ANS == '3' and tryes >= 1:
@@ -686,8 +709,8 @@ def login(iter):
                             'TypeAnswer' : 'HV'
                         },
                             headers={
-                                'Accept-Encoding': 'gzip,deflate',
-                                'Content-Type': 'application/x-www-form-urlencoded',
+                                #'Accept-Encoding': 'gzip,deflate',
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
 
                             }
                         )
@@ -702,7 +725,7 @@ def login(iter):
                         # Очистка ответа
                         if ANS != '3' :
                             ANSWER = str(ANSWER)
-                            clean_answer = ANSWER[54267:]
+                            clean_answer = ANSWER[51059:]
 
                             clean_answer = clean_answer.replace('</tr>', '')
                             clean_answer = clean_answer.replace('</td>', '')
@@ -763,7 +786,6 @@ def login(iter):
 
                             print(clean_answer)
 
-
                         print('ANS ' + ANS)
                         tryes -= 1
                         if ANS == '3' and tryes < 1:
@@ -771,29 +793,30 @@ def login(iter):
                             ERRORS.append(RN + ' Не дождались ответа')
                             ERRORS.append('---------------------------')
                             print(' Не дождались ответа')
+
+
+
+                    #LOGOUT
+                    g.setup(post={
+                        'Type': 'Logout',
+                        'WorkingDirectory': WD,
+                    },
+                        headers={
+                            'Accept-Encoding': 'gzip,deflate',
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                            #'Content-Length': '47',
+                            #'Host': "ips2:777",
+                            #'Connection': 'Keep-Alive',
+                        }
+                    )
+                    go = g.go(URL)
+                    # print(g.xpath_text(PATH))
+                    xmlBODY = (go.body)
+                    lx = html.fromstring(xmlBODY)
+                    ANS = lx.xpath('//text()')[3]
+                    print('\n')
+                    print('LOGOUT ' + str(ANS))
                     print('-----------------------------------------------------------------------------------------')
-
-
-
-            g.setup(post={
-                'Type': 'Logout',
-                'WorkingDirectory': WD,
-            },
-                headers={
-                    'Accept-Encoding': 'gzip,deflate',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    #'Content-Length': '47',
-                    #'Host': "ips2:777",
-                    #'Connection': 'Keep-Alive',
-                }
-            )
-            go = g.go(URL)
-            # print(g.xpath_text(PATH))
-            xmlBODY = (go.body)
-            lx = html.fromstring(xmlBODY)
-            ANS = lx.xpath('//text()')[3]
-            print('LOGOUT ' + str(ANS))
-
 
             i+=1
 

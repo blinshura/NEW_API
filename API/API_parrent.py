@@ -3,13 +3,13 @@ import subprocess
 import sys
 
 
-child = os.path.join(os.path.dirname(__file__), "./ips3_child.py")
+child = os.path.join(os.path.dirname(__file__), "./API-child_REQUESTS.py")
 word  = 'word'
 file = ['./parent.py','./child.py']
 
 pipes = []
 print('parent start')
-for i in range(0,100):
+for i in range(0,2):
   command = [sys.executable, child]
   pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
   pipes.append(pipe)
