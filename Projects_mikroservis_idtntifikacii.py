@@ -5,9 +5,9 @@ import json
 from datetime import datetime
 
 g = Grab( follow_location= True,reuse_cookies=True, follow_refresh=True, timeout=1000, connect_timeout=30, debug_post=True, encoding='')
-user = "tester001"
-password = "001"
-url = ('http://192.168.0.118:889/request') #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
+user = "release"
+password = "release"
+url = ('http://192.168.0.135:3010/request') #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
 def login():
     i = 0
 
@@ -19,11 +19,9 @@ def login():
              #"Service":"IDUL",
              "Params":{"IDIP" : 1,
                        "OGRNIP": "312774618000575",
-                       #"INN": "",
                        #"INNIP": "",
-                       #"OGRNIP": "",
                        #"NameOrg": "romashka",
-                       #"Address": "dasdas",
+                       "Address": "dasdas",
                        #"Phone": [""],
                        #"LeaderInfo": "Ivanov ivan",
                        }
@@ -37,9 +35,9 @@ def login():
                          #"OGRN": "1044217029471",
                          #"INN": "2722016797",
                          "NameOrg": "ООО МОДУЛЬ",
-                         #"Address": "01 БАРНАУЛ ПАРТИЗАНСКАЯ 266",
+                         "Address": "01 БАРНАУЛ ПАРТИЗАНСКАЯ 266",
                          #"Phone": [""],
-                         "LeaderFIO": "Уваров Вадим Валерьянович",
+                         #"LeaderFIO": "Уваров Вадим Валерьянович",
                          }
               }
         UL_sub = str(UL["SubSystem"])
@@ -48,27 +46,29 @@ def login():
               "SubSystem": "FL",  # IP, FL
               # "Service":"IDUL",
               "Params": {"IDFL": 1,
-                         #"OGRNIP": "312774618000575",
-                          "INN": "501002007286",
-                         # "INNIP": "",
-                         # "OGRNIP": "",
-                         # "NameOrg": "romashka",
+                         "OGRNIP": "312774618000575",
+                         # "SurName": "БУЛАВКИН",
+                         # "FirstName": "АЛЕКСАНДР",
+                         # "MiddleName": "СЕРГЕЕВИЧ",
+                          #"DateOfBirth": "17.03.1961",
                          # "Address": "dasdas",
                          # "Phone": [""],
-                         # "LeaderInfo": "Ivanov ivan",
+                         #"INNIP": "861005775557",
+                         # "Seria": "4507",
+                         # "Number": "330202"
                          }
               }
         FL_sub = str(FL["SubSystem"])
 
 
-        ran = [IP, UL, ]
+        ran = [IP, UL, FL]
 
 
 
         j = random.choice(ran)
 
         #---------------------------------------------------
-        #j = UL
+        j = FL
         #---------------------------------------------------
 
         print(j["SubSystem"])
@@ -81,7 +81,7 @@ def login():
         g.setup(post=j ,
                 headers= {
                     'Content-Type': 'application/json;charset=utf-8',
-                    'Host': "open.croinform.ru:889",
+                    'Host': "vips1",
                     #'Connection': 'Keep-Alive',
                     }
                 )
@@ -103,15 +103,15 @@ def login():
                 print('Time: ' + parsed_string['Time'])
                 print('Response: ')
                 print('NameOrg: ' + parsed_string['Response']['NameOrg'])
-                for a in parsed_string['Response']['Answer']:
-                    print('INN: ' + a['INN'])
-                    print('Address: ' + a['Address'])
-                    print('OGRN: ' + a['OGRN'])
-                    print('Okved: ' + a['Okved'])
-                    print('OkvedCode: ' + a['OkvedCode'])
-                    print('Status: ' + a['Status'])
-                    print('DateOfReg: ' + a['DateOfReg'])
-                    print('DateEnd: ' + a['DateEnd'])  # parsed_string['Response']['Answer'][0]['DateEnd'])
+                for u in parsed_string['Response']['Answer']:
+                    print('INN: ' + u['INN'])
+                    print('Address: ' + u['Address'])
+                    print('OGRN: ' + u['OGRN'])
+                    print('Okved: ' + u['Okved'])
+                    print('OkvedCode: ' + u['OkvedCode'])
+                    print('Status: ' + u['Status'])
+                    print('DateOfReg: ' + u['DateOfReg'])
+                    print('DateEnd: ' + u['DateEnd'])  # parsed_string['Response']['Answer'][0]['DateEnd'])
                     print('Balance: ' + str(parsed_string['Balance']))
                 print('------------------')
 
@@ -129,6 +129,21 @@ def login():
                 print('DateOfReg: ' + parsed_string['Response']['DateOfReg'])
                 print('Balance: ' + str(parsed_string['Balance']))
                 print('------------------')
+
+            if subsystem == FL_sub:
+                for a in parsed_string['Response']['Answer']:
+                    print('SurName: ' + str(a['SurName']))
+                    print('FirstName: ' + str(a['FirstName']))
+                    print('MiddleName: ' + str(a['MiddleName']))
+                    print('DateOfBirth: ' + str(a['DateOfBirth']))
+                    print('INN: ' + str(a['INN']))
+                    print('Passport: ' + str(a['Passport']))
+                    print('OGRN: ' + str(a['OGRN']))
+                    print('Address: ' + str(a['Address']))
+                    print('negativeResult: ' + str(a['negativeResult']))
+
+
+
 
 
         except:

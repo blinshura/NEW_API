@@ -1,4 +1,3 @@
-from lxml import etree
 from time import sleep
 import requests
 from bs4 import BeautifulSoup
@@ -6,9 +5,9 @@ from lxml import html
 import re
 
 
-URL = 'http://ips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'demo' #'153759' #'687dd78R'
+URL = 'http://ips3:777/api.php'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+LOGIN = 'Test_61959959'
+PASSWORD = '5253325'
 Exceptions = []
 ERRORS = []
 HEADERS={
@@ -19,21 +18,6 @@ RNs = {}
 
 
 # сервисы
-IDADDRESS = {
-    'Type': 'Request',
-    'WorkingDirectory': WD,
-    'Event': '8',
-    'IDADDRESS': '1',
-    'RegionExp': '45',
-    'CityExp': u'МОСКВА',
-    'StreetExp': u'ПОЖАРСКИЙ',
-    'HouseExp': '15',
-    'BuildExp': '',  # или
-    'BuildingExp': '',
-    'FlatExp': '6',
-    'zapros': 'IDADDRESS'
-}
-
 ULFNST = {'Type': 'Request',
           'WorkingDirectory': WD,
           'Event': '1',
@@ -108,14 +92,12 @@ IPExtendedIP = {'Type': 'Request',
                 'Event': '2',
                 'ExtendedIP': '1',
                 'OGRNIP': '312751502300034',
-                #'INNIP' : '',
                 'zapros': 'IP-ExtendedIP'}  # 2
 IPEmployer = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '2',
               'Employer': '1',
               'OGRNIP': '312751502300034',
-              #'INNIP': '',
               'FIO': '',
               'Region': '',
               'City': '',
@@ -312,7 +294,7 @@ FLExp = {
     # Роботодатель ИП
     #'IPExp':'1',
     # 'OGRNIPExp':'',
-    # 'INNIPExp': '772071873841',
+    #'INNIPExp': '772071873841',
     # 'FIOIPExp':'',
     # 'RegionIPExp':'',
     # 'CityIPExp':'',
@@ -620,6 +602,9 @@ def login():
     print('WD ' + str(WD))
     return WD
 
+
+
+
 def request(WD,service):
     service['WorkingDirectory'] = WD
     r = requests.post(URL,data=service,headers=HEADERS, verify=False,)
@@ -630,72 +615,74 @@ def request(WD,service):
     r = rg.search(RN)
     if r:
         print('RN ' + str(RN))
-        print(service['zapros'] + ' - ' + 'RN: ' + str(RN) + '\n')
+        # print(service['zapros'] + ' - ' + 'RN: ' + str(RN) + '\n')
+
     else:
         print(RN)
-        print(service['zapros'] + ' - ' + 'ERROR: ' + RN + '\n')
-        ERRORS.append(service['zapros'] + ' - ' + 'ERROR: ' + RN)
-        #ERRORS.append(RN)
-        ERRORS.append('---------------------------')
+        # print(service['zapros'] + ' - ' + 'ERROR: ' + RN + '\n')
+        # ERRORS.append(service['zapros'] + ' - ' + 'ERROR: ' + RN)
+        # #ERRORS.append(RN)
+        # ERRORS.append('---------------------------')
+
     RNs[RN]= service
     return RN
 
+
 def response(WD, RN, service):
-    StatusANS = '3'
+    ANS = '3'
     tryes = 30
-    while StatusANS == '3' and tryes >= 1:
+    while ANS == '3' and tryes >= 1:
 
         post = {'Type': 'Answer',
                 'WorkingDirectory': WD,
                 'RequestNumber': RN,
                 'TypeAnswer': 'HV'}
-        post['RequestNumber'] = RN
+        post['RequestNumber'] = '9BS27112731'
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
+        print(r.text)
+        lx = html.fromstring(r.content)
+        ANS = lx.xpath('//text()')[1]
+        ANS = str(ANS)
         ANSWER = BeautifulSoup(r.content, 'lxml')
-        StatusANS = ANSWER.statusrequest.string
-        StatusANS = str(StatusANS)
-        #print(StatusANS)
+        #print(ANSWER)
 
+        if ANS == '3': sleep(10)
 
         # Очистка ответа
-        if StatusANS != '3':
+        if ANS != '3':
             if '<td>' in str(ANSWER):
-                ANSWER = ('  '.join(ANSWER.findAll(text=True)))[41921:-11100]
-                print(ANSWER)
-        #         for t in ANSWER.find_all('td'):
-        #             t = str(t).replace('<td></td>', '\n')
-        #             t = t.replace('</td>', '')
-        #             t = t.replace('<td>', '')
-        #             print(t)
+                for t in ANSWER.find_all('td'):
+                    t = str(t).replace('<td></td>', '\n')
+                    t = t.replace('</td>', '')
+                    t = t.replace('<td>', '')
+                    print(t)
 
             else:
-                ANSWER = ('  '.join(ANSWER.findAll(text=True)))[41921:-11100]
-                print(ANSWER)
-                # for t in ANSWER.find_all('div'):
-                #     if 'script' not in str(t):
-                #         t = str(t).replace('</div>', '')
-                #         t = t.replace('<div>', '')
-                #         t = t.replace('</p>', '')
-                #         t = t.replace('<p>', '')
-                #         t = t.replace('</li>', '')
-                #         t = t.replace('</ol>', '')
-                #         t = t.replace('<ol>', '')
-                #         t = t.replace('<li>', '')
-                #         t = t.replace('<span>', '')
-                #         t = t.replace('</span>', '')
-                #         print(t)
+                for t in ANSWER.find_all('div'):
+                    if 'script' not in str(t):
+                        t = str(t).replace('</div>', '')
+                        t = t.replace('<div>', '')
+                        t = t.replace('</p>', '')
+                        t = t.replace('<p>', '')
+                        t = t.replace('</li>', '')
+                        t = t.replace('</ol>', '')
+                        t = t.replace('<ol>', '')
+                        t = t.replace('<li>', '')
+                        t = t.replace('<span>', '')
+                        t = t.replace('</span>', '')
+                        print(t)
 
-        if StatusANS == '3': sleep(10)
 
-        print('\n' + 'ANS-' + StatusANS + '  try-' + str(tryes) + '  ' + service['zapros'])
+
+        print('\n' + 'ANS-' + ANS + '  try-' + str(tryes) + '  ' + service['zapros'])
         tryes -= 1
-        if StatusANS == '3' and tryes < 1:
+        if ANS == '3' and tryes < 1:
             ERRORS.append(service['zapros'])
             ERRORS.append(RN + ' Не дождались ответа')
             ERRORS.append('---------------------------')
             print(' Не дождались ответа')
-    print('-----------------------------------------------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------------------')
 
 def logout(WD):
     post={
@@ -714,6 +701,8 @@ def logout(WD):
 
 if __name__ == '__main__':
 
+
+
     try:
 
         WD = login()
@@ -721,7 +710,7 @@ if __name__ == '__main__':
         # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
 
         # it = 0
-        # while it < 1:
+        # while it < 100:
         #     for S in Services:
         #         for s in S:
         #             RN = request(WD, s)
@@ -735,19 +724,17 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        service = IDFL
-        RN = request(WD, service)
-        response(WD, RN, service)
+        RN = request(WD, BSUL_RASH)
+        response(WD, RN, BSUL_RASH)
 
 
 
         # НАГРУЗКА
 
-        # service = ULAFF
         # t = 0
         # while t < 100:
-        #     RN = request(WD, service)
-        #     response(WD, RN, service)
+        #     RN = request(WD, FLExp)
+        #     response(WD, RN, FLExp)
         #     t += 1
 
 

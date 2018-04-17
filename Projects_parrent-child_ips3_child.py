@@ -59,11 +59,12 @@ def request(it, wd):
 
             g.go('http://192.168.0.23:81/Scripts/CroISAPI.dll')
             xmlBODY = (g.response.body)
+
             print('--------------------------------------------------------------' + str(i))
 
 
-            #soup = BeautifulSoup(xmlBODY, 'lxml')
-            #print(soup)
+            soup = BeautifulSoup(xmlBODY, 'lxml')
+            print(soup)
 
 
             # g.doc.set_input('surname', 'ПОЛЯКОВ')
@@ -112,7 +113,7 @@ def request(it, wd):
 
 
 
-req = 1000
+req = 1
 wd = login()
 start_time = datetime.now()
 request(req, wd)
