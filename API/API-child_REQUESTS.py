@@ -17,7 +17,6 @@ WD = ''
 RNs = {}
 
 
-
 # сервисы
 IDADDRESS = {
     'Type': 'Request',
