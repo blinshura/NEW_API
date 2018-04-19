@@ -4,10 +4,30 @@ from bs4 import BeautifulSoup
 from lxml import html
 import re
 
+# import requests
+# import logging
+#
+# # These two lines enable debugging at httplib level (requests->urllib3->http.client)
+# # You will see the REQUEST, including HEADERS and DATA, and RESPONSE with HEADERS but without DATA.
+# # The only thing missing will be the response.body which is not logged.
+# try:
+#     import http.client as http_client
+# except ImportError:
+#     # Python 2
+#     import httplib as http_client
+# http_client.HTTPConnection.debuglevel = 1
+#
+# # You must initialize logging, otherwise you'll not see debug output.
+# logging.basicConfig()
+# logging.getLogger().setLevel(logging.DEBUG)
+# requests_log = logging.getLogger("requests.packages.urllib3")
+# requests_log.setLevel(logging.DEBUG)
+# requests_log.propagate = True
+
 
 URL = 'http://ips3:777/api.php'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'Test_61959959'
-PASSWORD = '5253325'
+LOGIN = 'ander_автомат' #'Test_61959959'
+PASSWORD =  '687dd78R' #'5253325'
 Exceptions = []
 ERRORS = []
 HEADERS={
@@ -97,14 +117,15 @@ IPEmployer = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '2',
               'Employer': '1',
-              'OGRNIP': '312751502300034',
-              'FIO': '',
-              'Region': '',
-              'City': '',
+              #'OGRNIP': '312751502300034',
+              'INNIP': '231293645637',
+              'FIO': 'ИП Коровников Алексей Валерьевич',
+              'Region': '03',
+              'City': 'Выселки',
               'Street': '',
               'House': '',
               'Flat': '',
-              'Phone': '',
+              'Phone': '9034548390',
               'zapros': 'IP-Employer'
               }  # 3
 IPExtSource = {'Type': 'Request',
@@ -610,15 +631,15 @@ def request(WD,service):
     r = requests.post(URL,data=service,headers=HEADERS, verify=False,)
     lx = html.fromstring(r.content)
     RN = lx.xpath('//text()')[1]
-    re1 = "[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}"
-    rg = re.compile(re1,re.IGNORECASE|re.DOTALL)
-    r = rg.search(RN)
-    if r:
-        print('RN ' + str(RN))
-        # print(service['zapros'] + ' - ' + 'RN: ' + str(RN) + '\n')
-
-    else:
-        print(RN)
+    # re1 = "[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}"
+    # rg = re.compile(re1,re.IGNORECASE|re.DOTALL)
+    # r = rg.search(RN)
+    # if r:
+    #     print('RN ' + str(RN))
+    #     # print(service['zapros'] + ' - ' + 'RN: ' + str(RN) + '\n')
+    #
+    # else:
+    #     print(RN)
         # print(service['zapros'] + ' - ' + 'ERROR: ' + RN + '\n')
         # ERRORS.append(service['zapros'] + ' - ' + 'ERROR: ' + RN)
         # #ERRORS.append(RN)
@@ -637,19 +658,24 @@ def response(WD, RN, service):
                 'WorkingDirectory': WD,
                 'RequestNumber': RN,
                 'TypeAnswer': 'HV'}
-        post['RequestNumber'] = '9BS27112731'
+        post['RequestNumber'] = RN
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
-        print(r.text)
-        lx = html.fromstring(r.content)
-        ANS = lx.xpath('//text()')[1]
-        ANS = str(ANS)
+
         ANSWER = BeautifulSoup(r.content, 'lxml')
-        #print(ANSWER)
+        ANS = ANSWER.statusrequest.string
+        if ANS:
+            ANS = str(ANS)
+        else:
+            lx = html.fromstring(r.content)
+            ANS = lx.xpath('//text()')[1]
+            ANS = str(ANS)
+
+
 
         if ANS == '3': sleep(10)
 
-        # Очистка ответа
+        #Очистка ответа
         if ANS != '3':
             if '<td>' in str(ANSWER):
                 for t in ANSWER.find_all('td'):
@@ -724,8 +750,8 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        RN = request(WD, BSUL_RASH)
-        response(WD, RN, BSUL_RASH)
+        RN = request(WD, IPEmployer)
+        response(WD, RN, IPEmployer)
 
 
 

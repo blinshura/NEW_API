@@ -5,6 +5,27 @@ from bs4 import BeautifulSoup
 from lxml import html
 import re
 
+#DEBUG
+# import requests
+# import logging
+#
+# # These two lines enable debugging at httplib level (requests->urllib3->http.client)
+# # You will see the REQUEST, including HEADERS and DATA, and RESPONSE with HEADERS but without DATA.
+# # The only thing missing will be the response.body which is not logged.
+# try:
+#     import http.client as http_client
+# except ImportError:
+#     # Python 2
+#     import httplib as http_client
+# http_client.HTTPConnection.debuglevel = 1
+#
+# # You must initialize logging, otherwise you'll not see debug output.
+# logging.basicConfig()
+# logging.getLogger().setLevel(logging.DEBUG)
+# requests_log = logging.getLogger("requests.packages.urllib3")
+# requests_log.setLevel(logging.DEBUG)
+# requests_log.propagate = True
+
 
 URL = 'http://ips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
 LOGIN = 'demo' #'Svetka' #'ander_автомат'
@@ -80,7 +101,11 @@ ULEmployer = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '1',
               'Employer': '1',
-              'OGRN': '1177746172790',
+              'OGRN': '1137847271924',
+              'NameOrg': 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ДЕТЕЛЬ"',
+              'Region': '40',
+              'City': 'Санкт-Петербург',
+              'Phone': '8129837762',
               'zapros': 'UL-Employer'}  # 7
 ULExtSource = {'Type': 'Request',
                'WorkingDirectory': WD,
@@ -113,15 +138,15 @@ IPEmployer = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '2',
               'Employer': '1',
-              'OGRNIP': '312751502300034',
-              #'INNIP': '',
-              'FIO': '',
-              'Region': '',
-              'City': '',
+              #'OGRNIP': '312751502300034',
+              'INNIP': '231293645637',
+              'FIO': 'ИП Коровников Алексей Валерьевич',
+              'Region': '03',
+              'City': 'Выселки',
               'Street': '',
               'House': '',
               'Flat': '',
-              'Phone': '',
+              'Phone': '9034548390',
               'zapros': 'IP-Employer'
               }  # 3
 IPExtSource = {'Type': 'Request',
@@ -262,7 +287,7 @@ FLExp = {
     # Основной блок
     'Type': 'Request',
     'WorkingDirectory': WD,
-    'Event': '3',
+    #'Event': '3',
     'Exp': '1',
     'SurName': u'хромов',
     'FirstName': u'александр',
@@ -647,14 +672,20 @@ def response(WD, RN, service):
         post = {'Type': 'Answer',
                 'WorkingDirectory': WD,
                 'RequestNumber': RN,
-                'TypeAnswer': 'HV'}
+                'TypeAnswer': 'HV',
+                }
         post['RequestNumber'] = RN
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
         ANSWER = BeautifulSoup(r.content, 'lxml')
-        StatusANS = ANSWER.statusrequest.string
-        StatusANS = str(StatusANS)
-        #print(StatusANS)
+        if ANSWER.find('statusrequest') !=None:
+            StatusANS = ANSWER.statusrequest.text
+            StatusANS = str(StatusANS)
+        else:
+            lx = html.fromstring(r.content)
+            StatusANS = lx.xpath('//text()')[1]
+            StatusANS = str(StatusANS)
+
 
 
         # Очистка ответа
