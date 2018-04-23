@@ -287,7 +287,7 @@ FLExp = {
     # Основной блок
     'Type': 'Request',
     'WorkingDirectory': WD,
-    #'Event': '3',
+    'Event': '3',
     'Exp': '1',
     'SurName': u'хромов',
     'FirstName': u'александр',
@@ -677,6 +677,7 @@ def response(WD, RN, service):
         post['RequestNumber'] = RN
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
+
         ANSWER = BeautifulSoup(r.content, 'lxml')
         if ANSWER.find('statusrequest') !=None:
             StatusANS = ANSWER.statusrequest.text
@@ -765,7 +766,7 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        service = IDFL
+        service = FLExp
         RN = request(WD, service)
         response(WD, RN, service)
 
