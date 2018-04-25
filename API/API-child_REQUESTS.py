@@ -27,9 +27,9 @@ import re
 # requests_log.propagate = True
 
 
-URL = 'http://ips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'demo' #'153759' #'687dd78R'
+URL = 'http://vips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+LOGIN = 'Svetka' #'Svetka' #'ander_автомат'
+PASSWORD = '153759' #'153759' #'687dd78R'
 Exceptions = []
 ERRORS = []
 HEADERS={
@@ -679,12 +679,13 @@ def response(WD, RN, service):
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
 
         ANSWER = BeautifulSoup(r.content, 'lxml')
+
         if ANSWER.find('statusrequest') !=None:
             StatusANS = ANSWER.statusrequest.text
             StatusANS = str(StatusANS)
         else:
             lx = html.fromstring(r.content)
-            StatusANS = lx.xpath('//text()')[1]
+            StatusANS = lx.xpath('//text()')[3]
             StatusANS = str(StatusANS)
 
 
@@ -766,7 +767,7 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        service = FLExp
+        service = IPEmployer
         RN = request(WD, service)
         response(WD, RN, service)
 
