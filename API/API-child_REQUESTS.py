@@ -28,8 +28,8 @@ import re
 
 
 URL = 'http://vips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'Svetka' #'Svetka' #'ander_автомат'
-PASSWORD = '153759' #'153759' #'687dd78R'
+LOGIN = 'demo' #'Svetka' #'ander_автомат'
+PASSWORD = 'demo' #'153759' #'687dd78R'
 Exceptions = []
 ERRORS = []
 HEADERS={
@@ -495,7 +495,7 @@ BSUL_RASH = {
     'WorkingDirectory': WD,
     # -----------------------------------------------------------------------------------------------------------------------
     'NameOrg': 'ГАЛС ПРОМ',
-    'OGRN': '1133703000683',
+    'OGRN': '1133703000683',#'',
     'INN': '3703047495',
     'KPP': '000000000',
     'RegistrationDate': '07.10.2013',
@@ -651,8 +651,8 @@ def request(WD,service):
     RN = lx.xpath('//text()')[1]
     re1 = "[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}"
     rg = re.compile(re1,re.IGNORECASE|re.DOTALL)
-    r = rg.search(RN)
-    if r:
+    rg = rg.search(RN)
+    if rg:
         print('RN ' + str(RN))
         print(service['zapros'] + ' - ' + 'RN: ' + str(RN) + '\n')
     else:
@@ -662,7 +662,12 @@ def request(WD,service):
         #ERRORS.append(RN)
         ERRORS.append('---------------------------')
     RNs[RN]= service
-    return RN
+
+
+    if RN == 'ERROR_VALIDATION_WORKINGDIRECTORY' or WD == 'ERROR_VALIDATION_WORKINGDIRECTORY':
+        return 'err'
+    else:
+        return RN
 
 def response(WD, RN, service):
     StatusANS = '3'
@@ -678,6 +683,8 @@ def response(WD, RN, service):
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
 
+
+
         ANSWER = BeautifulSoup(r.content, 'lxml')
 
         if ANSWER.find('statusrequest') !=None:
@@ -685,6 +692,7 @@ def response(WD, RN, service):
             StatusANS = str(StatusANS)
         else:
             lx = html.fromstring(r.content)
+            print(r.text)
             StatusANS = lx.xpath('//text()')[3]
             StatusANS = str(StatusANS)
 
@@ -720,13 +728,20 @@ def response(WD, RN, service):
 
         if StatusANS == '3': sleep(10)
 
-        print('\n' + 'ANS-' + StatusANS + '  try-' + str(tryes) + '  ' + service['zapros'])
+        print('\n' + 'ANS-' + StatusANS + '  try-' + str(tryes) + '  ' + service['zapros'] + '  ' + RN)
         tryes -= 1
         if StatusANS == '3' and tryes < 1:
             ERRORS.append(service['zapros'])
             ERRORS.append(RN + ' Не дождались ответа')
             ERRORS.append('---------------------------')
             print(' Не дождались ответа')
+
+        lx = html.fromstring(r.content)
+        errWD = lx.xpath('//text()')[1]
+        if errWD == 'ERROR_VALIDATION_WORKINGDIRECTORY':
+            return 'err'
+        else:
+            return 'not err'
     print('-----------------------------------------------------------------------------------------------------------')
 
 def logout(WD):
@@ -752,24 +767,40 @@ if __name__ == '__main__':
 
         # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
 
-        # it = 0
-        # while it < 1:
-        #     for S in Services:
-        #         for s in S:
-        #             RN = request(WD, s)
-        #
-        #     for key, value in RNs.items():
-        #             response(WD, key, value)
-        #
-        #     it+=1
+        it = 0
+        while it < 1:
+
+            for S in Services:
+                for s in S:
+                    RN = request(WD, s)
+                    while RN == 'err':
+                        WD = login()
+                        sleep(3)
+                        if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+                            RN = request(WD, s)
+                            break
+
+
+
+            for key, value in RNs.items():
+                    resp = response(WD, key, value)
+                    while resp == 'err':
+                        WD = login()
+                        sleep(3)
+                        if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+                            resp = response(WD, key, value)
+                            break
+
+
+            it+=1
 
 
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        service = IPEmployer
-        RN = request(WD, service)
-        response(WD, RN, service)
+        # service = PASP_UPassporta
+        # RN = request(WD, service)
+        # response(WD, RN, service)
 
 
 

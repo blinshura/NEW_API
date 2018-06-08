@@ -5,8 +5,8 @@ from datetime import datetime
 
 
 
-user = "Svetka"
-password = "153759"
+user = "demo"
+password = "demo"
 url = ('http://vips1:3010/request') #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
 def login():
     i = 0
