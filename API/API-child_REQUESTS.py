@@ -736,12 +736,13 @@ def response(WD, RN, service):
             ERRORS.append('---------------------------')
             print(' Не дождались ответа')
 
-        lx = html.fromstring(r.content)
-        errWD = lx.xpath('//text()')[1]
+
+
+        errWD = html.fromstring(r.content)
+        errWD = errWD.xpath('//text()')[1]
         if errWD == 'ERROR_VALIDATION_WORKINGDIRECTORY':
             return 'err'
-        else:
-            return 'not err'
+
     print('-----------------------------------------------------------------------------------------------------------')
 
 def logout(WD):
