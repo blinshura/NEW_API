@@ -29,15 +29,17 @@ import re
 # requests_log.propagate = True
 
 
+
 URL = 'http://ips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'demo' #'153759' #'687dd78R'
+# LOGIN = 'demo' #'Svetka' #'ander_автомат'
+# PASSWORD = 'demo' #'153759' #'687dd78R'
 Exceptions = []
 ERRORS = []
 HEADERS={
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
 WD = ''
 RNs = {}
+
 
 
 # сервисы
@@ -635,7 +637,7 @@ Services = [UL,
             ID_FL,
             BS_R]
 
-def login():
+def login(LOGIN, PASSWORD):
     login_start_time = datetime.now()
 
     post={
@@ -789,68 +791,106 @@ def logout(WD):
 
 
 
-
 if __name__ == '__main__':
+
+    with open('logins.txt', 'r') as logins:
+        login_pass = logins.read().split('\n')
+        # print(login_pass)
+
+    a = 0
+    login_list = {}
+    for i in login_pass[::2]:
+        LOGIN = str(login_pass[a])
+        PASSWORD = str(login_pass[a + 1])
+        # print('LOGIN:' + LOGIN + ' ' + 'PASSWORD:' + PASSWORD)
+        login_list.setdefault(LOGIN, PASSWORD)
+        a += 2
 
     try:
 
-        WD = login()
+        # читаем логин-пароль из файла
+        # with open('logins.txt', 'r') as logins:
+        #     login_pass = logins.read().split('\n')
+        #     print(login_pass)
+        # #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # # a = 0
+        # login_list = {}
+        # for i,a in login_pass[::2], range(int(len(login_pass)/2)-1):
+        #     LOGIN = str(login_pass[a])
+        #     PASSWORD = str(login_pass[a + 1])
+        #     print('LOGIN:' + LOGIN + ' ' + 'PASSWORD:' + PASSWORD)
 
-        # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
-
-        # it = 0
-        # while it < 1:
-        #
-        #     for S in Services:
-        #         for s in S:
-        #             RN = request(WD, s)
-        #             while RN == 'err':
-        #                 WD = login()
-        #                 sleep(3)
-        #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
-        #                     RN = request(WD, s)
-        #                     break
-        #
-        #
-        #
-        #     for key, value in RNs.items():
-        #             resp = response(WD, key, value)
-        #             while resp == 'err':
-        #                 WD = login()
-        #                 sleep(3)
-        #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
-        #                     resp = response(WD, key, value)
-        #                     break
-        #
-        #
-        #     it+=1
+        for l, p in login_list.items():
+            LOGIN = str(l)
+            PASSWORD = str(p)
+            print('LOGIN:' + l + ' ' + 'PASSWORD:' + p)
 
 
 
-        # ЕДИНИЧНЫЙ ЗАПРОС
-
-        service = FLExp
-        RN = request(WD, service)
-        response(WD, RN, service)
 
 
 
-        # НАГРУЗКА
 
-        # service = FLExp
-        # t = 0
-        # while t < 10:
-        #     RN = request(WD, service)
-        #     response(WD, RN, service)
-        #     t += 1
+            WD = login(LOGIN, PASSWORD)
+
+            # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
+
+            # it = 0
+            # while it < 1:
+            #
+            #     for S in Services:
+            #         for s in S:
+            #             RN = request(WD, s)
+            #             while RN == 'err':
+            #                 WD = login()
+            #                 sleep(3)
+            #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+            #                     RN = request(WD, s)
+            #                     break
+            #
+            #
+            #
+            #     for key, value in RNs.items():
+            #             resp = response(WD, key, value)
+            #             while resp == 'err':
+            #                 WD = login()
+            #                 sleep(3)
+            #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+            #                     resp = response(WD, key, value)
+            #                     break
+            #
+            #
+            #     it+=1
 
 
-        logout(WD)
 
-        print(Exceptions)
-        print('ERRORS:')
-        for i in ERRORS:
-            print(i)
+            # ЕДИНИЧНЫЙ ЗАПРОС
+
+            service = FLExp
+            RN = request(WD, service)
+            response(WD, RN, service)
+
+
+
+            # НАГРУЗКА
+
+            # service = FLExp
+            # t = 0
+            # while t < 10:
+            #     RN = request(WD, service)
+            #     response(WD, RN, service)
+            #     t += 1
+
+
+            logout(WD)
+            print('LOGIN:' + l + ' ' + 'PASSWORD:' + p + '\n')
+
+            print(Exceptions)
+            print('ERRORS: ')
+            for i in ERRORS:
+                print(i)
+
+            # a += 2
 
     except Exception as e:
         print(e)
