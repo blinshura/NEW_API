@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from lxml import html
 
-URL = 'https://vips1'
+URL = 'https://ips1'
 HEADERS={
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'Accept': 'application/json',
@@ -124,6 +124,7 @@ def login(url=URL+'/login'):
 
     r = R.post(url=url, data=payloads, verify=False)
     print('status_code_login: ' + str(r.status_code))
+
 
 
 def request(url=URL + '/api/request/UL'):

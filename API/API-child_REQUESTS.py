@@ -6,6 +6,11 @@ import requests
 from bs4 import BeautifulSoup
 from lxml import html
 import re
+import urllib3
+
+
+urllib3.disable_warnings()
+
 
 #DEBUG
 # import requests
@@ -28,10 +33,21 @@ import re
 # requests_log.setLevel(logging.DEBUG)
 # requests_log.propagate = True
 
+# class SslAdapter():
+#     def init_poolmanager(self, connections, maxsize, block=False):
+#         self.poolmanager = PoolManager(num_pools=connections,
+#                                        maxsize=maxsize,
+#                                        block=block,
+#                                        ssl_version=ssl.PROTOCOL_TLSv1_1,
+#                                     )
+# s=requests.Session()
+# s.mount('https://', SslAdapter())
+# s.get('https://google.com', verify=False)
 
-URL = 'http://ips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'demo' #'153759' #'687dd78R'
+URL = 'http://vips1:3777/api'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+LOGIN = 'Svetka'#'demo' #'Svetka' #'ander_автомат'
+PASSWORD = '153759'#'Gfd!1qaz40' #'153759' #'687dd78R'
+R = requests.Session()
 Exceptions = []
 ERRORS = []
 HEADERS={
@@ -97,7 +113,7 @@ ULAFF = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '1',
          'AFF': '1',
-         'OGRN': '1177746172790',
+         'OGRN': '1177746172790' ,
          'zapros': 'UL-AFF'}  # 6
 ULEmployer = {'Type': 'Request',
               'WorkingDirectory': WD,
@@ -157,6 +173,17 @@ IPExtSource = {'Type': 'Request',
                'ExtSource': '1',
                'OGRNIP': '312751502300034',
                'zapros': 'IP-ExtSource'}  # 4
+IDIP = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '2',
+         'IDIP': '1',
+         #'OGRNIP' : '312751502300034',
+         #'INNIP': '231400212630',
+           "SurName": "ИВАНОВ",
+           "FirstName": "ВЛАДИМИР",
+           "MiddleName": "АЛЕКСАНДРОВИЧ",
+            "RegionExp": "45",
+         'zapros': 'IDIP'} # 5
 
 FLGIBDD = {'Type': 'Request',
            'WorkingDirectory': WD,
@@ -291,21 +318,21 @@ FLExp = {
     'WorkingDirectory': WD,
     'Event': '3',
     'Exp': '1',
-    'SurName': u'хромов',
-    'FirstName': u'александр',
-    'MiddleName': u'валерианович',
-    'DateOfBirth': '03.08.1969',
-    'Seria': '4597',
-    'Number': '005229',
-    'INNExp': '770404319004',
+    'SurName': u'Багров',
+    'FirstName': u'Алексей',
+    'MiddleName': u'Александрович',
+    'DateOfBirth': '12.09.1981',
+    'Seria': '4512',
+    'Number': '876987',
+    #'INNExp': '770404319004',
     # Блок Адрес Постоянный
     'RegionExp': '45',
     'CityExp': u'МОСКВА',
-    'StreetExp': u'ПОЖАРСКИЙ',
-    'HouseExp': '15',
+    'StreetExp': u'Приорова',
+    'HouseExp': '30',
     'BuildExp': '',  # или
     'BuildingExp': '',
-    'FlatExp': '6',
+    'FlatExp': '1',
     'PhoneExp': '',
     # Блок Адрес Временный
     # 'RegionExpTmp':'45',
@@ -324,17 +351,17 @@ FLExp = {
     # 'NumberArch':'',
     # НЕОБЯЗАТЕЛЬНЫЙ блок Проверка работодателя
     # Роботодатель ЮЛ
-    'OrgExp': '1',
-    'OGRNOrgExp': '1154205015832',  # INNOrgExp
-    'NameOrgExp': 'ВЕСТА',
-    'RegionOrgExp': '32',
-    'CityOrgExp': 'КЕМЕРОВО',
-    'StreetOrgExp': 'ЛЕНИНА',  # или
-    'HouseOrgExp': '128',
-    'BuildOrgExp': '',
-    'BuildingOrgExp': '',
-    'FlatOrgExp': '709',
-    'PhoneOrgExp': '',
+    # 'OrgExp': '1',
+    # 'OGRNOrgExp': '1154205015832',  # INNOrgExp
+    # 'NameOrgExp': 'ВЕСТА',
+    # 'RegionOrgExp': '32',
+    # 'CityOrgExp': 'КЕМЕРОВО',
+    # 'StreetOrgExp': 'ЛЕНИНА',  # или
+    # 'HouseOrgExp': '128',
+    # 'BuildOrgExp': '',
+    # 'BuildingOrgExp': '',
+    # 'FlatOrgExp': '709',
+    # 'PhoneOrgExp': '',
     # Роботодатель ИП
     #'IPExp':'1',
     # 'OGRNIPExp':'',
@@ -462,18 +489,28 @@ IDFL = {
     'Event': '8',
     'IDFL': '1',
 
-    'SurName': 'ХРОМОВ',
-    'FirstName': 'АЛЕКСАНДР',
-    'MiddleName': 'ВАЛЕРИАНОВИЧ',
-    'DateOfBirth': '03.08.1969',
-    'Seria': '4597',
-    'Number': '005220',
-    'Address': '',
-    'Phone': '',
-    'GosNumber': '',
-    'INNIP': '',
-    'OGRN': '',
-    'OGRNIP': '',
+    # 'SurName': 'ПОНАМАРЕВА',
+    # 'FirstName': 'ИРИНА',
+    # 'MiddleName': 'ЮРЬЕВНА',
+    #'DateOfBirth': '11.01.1966',
+     'Seria': '4004',
+     'Number': '946593',
+    # 'Address': '40 САНКТ ПЕТЕРБУРГ ВОЗНЕСЕНСКИЙ 34 1',
+    #'Phone': '8123106658',
+    #'GosNumber': '',
+    #'INNIP': '',
+    #'OGRN': '1056900010375',
+    #'OGRNIP': '',
+    # "RegionExp": '40',
+    # "CityExp": 'САНКТ ПЕТЕРБУРГ',
+    # "StreetExp": 'ВОЗНЕСЕНСКИЙ',
+    # "HouseExp": '34',
+    # "BuildExp": '1',
+    # "FlatExp": '',
+
+
+
+
 
     #        ФИО И Дата рождения
     # ИЛИ    ФИО И Адрес
@@ -584,7 +621,8 @@ IP = [IPIPT,
       IPIPA,
       IPExtendedIP,
       IPEmployer,
-      IPExtSource
+      IPExtSource,
+        IDIP
       ]  # 1
 FL = [
     # FLGIBDD,
@@ -642,14 +680,15 @@ def login():
                     'Type': 'Login',
                     'Login': LOGIN,
                     'Password': PASSWORD}
-    r = requests.post(URL,data=post,headers=HEADERS, verify=False,)
+    r = R.post(URL,data=post, headers=HEADERS,  verify=False) #'C:\Soft\Тестирование\КриптоПро\ssl.croinform.ru.cer'
+    #print(r.text)
     lx = html.fromstring(r.content)
     WD = lx.xpath('//text()')[1]
     print('WD ' + str(WD))
 
     login_end_time = datetime.now()
     login_total_time = login_end_time - login_start_time
-    print('login_total_time ' + str(login_total_time))
+    #print('login_total_time ' + str(login_total_time))
     with open('c:\\log_API.txt','a') as log:
         log.write(str(login_total_time) + ' ' + 'login' + ' ' + WD + '\n')
     return WD
@@ -676,7 +715,7 @@ def request(WD,service):
 
     request_end_time = datetime.now()
     request_total_time = request_end_time - request_start_time
-    print('request_total_time ' + str(request_total_time))
+    #print('request_total_time ' + str(request_total_time))
     with open('c:\\log_API.txt', 'a') as log:
         log.write(str(request_total_time) + ' ' + 'request' + ' ' + RN + '\n')
 
@@ -699,6 +738,9 @@ def response(WD, RN, service):
         post['RequestNumber'] = RN
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
+        print(r.text)
+
+
 
 
 
@@ -743,7 +785,7 @@ def response(WD, RN, service):
                 #         t = t.replace('</span>', '')
                 #         print(t)
 
-        if StatusANS == '3': sleep(10)
+        if StatusANS == '3': sleep(3)
 
         print('\n' + 'ANS-' + StatusANS + '  try-' + str(tryes) + '  ' + service['zapros'] + '  ' + RN)
         tryes -= 1
@@ -764,7 +806,7 @@ def response(WD, RN, service):
 
     response_end_time = datetime.now()
     response_total_time = response_end_time - response_start_time
-    print('response_total_time ' + str(response_total_time))
+    #print('response_total_time ' + str(response_total_time))
     with open('c:\\log_API.txt', 'a') as log:
         log.write(str(response_total_time) + ' ' + 'response'  + ' ' + RN + '\n')
 
@@ -783,7 +825,7 @@ def logout(WD):
 
     logout_end_time = datetime.now()
     logout_total_time = logout_end_time - logout_start_time
-    print('logout_total_time ' + str(logout_total_time))
+    #print('logout_total_time ' + str(logout_total_time))
     with open('c:\\log_API.txt', 'a') as log:
         log.write(str(logout_total_time) + ' ' + 'logout' + ' ' + RN + '\n')
 
@@ -829,7 +871,7 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        service = FLExp
+        service =FLExp # IDFL
         RN = request(WD, service)
         response(WD, RN, service)
 
@@ -837,11 +879,12 @@ if __name__ == '__main__':
 
         # НАГРУЗКА
 
-        # service = FLExp
+        # service = FLExp # IDFL
         # t = 0
-        # while t < 10:
+        # while t < 100:
         #     RN = request(WD, service)
         #     response(WD, RN, service)
+        #     #sleep(1)
         #     t += 1
 
 

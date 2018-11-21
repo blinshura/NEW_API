@@ -22,7 +22,7 @@ ctx.verify_mode = ssl.CERT_NONE
 
 
 
-URL = '192.168.0.50:3777' #'192.168.0.135:3777'
+URL = '192.168.0.50:450' #'192.168.0.135:3777'
 Exceptions = []
 ERRORS = []
 
@@ -38,8 +38,8 @@ def login(iter):
             # LOGIN
             g.setup(post={
                 'Type': 'Login',
-                'Login': 'kdinisv',
-                'Password': '123'
+                'Login': 'demo',
+                'Password': 'Gfd!1qaz40'
             },
                 headers={
                     #'Accept-Encoding': 'gzip,deflate',

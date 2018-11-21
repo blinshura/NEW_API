@@ -5,9 +5,9 @@ from datetime import datetime
 
 
 
-user = "demo"
-password = "demo"
-url = ('http://vips1:3010/request') #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
+user = 'release'#"Svetka"
+password = 'release'#"153759"
+url = 'http://vips1:3010/ms' #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
 def login():
     i = 0
 
@@ -32,12 +32,12 @@ def login():
               "SubSystem": "UL",  # IP, FL
               # "Service":"IDUL",
               "Params": {"IDUL": 1,
-                         #"OGRN": "1044217029471",
+                         #"OGRN": "1025900759598",
                          #"INN": "2722016797",
-                         "NameOrg": "ООО ЗОДИАКЭЛЕКТРО",
-                         #"Address": "ВОРОНЕЖ БАКУНИНА 45 306 7",
+                         "NameOrg": "СТРОЙ",
+                         "Address": "45, москва",
                          #"Phone": [""],
-                         "LeaderFIO": "Горлова Елена Николаевна",
+                         #"LeaderFIO": "Горлова Елена Николаевна",
                          }
               }
         UL_sub = str(UL["SubSystem"])
@@ -51,6 +51,7 @@ def login():
                          "FirstName": "АЛЕКСАНДР",
                          "MiddleName": "СЕРГЕЕВИЧ",
                          "DateOfBirth": "17.03.1961",
+                         #"Passport": "4014249174"
                          # "Address": "dasdas",
                          # "Phone": [""],
                          # "LeaderInfo": "Ivanov ivan",
@@ -66,7 +67,7 @@ def login():
         j = random.choice(ran)
 
         # ---------------------------------------------------
-        #j = FL
+        #j = IP
         # ---------------------------------------------------
 
 
@@ -80,6 +81,7 @@ def login():
             # 'Connection': 'Keep-Alive',
         }
         r = requests.post(url, data=j, headers=HEADERS, verify=False, )
+        #print(r.text)
         parsed_string = r.json()
 
 
