@@ -45,8 +45,8 @@ urllib3.disable_warnings()
 # s.get('https://google.com', verify=False)
 
 URL = 'http://vips1:3777/api'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'Svetka'#'demo' #'Svetka' #'ander_автомат'
-PASSWORD = '153759'#'Gfd!1qaz40' #'153759' #'687dd78R'
+LOGIN = 'demo'#'demo' #'Svetka' #'ander_автомат'
+PASSWORD = 'demo'#'Gfd!1qaz40' #'153759' #'687dd78R'
 R = requests.Session()
 Exceptions = []
 ERRORS = []
@@ -318,21 +318,21 @@ FLExp = {
     'WorkingDirectory': WD,
     'Event': '3',
     'Exp': '1',
-    'SurName': u'Багров',
-    'FirstName': u'Алексей',
-    'MiddleName': u'Александрович',
-    'DateOfBirth': '12.09.1981',
-    'Seria': '4512',
-    'Number': '876987',
+    'SurName': u'Пушкин',
+    'FirstName': u'Александр',
+    'MiddleName': u'Владимирович',
+    'DateOfBirth': '06.03.1966',
+    'Seria': '4500',
+    'Number': '362089',
     #'INNExp': '770404319004',
     # Блок Адрес Постоянный
     'RegionExp': '45',
     'CityExp': u'МОСКВА',
-    'StreetExp': u'Приорова',
-    'HouseExp': '30',
+    'StreetExp': u'Новгородская',
+    'HouseExp': '33',
     'BuildExp': '',  # или
     'BuildingExp': '',
-    'FlatExp': '1',
+    'FlatExp': '30',
     'PhoneExp': '',
     # Блок Адрес Временный
     # 'RegionExpTmp':'45',
@@ -738,7 +738,7 @@ def response(WD, RN, service):
         post['RequestNumber'] = RN
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
-        print(r.text)
+        #print(r.text)
 
 
 
@@ -840,40 +840,40 @@ if __name__ == '__main__':
 
         # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
 
-        # it = 0
-        # while it < 1:
-        #
-        #     for S in Services:
-        #         for s in S:
-        #             RN = request(WD, s)
-        #             while RN == 'err':
-        #                 WD = login()
-        #                 sleep(3)
-        #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
-        #                     RN = request(WD, s)
-        #                     break
-        #
-        #
-        #
-        #     for key, value in RNs.items():
-        #             resp = response(WD, key, value)
-        #             while resp == 'err':
-        #                 WD = login()
-        #                 sleep(3)
-        #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
-        #                     resp = response(WD, key, value)
-        #                     break
-        #
-        #
-        #     it+=1
+        it = 0
+        while it < 1:
+
+            for S in Services:
+                for s in S:
+                    RN = request(WD, s)
+                    while RN == 'err':
+                        WD = login()
+                        sleep(3)
+                        if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+                            RN = request(WD, s)
+                            break
+
+
+
+            for key, value in RNs.items():
+                    resp = response(WD, key, value)
+                    while resp == 'err':
+                        WD = login()
+                        sleep(3)
+                        if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+                            resp = response(WD, key, value)
+                            break
+
+
+            it+=1
 
 
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        service =FLExp # IDFL
-        RN = request(WD, service)
-        response(WD, RN, service)
+        # service =FLExp # IDFL
+        # RN = request(WD, service)
+        # response(WD, RN, service)
 
 
 

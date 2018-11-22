@@ -5,7 +5,7 @@ import requests
 
 STATUSbug = []
 url = 'http://portal14:8826'
-
+s = requests.session()
 
 with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
     for i,line in enumerate(f):
@@ -34,19 +34,27 @@ with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
 
 
             jdata = json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False).encode('utf-8')
-            r = requests.post(url, data=jdata)
+            r = s.post(url, data=jdata)
+            statusFirstChar = r.text.find('"status":')
+            status = r.text[statusFirstChar + 9]
+
 
 
             try:
-                if r.json():
-                    if (str(r.json()['status'])) == '1':
-                        print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(r.json()['status']))
+                # if ((r.text)[:11]+'}') == '{"status":1}' or '{"status":2}' or '{"status":3}' or '{"status":4}':
+                #     status = json.loads((r.text)[:11]+'}')
+                # else:
+                #     status['status'] = "разгребай ответ руками"
+
+                if status:
+                    if status == '1':
+                        print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status))
                     else:
-                        bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(r.json()['status'])
+                        bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
                         print('BUG - ' + bug)
                         STATUSbug.append(bug)
                 else:
-                    print(str(str(data['number']) + '   ' + data['source']) + ' : ' + '\n' + r.text)
+                    print((str(data['number']) + '   ' + data['source']) + ' : ' + '\n' + r.text)
             except Exception as e:
                 Ex = str('Exception : ' + str((data['number']) + '   ' + data['source']))
                 print(Ex)
