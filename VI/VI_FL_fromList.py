@@ -5,39 +5,52 @@ import requests
 
 STATUSbug = []
 url = 'http://portal14:8826'
-s = requests.session()
 
-with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
+
+with open("VI_FL_data.txt", 'r', encoding='utf-8') as f:
     for i,line in enumerate(f):
         No = line.split(';')[0]
-        INN = line.split(';')[1]
-        inOut = line.split(';')[2]
-        sourceName = line.split(';')[3]
-        DataForVI = json.loads(line.split(';')[4])
-        masAddress = json.loads(line.split(';')[5])
-        ogrnUL = str(line.split(';')[6])
-        masNameUL = line.split(';')[7]
-        longnameUL = line.split(';')[8]
+        inOut = line.split(';')[1]
+        sourceName = line.split(';')[2]
+        SurName = line.split(';')[3]
+        FirstName = str(line.split(';')[4])
+        MiddleName = line.split(';')[5]
+        DateOfBirth = line.split(';')[6]
+        Seria = line.split(';')[7]
+        Number = line.split(';')[8]
+        INNExp = line.split(';')[9]
+        RegionExp = line.split(';')[10]
+        RegionExpTmp = line.split(';')[11]
+        IssueDate = line.split(';')[12]
+
+
         # print("line {0} = {1}".format(i,line.split(';')))
 
         if inOut == 'Внутренний' and sourceName != '-':
-            data = {"innUL": INN,
-                     "source": sourceName,
-                     "number": No,
-                    "DataForVI": DataForVI,
-                    "masAddress": masAddress,
-                    "ogrnUL": ogrnUL,
-                    "masNameUL": masNameUL,
-                    "longnameUL": longnameUL
+            data = {
+                "source": sourceName,
+                "number": No,
+                "SurName": SurName,
+                "FirstName": FirstName,
+                "MiddleName": MiddleName,
+                "DateOfBirth":DateOfBirth,
+                "Seria":Seria,
+                "Number":Number,
+                "INNExp":INNExp,
+                "RegionExp":RegionExp,
+                "RegionExpTmp":RegionExpTmp,
+                "IssueDate":IssueDate,
                     }
 
 
 
+
+
             jdata = json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False).encode('utf-8')
-            r = s.post(url, data=jdata)
+            r = requests.post(url, data=jdata)
             statusFirstChar = r.text.find('"status":')
             status = r.text[statusFirstChar + 9]
-
+            #print(r.text)
 
 
             try:
@@ -47,7 +60,7 @@ with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
                 #     status['status'] = "разгребай ответ руками"
 
                 if status == '1' or status == '2' or status == '3' or status == '4':
-                    if INN != '7811143861':
+                    if INNExp != '200818124592':
                         if status == '1':
                             print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status))
                         else:
@@ -56,7 +69,7 @@ with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
                             STATUSbug.append(bug)
 
 
-                    if INN == '7811143861':
+                    if INNExp == '200818124592':
                         if status == '2':
                             print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status))
                         else:
@@ -66,7 +79,6 @@ with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
 
                 else:
                     print((str(data['number']) + '   ' + data['source']) + ' : ' + '\n' + r.text)
-
 
 
             except Exception as e:

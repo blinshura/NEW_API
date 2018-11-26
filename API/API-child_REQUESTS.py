@@ -840,40 +840,40 @@ if __name__ == '__main__':
 
         # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
 
-        it = 0
-        while it < 1:
-
-            for S in Services:
-                for s in S:
-                    RN = request(WD, s)
-                    while RN == 'err':
-                        WD = login()
-                        sleep(3)
-                        if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
-                            RN = request(WD, s)
-                            break
-
-
-
-            for key, value in RNs.items():
-                    resp = response(WD, key, value)
-                    while resp == 'err':
-                        WD = login()
-                        sleep(3)
-                        if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
-                            resp = response(WD, key, value)
-                            break
-
-
-            it+=1
+        # it = 0
+        # while it < 1:
+        #
+        #     for S in Services:
+        #         for s in S:
+        #             RN = request(WD, s)
+        #             while RN == 'err':
+        #                 WD = login()
+        #                 sleep(3)
+        #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+        #                     RN = request(WD, s)
+        #                     break
+        #
+        #
+        #
+        #     for key, value in RNs.items():
+        #             resp = response(WD, key, value)
+        #             while resp == 'err':
+        #                 WD = login()
+        #                 sleep(3)
+        #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+        #                     resp = response(WD, key, value)
+        #                     break
+        #
+        #
+        #     it+=1
 
 
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        # service =FLExp # IDFL
-        # RN = request(WD, service)
-        # response(WD, RN, service)
+        service =FLExp # IDFL
+        RN = request(WD, service)
+        response(WD, RN, service)
 
 
 
