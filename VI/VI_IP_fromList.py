@@ -87,6 +87,9 @@ with open("VI_IP_data.txt", 'r', encoding='utf-8') as f:
 
                 else:
                     print((str(data['number']) + '   ' + data['source']) + ' : ' + '\n' + r.text)
+                    bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
+                    print('BUG - ' + bug)
+                    STATUSbug.append(bug)
 
 
             except Exception as e:
@@ -103,3 +106,5 @@ print('TEST END ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 print('BUGS:')
 for i in STATUSbug:
     print(i)
+
+print('IP test end=========================================================================' + '\n')
