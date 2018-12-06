@@ -29,7 +29,7 @@ import re
 
 URL = 'http://ips1:3777/api.test' #'http://ips1:3777/test'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
 LOGIN = 'testAutomatUser' #'Svetka' #'ander_автомат'
-PASSWORD = 'testAutomatUser' #'153759' #'687dd78R'
+PASSWORD = 'testAutomatUser123' #'153759' #'687dd78R'
 Exceptions = []
 ERRORS = []
 HEADERS={
@@ -226,6 +226,7 @@ def response(WD, RN, service):
             print(r.text)
             StatusANS = lx.xpath('//text()')[3]
             StatusANS = str(StatusANS)
+            print(StatusANS)
 
 
 
@@ -297,24 +298,24 @@ if __name__ == '__main__':
 
         # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
 
-        it = 0
-        while it < 1:
-            for S in Services:
-                RN = request(WD, S)
-            print('========================================================================')
-
-            for key, value in RNs.items():
-                    response(WD, key, value)
-
-            it+=1
+        # it = 0
+        # while it < 1:
+        #     for S in Services:
+        #         RN = request(WD, S)
+        #     print('========================================================================')
+        #
+        #     for key, value in RNs.items():
+        #             response(WD, key, value)
+        #
+        #     it+=1
 
 
 
         # ЕДИНИЧНЫЙ ЗАПРОС фыа
 
-        # service = TS
-        # RN = request(WD, service)
-        # response(WD, RN, service)
+        service = TS
+        RN = request(WD, service)
+        response(WD, RN, service)
 
 
 

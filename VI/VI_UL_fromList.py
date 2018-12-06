@@ -4,8 +4,10 @@ import requests
 
 
 STATUSbug = []
+StatBug = {}
 url = 'http://portal14:8826'
-s = requests.session()
+
+
 
 with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
     for i,line in enumerate(f):
@@ -20,7 +22,7 @@ with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
         longnameUL = line.split(';')[8]
         # print("line {0} = {1}".format(i,line.split(';')))
 
-        if inOut == 'Внутренний' and sourceName != '-':
+        if sourceName != '-':
             data = {"innUL": INN,
                      "source": sourceName,
                      "number": No,
@@ -30,17 +32,22 @@ with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
                     "masNameUL": masNameUL,
                     "longnameUL": longnameUL
                     }
+            if inOut == 'Внешний':
+                url = 'http://ves1:8826'
+            else:
+                url = 'http://portal14:8826'
 
 
-
+            print("URL: " + url + " src " + sourceName)
             jdata = json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False).encode('utf-8')
-            r = s.post(url, data=jdata)
-            statusFirstChar = r.text.find('"status":')
-            status = r.text[statusFirstChar + 9]
+
 
 
 
             try:
+                r = requests.post(url, data=jdata, timeout=70)
+                statusFirstChar = r.text.find('"status":')
+                status = r.text[statusFirstChar + 9]
                 # if ((r.text)[:11]+'}') == '{"status":1}' or '{"status":2}' or '{"status":3}' or '{"status":4}':
                 #     status = json.loads((r.text)[:11]+'}')
                 # else:
@@ -49,34 +56,33 @@ with open("VI_UL_data.txt", 'r', encoding='utf-8') as f:
                 if status == '1' or status == '2' or status == '3' or status == '4':
                     if INN != '7811143861':
                         if status == '1':
-                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status))
+                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url)
                         else:
-                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
+                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url
                             print('BUG - ' + bug)
                             STATUSbug.append(bug)
 
 
+
                     if INN == '7811143861':
                         if status == '2':
-                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status))
+                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url)
                         else:
-                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
+                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url
                             print('BUG - ' + bug)
                             STATUSbug.append(bug)
 
                 else:
                     print((str(data['number']) + '   ' + data['source']) + ' : ' + '\n' + r.text)
-                    bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
+                    bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url
                     print('BUG - ' + bug)
                     STATUSbug.append(bug)
 
 
 
             except Exception as e:
-                Ex = str('Exception : ' + str((data['number']) + '   ' + data['source']))
+                Ex = str('Exception : ' + str(e) + '    ' + str((data['number']) + '   ' + data['source']) + "  URL: " + url)
                 print(Ex)
-                print(str(e) + '\n')
-                print(r.text)
                 STATUSbug.append(Ex)
 
         print('---------------------------------------------------------------------------------------------------------')

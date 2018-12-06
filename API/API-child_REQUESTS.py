@@ -326,7 +326,7 @@ FLExp = {
     'Number': '362089',
     #'INNExp': '770404319004',
     # Блок Адрес Постоянный
-    'RegionExp': '45',
+    'RegionExp': '45москва',
     'CityExp': u'МОСКВА',
     'StreetExp': u'Новгородская',
     'HouseExp': '33',
@@ -391,6 +391,19 @@ FLExtSource = {
     'Number': '005229',
     'RegionExp': '45',
     'zapros': 'FL-ExtSource'}  # 12
+FLFR = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '3',
+         'FR': '1',
+         'SurName': 'ХРОМОВ',
+         'FirstName': 'АЛЕКСАНДР',
+         'MiddleName': 'ВАЛЕРИАНОВИЧ',
+         'DateOfBirth': '03.08.1969',
+         'Seria': '4597',
+         'Number': '005229',
+        'PlaceOfBirth': '123',
+         'InfoType': '1',
+         'zapros': 'FLFR'}  # 10
 
 PASP_UPassporta = {'Type': 'Request',
                    'WorkingDirectory': WD,
@@ -871,21 +884,21 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        service =FLExp # IDFL
-        RN = request(WD, service)
-        response(WD, RN, service)
+        # service =FLFR # IDFL
+        # RN = request(WD, service)
+        # response(WD, RN, service)
 
 
 
         # НАГРУЗКА
 
-        # service = FLExp # IDFL
-        # t = 0
-        # while t < 100:
-        #     RN = request(WD, service)
-        #     response(WD, RN, service)
-        #     #sleep(1)
-        #     t += 1
+        service = FLFR # IDFL
+        t = 0
+        while t < 30:
+            RN = request(WD, service)
+            #response(WD, RN, service)
+            #sleep(1)
+            t += 1
 
 
         logout(WD)

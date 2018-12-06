@@ -1,4 +1,6 @@
 import json
+from time import sleep
+
 import requests
 
 
@@ -26,7 +28,7 @@ with open("VI_FL_data.txt", 'r', encoding='utf-8') as f:
 
         # print("line {0} = {1}".format(i,line.split(';')))
 
-        if inOut == 'Внутренний' and sourceName != '-':
+        if sourceName != '-':
             data = {
                 "source": sourceName,
                 "number": No,
@@ -42,18 +44,20 @@ with open("VI_FL_data.txt", 'r', encoding='utf-8') as f:
                 "IssueDate":IssueDate,
                     }
 
+            if inOut == 'Внешний':
+                url = 'http://ves1:8826'
+            else:
+                url = 'http://portal14:8826'
 
-
-
-
+            print("URL: " + url + " src " + sourceName)
             jdata = json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False).encode('utf-8')
-            r = requests.post(url, data=jdata)
-            statusFirstChar = r.text.find('"status":')
-            status = r.text[statusFirstChar + 9]
-            #print(r.text)
-
-
             try:
+                r = requests.post(url, data=jdata, timeout=70)
+                statusFirstChar = r.text.find('"status":')
+                status = r.text[statusFirstChar + 9]
+                #print(r.text)
+
+
                 # if ((r.text)[:11]+'}') == '{"status":1}' or '{"status":2}' or '{"status":3}' or '{"status":4}':
                 #     status = json.loads((r.text)[:11]+'}')
                 # else:
@@ -62,33 +66,31 @@ with open("VI_FL_data.txt", 'r', encoding='utf-8') as f:
                 if status == '1' or status == '2' or status == '3' or status == '4':
                     if INNExp != '200818124592':
                         if status == '1':
-                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status))
+                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url)
                         else:
-                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
+                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url
                             print('BUG - ' + bug)
                             STATUSbug.append(bug)
 
 
                     if INNExp == '200818124592':
                         if status == '2':
-                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status))
+                            print(str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url)
                         else:
-                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
+                            bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url
                             print('BUG - ' + bug)
                             STATUSbug.append(bug)
 
                 else:
                     print((str(data['number']) + '   ' + data['source']) + ' : ' + '\n' + r.text)
-                    bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status)
+                    bug = str(data['number']) + '   ' + str(data['source']) + ' : ' + str(status) + "   URL: " + url
                     print('BUG - ' + bug)
                     STATUSbug.append(bug)
 
 
             except Exception as e:
-                Ex = str('Exception : ' + str((data['number']) + '   ' + data['source']))
+                Ex = str('Exception : ' + str(e) + '    ' + str((data['number']) + '   ' + data['source']) + "  URL: " + url)
                 print(Ex)
-                print(str(e) + '\n')
-                print(r.text)
                 STATUSbug.append(Ex)
 
         print('---------------------------------------------------------------------------------------------------------')
