@@ -30,16 +30,16 @@ import re
 
 
 
-URL = 'http://ips1:3777'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-# LOGIN = 'demo' #'Svetka' #'ander_автомат'
-# PASSWORD = 'demo' #'153759' #'687dd78R'
+URL = 'http://vips1:3777/api'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+#LOGIN = 'demo' #'Svetka' #'ander_автомат'
+#PASSWORD = 'demo' #'153759' #'687dd78R'
 Exceptions = []
 ERRORS = []
 HEADERS={
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
 WD = ''
 RNs = {}
-
+RN = ''
 
 
 # сервисы
@@ -638,7 +638,7 @@ Services = [UL,
             BS_R]
 
 def login(LOGIN, PASSWORD):
-    login_start_time = datetime.now()
+
 
     post={
                     'Type': 'Login',
@@ -649,15 +649,9 @@ def login(LOGIN, PASSWORD):
     WD = lx.xpath('//text()')[1]
     print('WD ' + str(WD))
 
-    login_end_time = datetime.now()
-    login_total_time = login_end_time - login_start_time
-    print('login_total_time ' + str(login_total_time))
-    with open('c:\\log_API.txt','a') as log:
-        log.write(str(login_total_time) + ' ' + 'login' + ' ' + WD + '\n')
     return WD
 
 def request(WD,service):
-    request_start_time = datetime.now()
     service['WorkingDirectory'] = WD
     r = requests.post(URL,data=service,headers=HEADERS, verify=False,)
     lx = html.fromstring(r.content)
@@ -676,11 +670,6 @@ def request(WD,service):
         ERRORS.append('---------------------------')
     RNs[RN]= service
 
-    request_end_time = datetime.now()
-    request_total_time = request_end_time - request_start_time
-    print('request_total_time ' + str(request_total_time))
-    with open('c:\\log_API.txt', 'a') as log:
-        log.write(str(request_total_time) + ' ' + 'request' + ' ' + RN + '\n')
 
     if RN == 'ERROR_VALIDATION_WORKINGDIRECTORY' or WD == 'ERROR_VALIDATION_WORKINGDIRECTORY':
         return 'err'
@@ -771,7 +760,7 @@ def response(WD, RN, service):
         log.write(str(response_total_time) + ' ' + 'response'  + ' ' + RN + '\n')
 
 def logout(WD):
-    logout_start_time = datetime.now()
+
     post={
                             'Type': 'Logout',
                             'WorkingDirectory': WD,
@@ -783,11 +772,6 @@ def logout(WD):
     print('\n')
     print('LOGOUT ' + str(ANS))
 
-    logout_end_time = datetime.now()
-    logout_total_time = logout_end_time - logout_start_time
-    print('logout_total_time ' + str(logout_total_time))
-    with open('c:\\log_API.txt', 'a') as log:
-        log.write(str(logout_total_time) + ' ' + 'logout' + ' ' + RN + '\n')
 
 
 
@@ -830,7 +814,6 @@ if __name__ == '__main__':
 
 
 
-
             WD = login(LOGIN, PASSWORD)
 
             # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
@@ -866,9 +849,9 @@ if __name__ == '__main__':
 
             # ЕДИНИЧНЫЙ ЗАПРОС
 
-            service = FLExp
-            RN = request(WD, service)
-            response(WD, RN, service)
+            # service = FLExp
+            # RN = request(WD, service)
+            # response(WD, RN, service)
 
 
 
@@ -884,11 +867,7 @@ if __name__ == '__main__':
 
             logout(WD)
             print('LOGIN:' + l + ' ' + 'PASSWORD:' + p + '\n')
-
-            print(Exceptions)
-            print('ERRORS: ')
-            for i in ERRORS:
-                print(i)
+            print('=======================================================')
 
             # a += 2
 
@@ -896,3 +875,8 @@ if __name__ == '__main__':
         print(e)
 
 
+
+print(Exceptions)
+print('ERRORS: ')
+for i in ERRORS:
+    print(i)

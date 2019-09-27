@@ -27,9 +27,9 @@ import re
 # requests_log.propagate = True
 
 
-URL = 'http://ips1:3777/api.test' #'http://ips1:3777/test'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+URL = 'https://vips1:450/api.test' #'http://ips1:3777/test'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
 LOGIN = 'testAutomatUser' #'Svetka' #'ander_автомат'
-PASSWORD = 'testAutomatUser123' #'153759' #'687dd78R'
+PASSWORD = 'testAutomatUser'#'testAutomatUser' #'153759' #'687dd78R'
 Exceptions = []
 ERRORS = []
 HEADERS={
@@ -87,7 +87,7 @@ TS = {'Type': 'Request',
             'WorkingDirectory': WD,
             'Event': '6',
             'TS': '1',
-            'GosNumber': 'M775XY27',
+            'GosNumber': 'М982ММ99',
             # 'VIN': '',
             'zapros': 'TS'
             }  # 0
@@ -102,7 +102,7 @@ BSIP = {
     'MiddleName': 'ВАЛЕРИАНОВИЧ',
     'DateOfBirth': '03.08.1969',
     'Seria': '4597',
-    'Number': '00522',
+    'Number': '005220',
     'OGRNIP': '312774618000575',
     'INNExp': '770404319004',
     'RegionExp': '45',
@@ -176,6 +176,7 @@ def login():
                     'Login': LOGIN,
                     'Password': PASSWORD}
     r = requests.post(URL,data=post,headers=HEADERS, verify=False,)
+    # print(r.text)
     lx = html.fromstring(r.content)
     WD = lx.xpath('//text()')[1]
     print('WD ' + str(WD))
@@ -235,7 +236,7 @@ def response(WD, RN, service):
 
             if '<td>' in str(ANSWER):
                 ANSWER = ('  '.join(ANSWER.findAll(text=True)))[41921:-11100]
-
+                print(ANSWER)
 
 
 
@@ -262,7 +263,7 @@ def response(WD, RN, service):
                 #         t = t.replace('</span>', '')
                 #         print(t)
 
-            print(service['zapros'] + ' - OK!!!!!!!')
+            #print(service['zapros'] + ' - OK!!!!!!!')
 
         if StatusANS == '3': sleep(10)
 
@@ -298,24 +299,24 @@ if __name__ == '__main__':
 
         # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
 
-        # it = 0
-        # while it < 1:
-        #     for S in Services:
-        #         RN = request(WD, S)
-        #     print('========================================================================')
-        #
-        #     for key, value in RNs.items():
-        #             response(WD, key, value)
-        #
-        #     it+=1
+        it = 0
+        while it < 1:
+            for S in Services:
+                RN = request(WD, S)
+            print('========================================================================')
+
+            for key, value in RNs.items():
+                    response(WD, key, value)
+
+            it+=1
 
 
 
         # ЕДИНИЧНЫЙ ЗАПРОС фыа
 
-        service = TS
-        RN = request(WD, service)
-        response(WD, RN, service)
+        # service = TS
+        # RN = request(WD, service)
+        # response(WD, RN, service)
 
 
 

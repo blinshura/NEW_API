@@ -7,538 +7,32 @@ from bs4 import BeautifulSoup
 from lxml import html
 import re
 import urllib3
+import ssl
 
 
 urllib3.disable_warnings()
 
 
-#DEBUG
-# import requests
-# import logging
-#
-# # These two lines enable debugging at httplib level (requests->urllib3->http.client)
-# # You will see the REQUEST, including HEADERS and DATA, and RESPONSE with HEADERS but without DATA.
-# # The only thing missing will be the response.body which is not logged.
-# try:
-#     import http.client as http_client
-# except ImportError:
-#     # Python 2
-#     import httplib as http_client
-# http_client.HTTPConnection.debuglevel = 1
-#
-# # You must initialize logging, otherwise you'll not see debug output.
-# logging.basicConfig()
-# logging.getLogger().setLevel(logging.DEBUG)
-# requests_log = logging.getLogger("requests.packages.urllib3")
-# requests_log.setLevel(logging.DEBUG)
-# requests_log.propagate = True
 
-# class SslAdapter():
-#     def init_poolmanager(self, connections, maxsize, block=False):
-#         self.poolmanager = PoolManager(num_pools=connections,
-#                                        maxsize=maxsize,
-#                                        block=block,
-#                                        ssl_version=ssl.PROTOCOL_TLSv1_1,
-#                                     )
-# s=requests.Session()
-# s.mount('https://', SslAdapter())
-# s.get('https://google.com', verify=False)
 
-URL = 'http://vips1:3777/api'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'demo'#'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'demo'#'Gfd!1qaz40' #'153759' #'687dd78R'
+
+# ips1 'http://127.0.0.1:3337/api'
+# ips2 'http://127.0.0.1:3338/api'
+# vips1 'http://127.0.0.1:3331/api'
+
+
+URL = 'https://vips1:451/api' #'http://127.0.0.1:3331/api' - випс через stunnel  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+LOGIN = 'ander_автомат'#'demo' #'Svetka' #'ander_автомат'
+PASSWORD = '687dd78R'#'Gfd!1qaz40' #'153759' #'687dd78R'
 R = requests.Session()
 Exceptions = []
 ERRORS = []
 HEADERS={
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
 WD = ''
-RNs = {}
+RNs = []
 
 
-# сервисы
-IDADDRESS = {
-    'Type': 'Request',
-    'WorkingDirectory': WD,
-    'Event': '8',
-    'IDADDRESS': '1',
-    'RegionExp': '45',
-    'CityExp': u'МОСКВА',
-    'StreetExp': u'ПОЖАРСКИЙ',
-    'HouseExp': '15',
-    'BuildExp': '',  # или
-    'BuildingExp': '',
-    'FlatExp': '6',
-    'zapros': 'IDADDRESS'
-}
-
-ULFNST = {'Type': 'Request',
-          'WorkingDirectory': WD,
-          'Event': '1',
-          'FNST': '1',
-          'OGRN': '1177746172790',
-          #'INN': '3213213211',
-          'zapros': 'UL-FNST'}  # 0
-ULFNSA = {'Type': 'Request',
-          'WorkingDirectory': WD,
-          'Event': '1',
-          'FNSA': '1',
-          'OGRN': '1177746172790',
-          'zapros': 'UL-FNSA'}  # 1
-ULGIBDD = {'Type': 'Request',
-           'WorkingDirectory': WD,
-           'Event': '1',
-           'GIBDD': '1',
-           'OGRN': '1177746172790',
-           'zapros': 'UL-GIBDD'}  # 2
-ULBalans = {'Type': 'Request',
-            'WorkingDirectory': WD,
-            'Event': '1',
-            'Balans': '1',
-            'OGRN': '1177746172790',
-            'zapros': 'UL-Balans'}  # 3
-ULSVI = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '1',
-         'SVI': '1',
-         'OGRN': '1177746172790',
-         'zapros': 'UL-SVI'}  # 4
-ULBenef = {'Type': 'Request',
-           'WorkingDirectory': WD,
-           'Event': '1',
-           'Benef': '1',
-           'OGRN': '1177746172790',
-           'zapros': 'UL-Benef'}  # 5
-ULAFF = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '1',
-         'AFF': '1',
-         'OGRN': '1177746172790' ,
-         'zapros': 'UL-AFF'}  # 6
-ULEmployer = {'Type': 'Request',
-              'WorkingDirectory': WD,
-              'Event': '1',
-              'Employer': '1',
-              'OGRN': '1137847271924',
-              'NameOrg': 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ДЕТЕЛЬ"',
-              'Region': '40',
-              'City': 'Санкт-Петербург',
-              'Phone': '8129837762',
-              'zapros': 'UL-Employer'}  # 7
-ULExtSource = {'Type': 'Request',
-               'WorkingDirectory': WD,
-               'Event': '1',
-               'ExtSource': '1',
-               'OGRN': '1177746172790',
-               'zapros': 'UL-ExtSource'}  # 8
-
-IPIPT = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '2',
-         'IPT': '1',
-         #'OGRNIP' : '312751502300034',
-         'INNIP': '231400212630',
-         'zapros': 'IPIPT'}  # 0
-IPIPA = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '2',
-         'IPA': '1',
-         'OGRNIP': '312751502300034',
-         'zapros': 'IPIPA'}  # 1
-IPExtendedIP = {'Type': 'Request',
-                'WorkingDirectory': WD,
-                'Event': '2',
-                'ExtendedIP': '1',
-                'OGRNIP': '312751502300034',
-                #'INNIP' : '',
-                'zapros': 'IP-ExtendedIP'}  # 2
-IPEmployer = {'Type': 'Request',
-              'WorkingDirectory': WD,
-              'Event': '2',
-              'Employer': '1',
-              #'OGRNIP': '312751502300034',
-              'INNIP': '231293645637',
-              'FIO': 'ИП Коровников Алексей Валерьевич',
-              'Region': '03',
-              'City': 'Выселки',
-              'Street': '',
-              'House': '',
-              'Flat': '',
-              'Phone': '9034548390',
-              'zapros': 'IP-Employer'
-              }  # 3
-IPExtSource = {'Type': 'Request',
-               'WorkingDirectory': WD,
-               'Event': '2',
-               'ExtSource': '1',
-               'OGRNIP': '312751502300034',
-               'zapros': 'IP-ExtSource'}  # 4
-IDIP = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '2',
-         'IDIP': '1',
-         #'OGRNIP' : '312751502300034',
-         #'INNIP': '231400212630',
-           "SurName": "ИВАНОВ",
-           "FirstName": "ВЛАДИМИР",
-           "MiddleName": "АЛЕКСАНДРОВИЧ",
-            "RegionExp": "45",
-         'zapros': 'IDIP'} # 5
-
-FLGIBDD = {'Type': 'Request',
-           'WorkingDirectory': WD,
-           'Event': '3',
-           'GIBDD': '1',
-           'SurName': 'ХРОМОВ',
-           'FirstName': 'АЛЕКСАНДР',
-           'MiddleName': 'ВАЛЕРИАНОВИЧ',
-           'DateOfBirth': '31.09.1988',
-           'Seria': '3213',
-           'Number': '321321',
-           'zapros': 'FL-GIBDD'}  # 0
-FLCASBO = {'Type': 'Request',
-           'WorkingDirectory': WD,
-           'Event': '3',
-           'CASBO': '1',
-           'SurName': 'ХРОМОВ',
-           'FirstName': 'АЛЕКСАНДР',
-           'MiddleName': 'ВАЛЕРИАНОВИЧ',
-           'DateOfBirth': '03.08.1969',
-           'Seria': '4597',
-           'Number': '005229',
-           'zapros': 'FL-CASBO'}  # 1
-FLCASBR = {'Type': 'Request',
-           'WorkingDirectory': WD,
-           'Event': '3',
-           'CASBR': '1',
-           'SurName': 'ХРОМОВ',
-           'FirstName': 'АЛЕКСАНДР',
-           'MiddleName': 'ВАЛЕРИАНОВИЧ',
-           'DateOfBirth': '03.08.1969',
-           'Seria': '4597',
-           'Number': '005229',
-           'zapros': 'FL-CASBR'}  # 2
-FLRaiting = {'Type': 'Request',
-             'WorkingDirectory': WD,
-             'Event': '3',
-             'Raiting': '1',
-             'SurName': 'ХРОМОВ',
-             'FirstName': 'АЛЕКСАНДР',
-             'MiddleName': 'ВАЛЕРИАНОВИЧ',
-             'DateOfBirth': '03.08.1969',
-             'Seria': '4597',
-             'Number': '005229',
-             'IssueDate': '03.08.1969',
-             'zapros': 'FL-Raiting'}  # 3
-FLRaitingR = {'Type': 'Request',
-              'WorkingDirectory': WD,
-              'Event': '3',
-              'RaitingR': '1',
-              'SurName': 'ХРОМОВ',
-              'FirstName': 'АЛЕКСАНДР',
-              'MiddleName': 'ВАЛЕРИАНОВИЧ',
-              'DateOfBirth': '03.08.1969',
-              'Seria': '4597',
-              'Number': '005229',
-              'IssueDate': '03.08.1969',
-              'zapros': 'FL-RaitingR'}  # 4
-FLRaiting_2 = {'Type': 'Request',
-               'WorkingDirectory': WD,
-               'Event': '3',
-               'Raiting_2': '1',
-               'SurName': 'ХРОМОВ',
-               'FirstName': 'АЛЕКСАНДР',
-               'MiddleName': 'ВАЛЕРИАНОВИЧ',
-               'DateOfBirth': '03.08.1969',
-               'Seria': '4597',
-               'Number': '005229',
-               'IssueDate': '03.08.1969',
-               'zapros': 'FL-Raiting_2'}  # 5
-FLRaiting_2R = {'Type': 'Request',
-                'WorkingDirectory': WD,
-                'Event': '3',
-                'Raiting_2R': '1',
-                'SurName': 'ХРОМОВ',
-                'FirstName': 'АЛЕКСАНДР',
-                'MiddleName': 'ВАЛЕРИАНОВИЧ',
-                'DateOfBirth': '03.08.1969',
-                'Seria': '4597',
-                'Number': '005229',
-                'IssueDate': '03.08.1969',
-                'zapros': 'FL-Raitin_2R'}  # 6
-# FLFR = {'Type': 'Request',
-#             'WorkingDirectory' : WD,
-#             'Event': '3',
-#             'FR': '1',
-#             'SurName' : 'ХРОМОВ',
-#             'FirstName' : 'АЛЕКСАНДР',
-#             'MiddleName' : 'ВАЛЕРИАНОВИЧ',
-#             'DateOfBirth': '03.08.1969',
-#             'Seria': '3213',
-#             'Number': '321321',
-#         'zapros': 'FL-FR'}  # 7
-FLAFF = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '3',
-         'AFF': '1',
-         'SurName': 'ХРОМОВ',
-         'FirstName': 'АЛЕКСАНДР',
-         'MiddleName': 'ВАЛЕРИАНОВИЧ',
-         'DateOfBirth': '03.08.1969',
-         'Seria': '4597',
-         'Number': '005229',
-         'zapros': 'FL-AFF'}  # 8
-FLCKKI = {'Type': 'Request',
-          'WorkingDirectory': WD,
-          'Event': '3',
-          'CKKI': '1',
-          'SurName': 'ХРОМОВ',
-          'FirstName': 'АЛЕКСАНДР',
-          'MiddleName': 'ВАЛЕРИАНОВИЧ',
-          'DateOfBirth': '03.08.1969',
-          'Seria': '4597',
-          'Number': '005229',
-          'IssueDate': '03.08.1969',
-          'zapros': 'FL-CKKI'}  # 9
-FLSVI = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '3',
-         'SVI': '1',
-         'SurName': 'ХРОМОВ',
-         'FirstName': 'АЛЕКСАНДР',
-         'MiddleName': 'ВАЛЕРИАНОВИЧ',
-         'DateOfBirth': '03.08.1969',
-         'Seria': '4597',
-         'Number': '005229',
-         'InfoType': '1',
-         'zapros': 'FL-SVI'}  # 10
-FLExp = {
-    # Основной блок
-    'Type': 'Request',
-    'WorkingDirectory': WD,
-    'Event': '3',
-    'Exp': '1',
-    'SurName': u'Пушкин',
-    'FirstName': u'Александр',
-    'MiddleName': u'Владимирович',
-    'DateOfBirth': '06.03.1966',
-    'Seria': '4500',
-    'Number': '362089',
-    #'INNExp': '770404319004',
-    # Блок Адрес Постоянный
-    'RegionExp': '45москва',
-    'CityExp': u'МОСКВА',
-    'StreetExp': u'Новгородская',
-    'HouseExp': '33',
-    'BuildExp': '',  # или
-    'BuildingExp': '',
-    'FlatExp': '30',
-    'PhoneExp': '',
-    # Блок Адрес Временный
-    # 'RegionExpTmp':'45',
-    # 'CityExpTmp':('МОСКВА').encode('utf8'),
-    # 'StreetExpTmp':('ПОЖАРСКИЙ').encode('utf8'),
-    # 'HouseExpTmp':'15',
-    # 'BuildExpTmp':'',
-    # 'BuildingExpTmp':'',
-    # 'FlatExpTmp':'6',
-    # НЕОБЯЗАТЕЛЬНЫЙ блок Поиск архивных данных
-    # 'ExpArch':'',
-    # 'SurNameArch':'',
-    # 'FirstNameArch':'',
-    # 'MiddleNameArch':'',
-    # 'SeriaArch':'',
-    # 'NumberArch':'',
-    # НЕОБЯЗАТЕЛЬНЫЙ блок Проверка работодателя
-    # Роботодатель ЮЛ
-    # 'OrgExp': '1',
-    # 'OGRNOrgExp': '1154205015832',  # INNOrgExp
-    # 'NameOrgExp': 'ВЕСТА',
-    # 'RegionOrgExp': '32',
-    # 'CityOrgExp': 'КЕМЕРОВО',
-    # 'StreetOrgExp': 'ЛЕНИНА',  # или
-    # 'HouseOrgExp': '128',
-    # 'BuildOrgExp': '',
-    # 'BuildingOrgExp': '',
-    # 'FlatOrgExp': '709',
-    # 'PhoneOrgExp': '',
-    # Роботодатель ИП
-    #'IPExp':'1',
-    # 'OGRNIPExp':'',
-    # 'INNIPExp': '772071873841',
-    # 'FIOIPExp':'',
-    # 'RegionIPExp':'',
-    # 'CityIPExp':'',
-    # 'StreetIPExp':'',
-    # 'HouseIPExp':'',
-    # 'BuildIPExp':'',
-    # 'BuildingIPExp':'',
-    # 'FlatIPExp':'',
-    # 'PhoneIPExp':'',
-
-    'zapros': 'FL-Exp'
-}  # 11
-FLExtSource = {
-    'Type': 'Request',
-    'WorkingDirectory': WD,
-    'Event': '3',
-    'ExtSource': '1',
-    'SurName': 'ХРОМОВ',
-    'FirstName': 'АЛЕКСАНДР',
-    'MiddleName': 'ВАЛЕРИАНОВИЧ',
-    'DateOfBirth': '03.08.1969',
-    'Seria': '4597',
-    'Number': '005229',
-    'RegionExp': '45',
-    'zapros': 'FL-ExtSource'}  # 12
-FLFR = {'Type': 'Request',
-         'WorkingDirectory': WD,
-         'Event': '3',
-         'FR': '1',
-         'SurName': 'ХРОМОВ',
-         'FirstName': 'АЛЕКСАНДР',
-         'MiddleName': 'ВАЛЕРИАНОВИЧ',
-         'DateOfBirth': '03.08.1969',
-         'Seria': '4597',
-         'Number': '005229',
-        'PlaceOfBirth': '123',
-         'InfoType': '1',
-         'zapros': 'FLFR'}  # 10
-
-PASP_UPassporta = {'Type': 'Request',
-                   'WorkingDirectory': WD,
-                   'Event': '4',
-                   'UPassporta': '1',
-                   'Seria': '4500',
-                   'Number': '375473',
-                   'zapros': 'Pasp-UPassporta'}  # 0
-PASP_PPFMS = {'Type': 'Request',
-              'WorkingDirectory': WD,
-              'Event': '4',
-              'PPFMS': '1',
-              'Seria': '4500',
-              'Number': '375473',
-              'zapros': 'Pasp-PPFMS'}  # 1
-
-BSUL_BS = {'Type': 'Request',
-           'WorkingDirectory': WD,
-           'Event': '1',
-           'BS': '1',
-           'OGRN': '1177746172790',
-           'zapros': 'BSUL-BS'}  # 0
-BSUL_BSPD = {'Type': 'Request',
-             'WorkingDirectory': WD,
-             'Event': '1',
-             'BSPD': '1',
-             'OGRN': '1177746172790',
-             'zapros': 'BSUL-BSPD'}  # 1
-BSUL_SVI = {'Type': 'Request',
-            'WorkingDirectory': WD,
-            'Event': '1',
-            'SVI': '1',
-            'OGRN': '1177746172790',
-            'zapros': 'BSUL-SVI'}  # 2
-
-GIBDD_TS = {'Type': 'Request',
-            'WorkingDirectory': WD,
-            'Event': '6',
-            'TS': '1',
-            'GosNumber': 'M775XY27',
-            # 'VIN': '',
-            'zapros': 'GIBDD-TS'
-            }  # 0
-GIBDD_BCars = {'Type': 'Request',
-               'WorkingDirectory': WD,
-               'Event': '6',
-               'BCars': '1',
-               'GosNumber': 'M775XY27',
-               # 'VIN': '',
-               'zapros': 'GIBDD-BCars'
-               } # 1
-GIBDD_SCars = {'Type': 'Request',
-               'WorkingDirectory': WD,
-               'Event': '6',
-               'SCars': '1',
-               'GosNumber': 'M775XY27',
-               # 'VIN': '',
-               'zapros': 'GIBDD-SCars'
-               } # 2
-
-BSIP_BIP = {
-    'Type': 'Request',
-    'WorkingDirectory': WD,
-    'Event': '7',
-    'BIP': '1',
-    'SurName': 'ХРОМОВ',
-    'FirstName': 'АЛЕКСАНДР',
-    'MiddleName': 'ВАЛЕРИАНОВИЧ',
-    'DateOfBirth': '03.08.1969',
-    'Seria': '4597',
-    'Number': '00522',
-    'OGRNIP': '312774618000575',
-    'INNExp': '770404319004',
-    'RegionExp': '45',
-    'CityExp': 'МОСКВА',
-    'StreetExp': 'ПОЖАРСКИЙ',
-    'HouseExp': '15',
-    'BuildExp': '',
-    'BuildingExp': '',
-    'FlatExp': '6',
-    'PhoneExp': '4956950322',
-    # Или Временная регистрация
-    #     'RegionExpTmp':'',
-    #     'CityExpTmp':'',
-    #     'StreetExpTmp':'',
-    #     'HouseExpTmp':'',
-    #     'BuildExpTmp':'',
-    #     'BuildingExpTmp':'',
-    #     'FlatExpTmp':'',
-    'zapros': 'PSIP-BIP'
-}  # 0
-
-IDFL = {
-    'Type': 'Request',
-    'WorkingDirectory': WD,
-    'Event': '8',
-    'IDFL': '1',
-
-    # 'SurName': 'ПОНАМАРЕВА',
-    # 'FirstName': 'ИРИНА',
-    # 'MiddleName': 'ЮРЬЕВНА',
-    #'DateOfBirth': '11.01.1966',
-     'Seria': '4004',
-     'Number': '946593',
-    # 'Address': '40 САНКТ ПЕТЕРБУРГ ВОЗНЕСЕНСКИЙ 34 1',
-    #'Phone': '8123106658',
-    #'GosNumber': '',
-    #'INNIP': '',
-    #'OGRN': '1056900010375',
-    #'OGRNIP': '',
-    # "RegionExp": '40',
-    # "CityExp": 'САНКТ ПЕТЕРБУРГ',
-    # "StreetExp": 'ВОЗНЕСЕНСКИЙ',
-    # "HouseExp": '34',
-    # "BuildExp": '1',
-    # "FlatExp": '',
-
-
-
-
-
-    #        ФИО И Дата рождения
-    # ИЛИ    ФИО И Адрес
-    # ИЛИ    ФИО И Номер телефона
-    # ИЛИ    ФИО И ОГРН организации
-    # ИЛИ    ФИО И Паспорт(серия и номер)
-    # ИЛИ    ФИО И ИНН
-    # ИЛИ    ФИО И Номер трансп.средства
-    # ИЛИ    ФИО И ОГРНИП
-    # ИЛИ    Паспорт(серия и номер)
-    # ИЛИ    ИНН
-    # ИЛИ    Номер трансп.средства
-    # ИЛИ    ОГРНИП
-    'zapros': 'IDFL'
-} # 0
 
 BSUL_RASH = {
     'Type': 'Request',
@@ -620,6 +114,554 @@ BSUL_RASH = {
     'zapros': 'BSUL-Rash'
 }  # 0
 
+# сервисы
+IDADDRESS = {
+    'Type': 'Request',
+    'WorkingDirectory': WD,
+    'Event': '8',
+    'IDADDRESS': '1',
+    'RegionExp': '45',
+    'CityExp': u'МОСКВА',
+    'StreetExp': u'ПОЖАРСКИЙ',
+    'HouseExp': '15',
+    'BuildExp': '',  # или
+    'BuildingExp': '',
+    'FlatExp': '6',
+    'zapros': 'IDADDRESS'
+}
+
+IDUL = {'Type': 'Request',
+          'WorkingDirectory': WD,
+          'Event': '1',
+          'IDUL': '1',
+          'OGRN': '',
+          'INN': '',
+          'NZA': '10150000014',
+          'zapros': 'IDUL'}
+ULFNST = {'Type': 'Request',
+          'WorkingDirectory': WD,
+          'Event': '1',
+          'FNST': '1',
+          'OGRN': '1027700272148',
+          'INN': '',
+          #'NZA': '10180002866',
+          'zapros': 'UL-FNST'}  # 0
+ULFNSA = {'Type': 'Request',
+          'WorkingDirectory': WD,
+          'Event': '1',
+          'FNSA': '1',
+          'OGRN': '1177746172790',
+          'zapros': 'UL-FNSA'}  # 1
+ULGIBDD = {'Type': 'Request',
+           'WorkingDirectory': WD,
+           'Event': '1',
+           'GIBDD': '1',
+           'OGRN': '1177746172790',
+           'zapros': 'UL-GIBDD'}  # 2
+ULBalans = {'Type': 'Request',
+            'WorkingDirectory': WD,
+            'Event': '1',
+            'Balans': '1',
+            #'OGRN': '1177746172790',
+            'INN': '7704218694',
+            'Year': '2012',
+            'zapros': 'UL-Balans'}  # 3
+ULSVI = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '1',
+         'SVI': '1',
+         'OGRN': '1177746172790',
+         'zapros': 'UL-SVI'}  # 4
+ULBenef = {'Type': 'Request',
+           'WorkingDirectory': WD,
+           'Event': '1',
+           'Benef': '1',
+           'OGRN': '1177746172790',
+           'zapros': 'UL-Benef'}  # 5
+ULAFF = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '1',
+         'AFF': '1',
+         'OGRN': '1177746172790' ,
+         'zapros': 'UL-AFF'}  # 6
+ULEmployer = {'Type': 'Request',
+              'WorkingDirectory': WD,
+              'Event': '1',
+              'Employer': '1',
+              'OGRN': '1137847271924',
+              'NameOrg': 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ДЕТЕЛЬ"',
+              'Region': '40',
+              'City': 'Санкт-Петербург',
+              'Phone': '8129837762',
+              'zapros': 'UL-Employer'}  # 7
+ULExtSource = {'Type': 'Request',
+               'WorkingDirectory': WD,
+               'Event': '1',
+               'ExtSource': '1',
+               'OGRN': '1026102103466',
+               'INN': '',
+               'zapros': 'UL-ExtSource'}  # 8
+ULRaiting = {'Type': 'Request',
+             'WorkingDirectory': WD,
+             'Event': '1',
+             'Raiting': '1',
+             'OGRN': '1026102103466',
+            'INN': '',
+             'zapros': 'ULRaiting'}
+
+IPIPT = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '2',
+         'IPT': '1',
+         #'OGRNIP' : '312751502300034',
+         'INNIP': '231400212630',
+         'zapros': 'IPIPT'}  # 0
+IPIPA = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '2',
+         'IPA': '1',
+         'OGRNIP': '312751502300034',
+         'zapros': 'IPIPA'}  # 1
+IPExtendedIP = {'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '2',
+                'ExtendedIP': '1',
+                'OGRNIP': '312751502300034',
+                #'INNIP' : '',
+                'zapros': 'IP-ExtendedIP'}  # 2
+IPEmployer = {'Type': 'Request',
+              'WorkingDirectory': WD,
+              'Event': '2',
+              'Employer': '1',
+              #'OGRNIP': '312751502300034',
+              'INNIP': '231293645637',
+              'FIO': 'ИП Коровников Алексей Валерьевич',
+              'Region': '03',
+              'City': 'Выселки',
+              'Street': '',
+              'House': '',
+              'Flat': '',
+              'Phone': '9034548390',
+              'zapros': 'IP-Employer'
+              }  # 3
+IPExtSource = {'Type': 'Request',
+               'WorkingDirectory': WD,
+               'Event': '2',
+               'ExtSource': '1',
+               #'OGRNIP': '312751502300034',
+               'INNIP': '526019668776',
+               'zapros': 'IP-ExtSource'}  # 4
+IDIP = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '2',
+         'IDIP': '1',
+         #'OGRNIP' : '312751502300034',
+         #'INNIP': '231400212630',
+           "SurName": "ИВАНОВ",
+           "FirstName": "ВЛАДИМИР",
+           "MiddleName": "АЛЕКСАНДРОВИЧ",
+            "RegionExp": "45",
+         'zapros': 'IDIP'} # 5
+
+FLGIBDD = {'Type': 'Request',
+           'WorkingDirectory': WD,
+           'Event': '3',
+           'GIBDD': '1',
+           'SurName': 'ХРОМОВ',
+           'FirstName': 'АЛЕКСАНДР',
+           'MiddleName': 'ВАЛЕРИАНОВИЧ',
+           'DateOfBirth': '31.09.1988',
+           'Seria': '3213',
+           'Number': '321321',
+           'zapros': 'FL-GIBDD'}  # 0
+FLCASBO = {'Type': 'Request',
+           'WorkingDirectory': WD,
+           'Event': '3',
+           'CASBO': '1',
+           'SurName': 'ХРОМОВ',
+           'FirstName': 'АЛЕКСАНДР',
+           'MiddleName': 'ВАЛЕРИАНОВИЧ',
+           'DateOfBirth': '03.08.1969',
+           'Seria': '4597',
+           'Number': '005229',
+           'zapros': 'FL-CASBO'}  # 1
+FLCASBR = {'Type': 'Request',
+           'WorkingDirectory': WD,
+           'Event': '3',
+           'CASBR': '1',
+           'SurName': 'ХРОМОВ',
+           'FirstName': 'АЛЕКСАНДР',
+           'MiddleName': 'ВАЛЕРИАНОВИЧ',
+           'DateOfBirth': '03.08.1969',
+           'Seria': '4597',
+           'Number': '005229',
+           'zapros': 'FL-CASBR'}  # 2
+FLRaiting = {'Type': 'Request',
+             'WorkingDirectory': WD,
+             'Event': '3',
+             'Raiting': '1',
+             'SurName': 'ХРОМОВ',
+             'FirstName': 'АЛЕКСАНДР',
+             #'MiddleName': 'ВАЛЕРИАНОВИЧ',
+             'DateOfBirth': '03.08.1969',
+             'Seria': '4597',
+             'Number': '005229',
+             'IssueDate': '03.08.1969',
+             'zapros': 'FL-Raiting'}  # 3
+FLRaitingR = {'Type': 'Request',
+              'WorkingDirectory': WD,
+              'Event': '3',
+              'RaitingR': '1',
+              'SurName': 'ХРОМОВ',
+              'FirstName': 'АЛЕКСАНДР',
+              'MiddleName': 'ВАЛЕРИАНОВИЧ',
+              'DateOfBirth': '03.08.1969',
+              'Seria': '4597',
+              'Number': '005229',
+              'IssueDate': '03.08.1969',
+              'zapros': 'FL-RaitingR'}  # 4
+FLRaiting_2 = {'Type': 'Request',
+               'WorkingDirectory': WD,
+               'Event': '3',
+               'Raiting_2': '1',
+               'SurName': 'ХРОМОВ',
+               'FirstName': 'АЛЕКСАНДР',
+               'MiddleName': 'ВАЛЕРИАНОВИЧ',
+               'DateOfBirth': '03.08.1969',
+               'Seria': '4597',
+               'Number': '005229',
+               'IssueDate': '03.08.1969',
+               'zapros': 'FL-Raiting_2'}  # 5
+FLRaiting_2R = {'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '3',
+                'Raiting_2R': '1',
+                'SurName': 'ХРОМОВ',
+                'FirstName': 'АЛЕКСАНДР',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                'DateOfBirth': '03.08.1969',
+                'Seria': '4597',
+                'Number': '005229',
+                'IssueDate': '03.08.1969',
+                'zapros': 'FL-Raitin_2R'}  # 6
+FLRaiting_3R = {'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '3',
+                'Raiting_3R': '1',
+                'SurName': 'ХРОМОВ',
+                'FirstName': 'АЛЕКСАНДР',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                'DateOfBirth': '03.08.1969',
+                'Seria': '4597',
+                'Number': '005229',
+                #'IssueDate': '03.08.1969',
+                'zapros': 'FL-Raitin_3R'}
+FLRaiting_4R = {'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '3',
+                'Raiting_4R': '1',
+                'SurName': 'ХРОМОВ',
+                'FirstName': 'АЛЕКСАНДР',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                'DateOfBirth': '03.08.1969',
+                'Seria': '4597',
+                'Number': '005229',
+                'IssueDate': '03.08.1969',
+                'RegionExp': '45',
+                'CityExp': u'МОСКВА',
+                'StreetExp': u'Новгородская',
+                'HouseExp': '33',
+                'BuildExp': '',  # или
+                'BuildingExp': '',
+                'FlatExp': '30',
+                'zapros': 'FL-Raitin_4R'}
+# FLFR = {'Type': 'Request',
+#             'WorkingDirectory' : WD,
+#             'Event': '3',
+#             'FR': '1',
+#             'SurName' : 'ХРОМОВ',
+#             'FirstName' : 'АЛЕКСАНДР',
+#             'MiddleName' : 'ВАЛЕРИАНОВИЧ',
+#             'DateOfBirth': '03.08.1969',
+#             'Seria': '3213',
+#             'Number': '321321',
+#         'zapros': 'FL-FR'}  # 7
+FLAFF = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '3',
+         'AFF': '1',
+         'SurName': 'ХРОМОВ',
+         'FirstName': 'АЛЕКСАНДР',
+         #'MiddleName': 'ВАЛЕРИАНОВИЧ',
+         'DateOfBirth': '03.08.1969',
+         'Seria': '4597',
+         'Number': '005229',
+         'zapros': 'FL-AFF'}  # 8
+FLCKKI = {'Type': 'Request',
+          'WorkingDirectory': WD,
+          'Event': '3',
+          'CKKI': '1',
+          'SurName': 'ХРОМОВ',
+          'FirstName': 'АЛЕКСАНДР',
+          'MiddleName': 'ВАЛЕРИАНОВИЧ',
+          'DateOfBirth': '03.08.1969',
+          'Seria': '4597',
+          'Number': '005229',
+          'IssueDate': '03.08.1969',
+          'zapros': 'FL-CKKI'}  # 9
+FLSVI = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '3',
+         'SVI': '1',
+         'SurName': 'ХРОМОВ',
+         'FirstName': 'АЛЕКСАНДР',
+         'MiddleName': 'ВАЛЕРИАНОВИЧ',
+         'DateOfBirth': '03.08.1969',
+         'Seria': '4597',
+         'Number': '005229',
+         'InfoType': '1',
+         'zapros': 'FL-SVI'}  # 10
+FLExp = {
+    # Основной блок
+    'Type': 'Request',
+    'WorkingDirectory': WD,
+    'Event': '3',
+    'Exp': '1',
+    'SurName': u'Жотин',
+    'FirstName': u'Роман',
+    'MiddleName': u'Сергеевич',
+    'DateOfBirth': '31.07.1983',
+    'Seria': '5604',
+    'Number': '442897',
+    #'INNExp': '770404319004',
+    # Блок Адрес Постоянный
+    'RegionExp': '45',
+    'CityExp': u'МОСКВА',
+    'StreetExp': u'Новгородская',
+    'HouseExp': '33',
+    'BuildExp': '',  # или
+    'BuildingExp': '',
+    'FlatExp': '30',
+    'PhoneExp': '89263830685',
+    # Блок Адрес Временный
+    # 'RegionExpTmp':'45',
+    # 'CityExpTmp':('МОСКВА').encode('utf8'),
+    # 'StreetExpTmp':('ПОЖАРСКИЙ').encode('utf8'),
+    # 'HouseExpTmp':'15',
+    # 'BuildExpTmp':'',
+    # 'BuildingExpTmp':'',
+    # 'FlatExpTmp':'6',
+    # НЕОБЯЗАТЕЛЬНЫЙ блок Поиск архивных данных
+    # 'ExpArch':'',
+    # 'SurNameArch':'',
+    # 'FirstNameArch':'',
+    # 'MiddleNameArch':'',
+    # 'SeriaArch':'',
+    # 'NumberArch':'',
+    # НЕОБЯЗАТЕЛЬНЫЙ блок Проверка работодателя
+    # Роботодатель ЮЛ
+    # 'OrgExp': '1',
+    # 'OGRNOrgExp': '1154205015832',  # INNOrgExp
+    # 'NameOrgExp': 'ВЕСТА',
+    # 'RegionOrgExp': '32',
+    # 'CityOrgExp': 'КЕМЕРОВО',
+    # 'StreetOrgExp': 'ЛЕНИНА',  # или
+    # 'HouseOrgExp': '128',
+    # 'BuildOrgExp': '',
+    # 'BuildingOrgExp': '',
+    # 'FlatOrgExp': '709',
+    # 'PhoneOrgExp': '',
+    # Роботодатель ИП
+    #'IPExp':'1',
+    # 'OGRNIPExp':'',
+    # 'INNIPExp': '772071873841',
+    # 'FIOIPExp':'',
+    # 'RegionIPExp':'',
+    # 'CityIPExp':'',
+    # 'StreetIPExp':'',
+    # 'HouseIPExp':'',
+    # 'BuildIPExp':'',
+    # 'BuildingIPExp':'',
+    # 'FlatIPExp':'',
+    # 'PhoneIPExp':'',
+
+    'zapros': 'FL-Exp'
+}  # 11
+FLExtSource = {
+    'Type': 'Request',
+    'WorkingDirectory': WD,
+    'Event': '3',
+    'ExtSource': '1',
+    'SurName': 'ХРОМОВ',
+    'FirstName': 'АЛЕКСАНДР',
+    'MiddleName': 'ВАЛЕРИАНОВИЧ',
+    'DateOfBirth': '03.08.1969',
+    'Seria': '4597',
+    'Number': '005229',
+    'RegionExp': '45',
+    'zapros': 'FL-ExtSource'}  # 12
+FLFR = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '3',
+         'FR': '1',
+         'SurName': 'ХРОМОВ',
+         'FirstName': 'АЛЕКСАНДР',
+         'MiddleName': 'ВАЛЕРИАНОВИЧ',
+         'DateOfBirth': '03.08.1969',
+         'Seria': '4597',
+         'Number': '005229',
+        'PlaceOfBirth': '123',
+         'InfoType': '1',
+         'zapros': 'FLFR'}  # 10
+FLBSFL = {'Type': 'Request',
+         'WorkingDirectory': WD,
+         'Event': '3',
+         'BSFL': '1',
+          'SurName': 'ХРОМОВ',
+          'FirstName': 'АЛЕКСАНДР',
+          #'MiddleName': 'ВАЛЕРИАНОВИЧ',
+          'DateOfBirth': '03.08.1969',
+          'Seria': '4597',
+          'Number': '005229',
+        #'IssueDate': '03.08.1969',
+        #'INNExp': '770404319004',
+        'zapros': 'FL-BSFL'
+          }
+
+PASP_UPassporta = {'Type': 'Request',
+                   'WorkingDirectory': WD,
+                   'Event': '4',
+                   'UPassporta': '1',
+                   'Seria': '4500',
+                   'Number': '375473',
+                   'zapros': 'Pasp-UPassporta'}  # 0
+PASP_PPFMS = {'Type': 'Request',
+              'WorkingDirectory': WD,
+              'Event': '4',
+              'PPFMS': '1',
+              'Seria': '4500',
+              'Number': '375473',
+              'zapros': 'Pasp-PPFMS'}  # 1
+
+BSUL_BS = {'Type': 'Request',
+           'WorkingDirectory': WD,
+           'Event': '1',
+           'BS': '1',
+           'OGRN': '1177746172790',
+           'zapros': 'BSUL-BS'}  # 0
+BSUL_BSPD = {'Type': 'Request',
+             'WorkingDirectory': WD,
+             'Event': '1',
+             'BSPD': '1',
+             'OGRN': '1177746172790',
+             'zapros': 'BSUL-BSPD'}  # 1
+BSUL_SVI = {'Type': 'Request',
+            'WorkingDirectory': WD,
+            'Event': '1',
+            'SVI': '1',
+            'OGRN': '1177746172790',
+            'zapros': 'BSUL-SVI'}  # 2
+
+GIBDD_TS = {'Type': 'Request',
+            'WorkingDirectory': WD,
+            'Event': '6',
+            'TS': '1',
+            'GosNumber': 'M775XY27',
+            # 'VIN': '',
+            'zapros': 'GIBDD-TS'
+            }  # 0
+GIBDD_BCars = {'Type': 'Request',
+               'WorkingDirectory': WD,
+               'Event': '6',
+               'BCars': '1',
+               'GosNumber': 'M775XY27',
+               # 'VIN': '',
+               'zapros': 'GIBDD-BCars'
+               } # 1
+GIBDD_SCars = {'Type': 'Request',
+               'WorkingDirectory': WD,
+               'Event': '6',
+               'SCars': '1',
+               'GosNumber': 'M775XY27',
+               # 'VIN': '',
+               'zapros': 'GIBDD-SCars'
+               } # 2
+
+BSIP_BIP = {
+    'Type': 'Request',
+    'WorkingDirectory': WD,
+    'Event': '7',
+    'BIP': '1',
+    'SurName': 'ХРОМОВ',
+    'FirstName': 'АЛЕКСАНДР',
+    'MiddleName': 'ВАЛЕРИАНОВИЧ',
+    'DateOfBirth': '03.08.1969',
+    'Seria': '4597',
+    'Number': '005220',
+    'OGRNIP': '312774618000575',
+    'INNExp': '770404319004',
+    'RegionExp': '45',
+    'CityExp': 'МОСКВА',
+    'StreetExp': 'ПОЖАРСКИЙ',
+    'HouseExp': '15',
+    'BuildExp': '',
+    'BuildingExp': '',
+    'FlatExp': '6',
+    'PhoneExp': '4956950322',
+    # Или Временная регистрация
+    #     'RegionExpTmp':'',
+    #     'CityExpTmp':'',
+    #     'StreetExpTmp':'',
+    #     'HouseExpTmp':'',
+    #     'BuildExpTmp':'',
+    #     'BuildingExpTmp':'',
+    #     'FlatExpTmp':'',
+    'zapros': 'PSIP-BIP'
+}  # 0
+
+IDFL = {
+    'Type': 'Request',
+    'WorkingDirectory': WD,
+    'Event': '8',
+    'IDFL': '1',
+
+     'SurName': 'Мушанова',
+     'FirstName': 'Евгения',
+     'MiddleName': 'Васильевна',
+    'DateOfBirth': '30.10.1983',
+    # 'Seria': '4004',
+    # 'Number': '946593',
+    # 'Address': '40 САНКТ ПЕТЕРБУРГ ВОЗНЕСЕНСКИЙ 34 1',
+    #'Phone': '1',
+    #'GosNumber': '',
+    #'INNIP': '',
+    #'OGRN': '1056900010375',
+    #'OGRNIP': '',
+    # "RegionExp": '40',
+    # "CityExp": 'САНКТ ПЕТЕРБУРГ',
+    # "StreetExp": 'ВОЗНЕСЕНСКИЙ',
+    # "HouseExp": '34',
+    # "BuildExp": '1',
+    # "FlatExp": '',
+
+
+
+
+
+    #        ФИО И Дата рождения
+    # ИЛИ    ФИО И Адрес
+    # ИЛИ    ФИО И Номер телефона
+    # ИЛИ    ФИО И ОГРН организации
+    # ИЛИ    ФИО И Паспорт(серия и номер)
+    # ИЛИ    ФИО И ИНН
+    # ИЛИ    ФИО И Номер трансп.средства
+    # ИЛИ    ФИО И ОГРНИП
+    # ИЛИ    Паспорт(серия и номер)
+    # ИЛИ    ИНН
+    # ИЛИ    Номер трансп.средства
+    # ИЛИ    ОГРНИП
+    'zapros': 'IDFL'
+} # 0
 UL = [ULFNST,
       ULFNSA,
       # ULGIBDD,
@@ -628,7 +670,8 @@ UL = [ULFNST,
       ULBenef,
       ULAFF,
       ULEmployer,
-      ULExtSource
+      ULExtSource,
+    ULRaiting
       ]  # 0
 IP = [IPIPT,
       IPIPA,
@@ -645,36 +688,39 @@ FL = [
     FLRaitingR,
     FLRaiting_2,
     FLRaiting_2R,
+FLRaiting_3R,
+FLRaiting_4R,
     # FLFR,
     FLAFF,
     FLCKKI,
     FLSVI,
     FLExp,
     FLExtSource,
-]  # 2
+FLBSFL,
+]
 PASP = [
     PASP_UPassporta,
     PASP_PPFMS,
-]  # 3
+]
 BSUL = [
     BSUL_BS,
     BSUL_BSPD,
     BSUL_SVI,
-]  # 4
+]
 GIBDD = [
     GIBDD_TS,
     GIBDD_BCars,
     GIBDD_SCars,
-] # 5
+]
 BSIP = [
     BSIP_BIP,
-]  # 6
+]
 ID_FL = [
     IDFL
-]  # 7
+]
 BS_R = [
-    BSUL_RASH
-]  # 8
+   BSUL_RASH
+]
 
 Services = [UL,
             IP,
@@ -724,7 +770,7 @@ def request(WD,service):
         ERRORS.append(service['zapros'] + ' - ' + 'ERROR: ' + RN)
         #ERRORS.append(RN)
         ERRORS.append('---------------------------')
-    RNs[RN]= service
+    RNs.append(RN)
 
     request_end_time = datetime.now()
     request_total_time = request_end_time - request_start_time
@@ -740,6 +786,7 @@ def request(WD,service):
 def response(WD, RN, service):
     response_start_time = datetime.now()
     StatusANS = '3'
+    StatisticANS = ''
     tryes = 30
     while StatusANS == '3' and tryes >= 1:
 
@@ -751,13 +798,20 @@ def response(WD, RN, service):
         post['RequestNumber'] = RN
         post['WorkingDirectory'] = WD
         r = requests.post(URL, data=post, headers=HEADERS, verify=False,)
-        #print(r.text)
+        sleep(0.5)
+
+
+        print(r.text)
 
 
 
 
 
         ANSWER = BeautifulSoup(r.content, 'lxml')
+
+        if ANSWER.findAllNext('statistics') != None:
+            StatisticANS = ANSWER.statistics
+            StatisticANS = str(StatisticANS)
 
         if ANSWER.find('statusrequest') !=None:
             StatusANS = ANSWER.statusrequest.text
@@ -770,8 +824,11 @@ def response(WD, RN, service):
 
 
 
+
         # Очистка ответа
         if StatusANS != '3':
+
+
             if '<td>' in str(ANSWER):
                 ANSWER = ('  '.join(ANSWER.findAll(text=True)))[41921:-11100]
                 print(ANSWER)
@@ -798,7 +855,10 @@ def response(WD, RN, service):
                 #         t = t.replace('</span>', '')
                 #         print(t)
 
-        if StatusANS == '3': sleep(3)
+
+            #print(StatisticANS)   # ВЫВОДИМ СТАТИСТИКУ!!!!!!!!!!!!!!!!
+
+        if StatusANS == '3': sleep(1)
 
         print('\n' + 'ANS-' + StatusANS + '  try-' + str(tryes) + '  ' + service['zapros'] + '  ' + RN)
         tryes -= 1
@@ -814,6 +874,8 @@ def response(WD, RN, service):
         errWD = errWD.xpath('//text()')[1]
         if errWD == 'ERROR_VALIDATION_WORKINGDIRECTORY':
             return 'err'
+
+
 
     print('-----------------------------------------------------------------------------------------------------------')
 
@@ -853,6 +915,7 @@ if __name__ == '__main__':
 
         # ЦИКЛ ПО ВСЕМ СЕРВИСАМ
 
+
         # it = 0
         # while it < 1:
         #
@@ -877,28 +940,56 @@ if __name__ == '__main__':
         #                     resp = response(WD, key, value)
         #                     break
         #
-        #
         #     it+=1
 
 
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        # service =FLFR # IDFL
+        # service = FLExp # IDFL
         # RN = request(WD, service)
         # response(WD, RN, service)
 
 
+        # НАГРУЗКА ОТВЕТ СРАЗУ
 
-        # НАГРУЗКА
+        # service = BSUL_BS  # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
+        # t = 0
+        # while t < 50:
+        #     start = datetime.now()
+        #     RN = request(WD, service)
+        #     while RN == 'err':
+        #         WD = login()
+        #         sleep(3)
+        #         if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+        #             RN = request(WD, service)
+        #             break
+        #     response(WD, RN, service)
+        #     print(datetime.now() - start)
+        #     t += 1
 
-        service = FLFR # IDFL
+
+        # НАГРУЗКА ОТВЕТ ПОТОМ
+
+        service = FLExp # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
         t = 0
-        while t < 30:
+        while t < 1:
+
             RN = request(WD, service)
-            #response(WD, RN, service)
-            #sleep(1)
+            while RN == 'err':
+                WD = login()
+                sleep(3)
+                if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+                    RN = request(WD, service)
+                    break
             t += 1
+
+        for RN in RNs:
+            response(WD, RN, service)
+
+
+
+
 
 
         logout(WD)

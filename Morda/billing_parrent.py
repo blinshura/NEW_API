@@ -3,10 +3,11 @@ import subprocess
 import sys
 
 from datetime import datetime
+from time import sleep
 
 start_time = datetime.now()
 
-child = os.path.join(os.path.dirname(__file__), "./API-child_REQUESTS.py")
+child = os.path.join(os.path.dirname(__file__), "./billing.py")
 word  = 'word'
 file = ['./parent.py','./child.py']
 
@@ -19,6 +20,7 @@ for i in range(0,10):
   # pipe.stdin.write(word.encode("utf8") + b"\n")
   # pipe.stdin.write(file[i].encode("utf8") + b"\n")
   pipe.stdin.close()
+  sleep(1)
 
 while pipes:
     pipe = pipes.pop()

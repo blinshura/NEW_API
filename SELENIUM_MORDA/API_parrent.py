@@ -12,7 +12,7 @@ file = ['./parent.py','./child.py']
 
 pipes = []
 print('parent start')
-for i in range(0,10):
+for i in range(0,50):
   command = [sys.executable, child]
   pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
   pipes.append(pipe)

@@ -7,7 +7,7 @@ import requests
 import urllib3
 urllib3.disable_warnings()
 
-URL = 'https://ips1'
+URL = 'https://vips1'
 HEADERS = {
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     'Accept': 'application/json',
@@ -19,7 +19,7 @@ NEPOD = []
 EXCEPT = []
 NEVOSH = []
 
-def login(LOGIN='demo', PASSWORD='Gfd!1qaz40'):
+def login(LOGIN='demo', PASSWORD='demo'):
 
     payloads = {
         'Login': LOGIN,

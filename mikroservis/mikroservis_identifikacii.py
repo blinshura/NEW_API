@@ -4,10 +4,11 @@ import json
 from datetime import datetime
 
 
+# vips1 127.0.0.1:3332
 
-user = 'release'#"Svetka"
-password = 'release'#"153759"
-url = 'http://vips1:3010/ms' #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
+user = 'demo'#"Svetka" 'kdinisv'
+password = 'demo'#"153759" #'Gfd!1qaz40'
+url = 'http://127.0.0.1:3332/ms' #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
 def login():
     i = 0
 
@@ -32,7 +33,7 @@ def login():
               "SubSystem": "UL",  # IP, FL
               # "Service":"IDUL",
               "Params": {"IDUL": 1,
-                         #"OGRN": "1025900759598",
+                         "OGRN": "1025900759598",
                          #"INN": "2722016797",
                          "NameOrg": "СТРОЙ",
                          "Address": "45, москва",
@@ -47,10 +48,10 @@ def login():
               # "Service":"IDUL",
               "Params": {"IDFL": 1,
                          #"OGRNIP": "312774618000575",
-                          "SurName": "БУЛАВКИН",
-                         "FirstName": "АЛЕКСАНДР",
-                         "MiddleName": "СЕРГЕЕВИЧ",
-                         "DateOfBirth": "17.03.1961",
+                          "SurName": "Мушанова",
+                         "FirstName": "Евгения",
+                         "MiddleName": "Васильевна",
+                         "DateOfBirth": "30.10.1983",
                          #"Passport": "4014249174"
                          # "Address": "dasdas",
                          # "Phone": [""],
@@ -67,7 +68,7 @@ def login():
         j = random.choice(ran)
 
         # ---------------------------------------------------
-        #j =FL
+        j =FL
         # ---------------------------------------------------
 
 
@@ -81,12 +82,12 @@ def login():
             # 'Connection': 'Keep-Alive',
         }
         r = requests.post(url, data=j, headers=HEADERS, verify=False, )
-        #print(r.text)
-        parsed_string = r.json()
+
 
 
 
         try:
+            parsed_string = r.json()
 
             if subsystem == UL_sub:
                 #print(parsed_string)
@@ -143,7 +144,7 @@ def login():
 
 
         except:
-            print(parsed_string)
+            print(r.text)
 
         i+=1
 

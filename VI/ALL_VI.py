@@ -61,11 +61,11 @@ def job():
     print(text)
     croBotSend(text)
 
-#job()
+job()
 
 # schedule.every(10).minutes.do(job)
 # schedule.every().hour.do(job)
-schedule.every().day.at("10:51").do(job)
+#schedule.every().day.at("06:00").do(job)
 # schedule.every(5).to(10).days.do(job)
 # schedule.every().monday.do(job)
 # schedule.every().wednesday.at("13:15").do(job)

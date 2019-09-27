@@ -8,7 +8,7 @@ start_time = datetime.now()
 child = os.path.join(os.path.dirname(__file__), "./childe_multiLogin_nagruzka.py")
 pipes = []
 print('parent start')
-for i in range(0,5):
+for i in range(0,50):
   command = [sys.executable, child]
   pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
   pipes.append(pipe)
