@@ -11,6 +11,10 @@ URL = 'http://vips1:3080/'#'http://127.0.0.1:3336/' #http://vips1/ #https://ips3
 loginURL = URL + 'login'
 billingURL = URL + 'api/billing/'
 requestURL = URL + 'api/request/'
+pushURL = URL +  'admin/api/user/info'
+
+LOGIN = 'demo'#'demo' #'Svetka' #'ander_автомат'
+PASSWORD = 'demo'#'Gfd!1qaz40' #'153759' #'687dd78R'
 
 billingFLURL = billingURL + 'FL'
 billingULURL = billingURL + 'UL'
@@ -27,16 +31,13 @@ requestPASPURL = requestURL + 'UP'
 requestGIBDDURL = billingURL + 'TS'
 
 
-LOGIN = 'demo'#'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'demo'#'Gfd!1qaz40' #'153759' #'687dd78R'
-
-
 WD = ''
 RN = ''
 subsystemBilling = {}
 ERRORS = []
 RNs = {}
 S = requests.Session()
+limitCurrent = ''
 
 
 
@@ -83,7 +84,8 @@ IDFL = {
     # ИЛИ    Номер трансп.средства
     # ИЛИ    ОГРНИП
     'zapros': 'IDFL',
-    'url': billingFLURL
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,
 } # 0
 FLGIBDD = {'Type': 'Request',
            'WorkingDirectory': WD,
@@ -96,7 +98,10 @@ FLGIBDD = {'Type': 'Request',
            'Seria': '3213',
            'Number': '321321',
            'zapros': 'GIBDD',
-    'url': billingFLURL}  # 0
+
+           'billingURL': billingFLURL,
+           'requestURL': requestFLURL,
+           }  # 0
 CASBO = {'Type': 'Request',
            'WorkingDirectory': WD,
            'Event': '3',
@@ -108,7 +113,9 @@ CASBO = {'Type': 'Request',
            'Seria': '4597',
            'Number': '005229',
            'zapros': 'CASBO',
-    'url': billingFLURL} # 1
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,} # 1
 CASBR = {'Type': 'Request',
            'WorkingDirectory': WD,
            'Event': '3',
@@ -120,7 +127,9 @@ CASBR = {'Type': 'Request',
            'Seria': '4597',
            'Number': '005229',
            'zapros': 'CASBR',
-    'url': billingFLURL} # 2
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,} # 2
 Raiting = {'Type': 'Request',
              'WorkingDirectory': WD,
              'Event': '3',
@@ -133,7 +142,9 @@ Raiting = {'Type': 'Request',
              'Number': '005229',
              'IssueDate': '03.08.1969',
              'zapros': 'Raiting',
-    'url': billingFLURL} # 3
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,} # 3
 RaitingR = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '3',
@@ -146,7 +157,9 @@ RaitingR = {'Type': 'Request',
               'Number': '005229',
               'IssueDate': '03.08.1969',
               'zapros': 'RaitingR',
-    'url': billingFLURL} # 4
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,} # 4
 Raiting_2 = {'Type': 'Request',
                'WorkingDirectory': WD,
                'Event': '3',
@@ -159,7 +172,9 @@ Raiting_2 = {'Type': 'Request',
                'Number': '005229',
                'IssueDate': '03.08.1969',
                'zapros': 'Raiting_2',
-    'url': billingFLURL}  # 5
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,}  # 5
 Raiting_2R = {'Type': 'Request',
                 'WorkingDirectory': WD,
                 'Event': '3',
@@ -172,7 +187,43 @@ Raiting_2R = {'Type': 'Request',
                 'Number': '005229',
                 'IssueDate': '03.08.1969',
                 'zapros': 'Raiting_2R',
-              'url': billingFLURL} # 6
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,} # 6
+Raiting_3R = {'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '3',
+                'Raiting_3R': '1',
+                'SurName': 'ХРОМОВ',
+                'FirstName': 'АЛЕКСАНДР',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                'DateOfBirth': '03.08.1969',
+                'Seria': '4597',
+                'Number': '005229',
+                'IssueDate': '03.08.1969',
+                'zapros': 'Raiting_3R',
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,}
+Raiting_4R = {'Type': 'Request',
+                'WorkingDirectory': WD,
+                'Event': '3',
+                'Raiting_4R': '1',
+                'SurName': 'ХРОМОВ',
+                'FirstName': 'АЛЕКСАНДР',
+                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                'DateOfBirth': '03.08.1969',
+                'Seria': '4597',
+                'Number': '005229',
+                'IssueDate': '03.08.1969',
+                'RegionExp': '45',
+                'CityExp':	'москва',
+                'StreetExp': 'ленина',
+                'HouseExp':	'1',
+                'zapros': 'Raiting_4R',
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,}
 # FLFR = {'Type': 'Request',
 #             'WorkingDirectory' : WD,
 #             'Event': '3',
@@ -184,7 +235,9 @@ Raiting_2R = {'Type': 'Request',
 #             'Seria': '3213',
 #             'Number': '321321',
 #         'zapros': 'FR',
-#     'url': billingFLURL}  # 7
+#
+#     'billingURL': billingFLURL,
+#     'requestURL': requestFLURL,}  # 7
 AFF = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '3',
@@ -196,7 +249,10 @@ AFF = {'Type': 'Request',
          'Seria': '4597',
          'Number': '005229',
          'zapros': 'AFF',
-    'url': billingFLURL}  # 8
+
+       'billingURL': billingFLURL,
+       'requestURL': requestFLURL,
+       }  # 8
 CKKI = {'Type': 'Request',
           'WorkingDirectory': WD,
           'Event': '3',
@@ -209,7 +265,9 @@ CKKI = {'Type': 'Request',
           'Number': '005229',
           'IssueDate': '03.08.1969',
           'zapros': 'CKKI',
-    'url': billingFLURL}  # 9
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,}  # 9
 SVI = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '3',
@@ -222,7 +280,9 @@ SVI = {'Type': 'Request',
          'Number': '005229',
          'InfoType': '1',
          'zapros': 'SVI',
-    'url': billingFLURL}  # 10
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,}  # 10
 Exp = {
     # Основной блок
     'Type': 'Request',
@@ -288,7 +348,9 @@ Exp = {
     # 'PhoneIPExp':'',
 
     'zapros': 'Exp',
-    'url': billingFLURL
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,
 }  # 11
 VIFL_External = {
     'Type': 'Request',
@@ -303,7 +365,9 @@ VIFL_External = {
     'Number': '005229',
     'RegionExp': '45',
     'zapros': 'VIFL_External',
-    'url': billingFLURL}  # 12
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,}  # 12
 FR = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '3',
@@ -317,7 +381,9 @@ FR = {'Type': 'Request',
         'PlaceOfBirth': '123',
          'InfoType': '1',
          'zapros': 'FR',
-    'url': billingFLURL}  # 10
+
+    'billingURL': billingFLURL,
+    'requestURL': requestFLURL,}  # 10
 
 
 
@@ -328,49 +394,57 @@ ulFNST = {'Type': 'Request',
           'OGRN': '1177746172790',
           #'INN': '3213213211',
           'zapros': 'FNST',
-        'url': billingULURL}  # 0
+
+    'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 0
 ulFNSA = {'Type': 'Request',
           'WorkingDirectory': WD,
           'Event': '1',
           'FNSA': '1',
           'OGRN': '1177746172790',
           'zapros': 'FNSA',
-        'url': billingULURL}  # 1
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 1
 ulGIBDD = {'Type': 'Request',
            'WorkingDirectory': WD,
            'Event': '1',
            'GIBDD': '1',
            'OGRN': '1177746172790',
            'zapros': 'GIBDD',
-        'url': billingULURL}  # 2
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 2
 ulBalans = {'Type': 'Request',
             'WorkingDirectory': WD,
             'Event': '1',
             'Balans': '1',
             'OGRN': '1177746172790',
             'zapros': 'Balans',
-        'url': billingULURL}  # 3
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 3
 ulSVI = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '1',
          'SVI': '1',
          'OGRN': '1177746172790',
          'zapros': 'SVI',
-        'url': billingULURL}  # 4
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 4
 ulBenef = {'Type': 'Request',
            'WorkingDirectory': WD,
            'Event': '1',
            'Benef': '1',
            'OGRN': '1177746172790',
            'zapros': 'Benef',
-        'url': billingULURL}  # 5
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 5
 ulAFF = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '1',
          'AFF': '1',
          'OGRN': '1177746172790' ,
          'zapros': 'AFF',
-        'url': billingULURL}  # 6
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 6
 ulEmployer = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '1',
@@ -381,7 +455,8 @@ ulEmployer = {'Type': 'Request',
               'City': 'Санкт-Петербург',
               'Phone': '8129837762',
               'zapros': 'Employer',
-        'url': billingULURL}  # 7
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 7
 ulExtSource = {'Type': 'Request',
                'WorkingDirectory': WD,
                'Event': '1',
@@ -389,28 +464,24 @@ ulExtSource = {'Type': 'Request',
                'OGRN': '1026102103466',
                'INN': '',
                'zapros': 'ExtSource',
-        'url': billingULURL}  # 8
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 8
 ulBSUL = {'Type': 'Request',
            'WorkingDirectory': WD,
            'Event': '1',
            'BSUL': '1',
            'OGRN': '1177746172790',
            'zapros': 'BSUL',
-        'url': billingULURL}  # 0
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 0
 ulBSPD = {'Type': 'Request',
              'WorkingDirectory': WD,
              'Event': '1',
              'BSPD': '1',
              'OGRN': '1177746172790',
              'zapros': 'BSPD',
-            'url': billingULURL}  # 1
-ulSVI = {'Type': 'Request',
-            'WorkingDirectory': WD,
-            'Event': '1',
-            'SVI': '1',
-            'OGRN': '1177746172790',
-            'zapros': 'SVI',
-        'url': billingULURL}
+                'billingURL': billingULURL,
+    'requestURL': requestULURL,}  # 1
 ulBSR = {
     'Type': 'Request',
     'Event': '9',
@@ -489,7 +560,8 @@ ulBSR = {
     # 'legalInfoList[1][OGRN]': '1027700107599',
     # 'legalInfoList[1][AuthCapShare]': '15000',
     'zapros': 'BSR',
-        'url': billingULURL
+            'billingURL': billingULURL,
+    'requestURL': requestULURL,
 }
 
 
@@ -500,20 +572,26 @@ ipIPT = {'Type': 'Request',
          'IPT': '1',
          #'OGRNIP' : '312751502300034',
          'INNIP': '231400212630',
-         'zapros': 'IPT'}  # 0
+         'zapros': 'IPT',
+         'billingURL': billingIPURL,
+        'requestURL': requestIPURL,}  # 0
 ipIPA = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '2',
          'IPA': '1',
          'OGRNIP': '312751502300034',
-         'zapros': 'IPA'}  # 1
+         'zapros': 'IPA',
+                  'billingURL': billingIPURL,
+        'requestURL': requestIPURL,}  # 1
 ipExtendedIP = {'Type': 'Request',
                 'WorkingDirectory': WD,
                 'Event': '2',
                 'ExtendedIP': '1',
                 'OGRNIP': '312751502300034',
                 #'INNIP' : '',
-                'zapros': 'ExtendedIP'}  # 2
+                'zapros': 'ExtendedIP',
+                  'billingURL': billingIPURL,
+        'requestURL': requestIPURL,}  # 2
 ipEmployer = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '2',
@@ -527,14 +605,18 @@ ipEmployer = {'Type': 'Request',
               'House': '',
               'Flat': '',
               'Phone': '9034548390',
-              'zapros': 'Employer'
+              'zapros': 'Employer',
+                  'billingURL': billingIPURL,
+        'requestURL': requestIPURL,
               }  # 3
 ipExtSource = {'Type': 'Request',
                'WorkingDirectory': WD,
                'Event': '2',
                'ExtSource': '1',
                'OGRNIP': '312751502300034',
-               'zapros': 'ExtSource'}  # 4
+               'zapros': 'ExtSource',
+                  'billingURL': billingIPURL,
+        'requestURL': requestIPURL,}  # 4
 ipIDIP = {'Type': 'Request',
          'WorkingDirectory': WD,
          'Event': '2',
@@ -545,7 +627,9 @@ ipIDIP = {'Type': 'Request',
            "FirstName": "ВЛАДИМИР",
            "MiddleName": "АЛЕКСАНДРОВИЧ",
             "RegionExp": "45",
-         'zapros': 'IDIP'} # 5
+         'zapros': 'IDIP',
+                  'billingURL': billingIPURL,
+        'requestURL': requestIPURL,} # 5
 ipBIP = {
     'Type': 'Request',
     'WorkingDirectory': WD,
@@ -575,7 +659,9 @@ ipBIP = {
     #     'BuildExpTmp':'',
     #     'BuildingExpTmp':'',
     #     'FlatExpTmp':'',
-    'zapros': 'BIP'
+    'zapros': 'BIP',
+                  'billingURL': billingIPURL,
+        'requestURL': requestIPURL,
 }  # 0
 
 
@@ -594,7 +680,8 @@ IDADDRESS = {
     'BuildingExp': '',
     'FlatExp': '6',
     'zapros': 'IDADDRESS',
-    'url': billingADURL
+             'billingURL': billingADURL,
+        'requestURL': requestADURL,
 }
 
 
@@ -606,7 +693,8 @@ PASP_UPassporta = {'Type': 'Request',
                    'Seria': '4500',
                    'Number': '375473',
                    'zapros': 'UPassporta',
-                   'url': billingPASPURL}  # 0
+                    'billingURL': billingPASPURL,
+                'requestURL': requestPASPURL,}  # 0
 PASP_PPFMS = {'Type': 'Request',
               'WorkingDirectory': WD,
               'Event': '4',
@@ -614,7 +702,8 @@ PASP_PPFMS = {'Type': 'Request',
               'Seria': '4500',
               'Number': '375473',
               'zapros': 'PPFMS',
-              'url': billingPASPURL}  # 1
+                                  'billingURL': billingPASPURL,
+                'requestURL': requestPASPURL,}  # 1
 
 GIBDD_TS = {'Type': 'Request',
             'WorkingDirectory': WD,
@@ -623,7 +712,8 @@ GIBDD_TS = {'Type': 'Request',
             #'GosNumber': 'M775XY27',
             'VIN': 'WDD2040491A652976',
             'zapros': 'TS',
-            'url': billingGIBDDURL
+                'billingURL': billingGIBDDURL,
+                'requestURL': requestGIBDDURL,
             }  # 0
 GIBDD_BCars = {'Type': 'Request',
                'WorkingDirectory': WD,
@@ -632,7 +722,8 @@ GIBDD_BCars = {'Type': 'Request',
                'GosNumber': 'M775XY27',
                # 'VIN': '',
                'zapros': 'BCars',
-            'url': billingGIBDDURL
+               'billingURL': billingGIBDDURL,
+               'requestURL': requestGIBDDURL
                } # 1
 GIBDD_SCars = {'Type': 'Request',
                'WorkingDirectory': WD,
@@ -641,7 +732,8 @@ GIBDD_SCars = {'Type': 'Request',
                'GosNumber': 'M775XY27',
                # 'VIN': '',
                'zapros': 'SCars',
-            'url': billingGIBDDURL
+               'billingURL': billingGIBDDURL,
+               'requestURL': requestGIBDDURL
                } # 2
 
 
@@ -656,6 +748,8 @@ FL = [
     RaitingR,
     Raiting_2,
     Raiting_2R,
+    Raiting_3R,
+    Raiting_4R,
     # FLFR,
     AFF,
     CKKI,
@@ -674,7 +768,7 @@ UL = [ulFNST,
       ulExtSource,
     ulBSUL,
     ulBSPD,
-    ulSVI,
+      ulSVI,
     ulBSR
 
       ]  # 0
@@ -701,13 +795,13 @@ GIBDD = [
 
 
 
-Services = [UL,
-            IP,
+Services = [
             FL,
+            UL,
+            IP,
             PASP,
             # GIBDD,
          ]
-
 
 def login():
 
@@ -716,125 +810,73 @@ def login():
                     'Login': LOGIN,
                     'Password': PASSWORD}
     rPOST = S.post(loginURL,data=post, )
-    #print(rPOST.text)
-    lx = html.fromstring(rPOST.content)
-    WD = lx.xpath('//sid/text()')[0]
-    print('получил WD ' + str(WD))
-    if WD == '':
-        print('не получил WD')
 
-    return WD
-
-def logout():
-    post = {
-        'Type': 'Logout',
-        'WorkingDirectory': WD,
-    }
-    r = S.post(URL + 'logout', data=post )
-    xmlBODY = (r.content)
-    lx = html.fromstring(xmlBODY)
-    ANS = lx.xpath('//text()')[3]
-    print('\n')
-    print('LOGOUT ' + str(ANS))
+    try:
+        lx = html.fromstring(rPOST.content)
+        WD = lx.xpath('//sid/text()')[0]
+        print('получил WD ' + str(WD))
+        if WD == '':
+            print('не получил WD')
+        return WD
+    except Exception as e:
+        print(e)
 
 def getBilling(billingURL):
+    try:
 
-    rGET = S.get(billingURL)
-
-    # parsed = json.loads(rGET.text)['billing']  # str(r.json()["result"])
-    # parsed = json.dumps(parsed, indent=4, sort_keys=True, ensure_ascii=False)
-    # print(parsed)
-    for i in rGET.json()['billing']:
-        subsystemBilling[i['code']] = i['requestCount']
-
-    # print(rGET.json()['billing'][11]['title'])
-    # print(rGET.json()['billing'][11]['requestCount'])
-    # l = []
+        rGET = S.get(billingURL)
+        jGET = rGET.json()
+        limitCurrent = jGET['limitCurrent']
+        #print(limitCurrent)
 
 
-    # for n,m in subsystemBilling.items():
-    #     print('%s : %s' %(n,m))
 
-
-    #     l.append([n,m])
-    # df = pd.DataFrame(l)
-    # result = df.to_string(index=True, header=False)
-    # print(result)
-
-    return subsystemBilling
+        return jGET
+    except:
+        pass
 
 def request(requestURL, WD, service):
 
     service['WorkingDirectory'] = WD
     r = S.post(requestURL,data=service)
-    STATUS = r.status_code
+
     try:
-        RN = r.json()['request']['id']
-        re1 = "[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}"
-        rg = re.compile(re1,re.IGNORECASE|re.DOTALL)
-        rg = rg.search(RN)
 
-        if rg: pass
-            #print(service['zapros'] + ' - ' + 'RN: ' + str(RN))
-        else:
-            print(service['zapros'] + ' - ' + 'ERROR: ' + RN + '\n')
-            ERRORS.append(service['zapros'] + ' - ' + 'ERROR: ' + RN)
-            ERRORS.append('---------------------------')
-        RNs[RN]= service
+        jGET = r.json()
 
+        price = jGET[service['zapros']]
 
         if RN == 'ERROR_VALIDATION_WORKINGDIRECTORY' or WD == 'ERROR_VALIDATION_WORKINGDIRECTORY':
             return 'err'
         else:
-            return (STATUS, r.text)
-    except:
-        print(r.text)
+            return (price)
 
-def countBilling(billingURL, service,requestURL):
-
-    billing0 = getBilling(billingURL)[service['zapros']]
-    print(billing0)
-    STATUS, text = request(requestURL, WD, service)
-    billing1 = getBilling(billingURL)[service['zapros']]
-    billing = billing0 - billing1
-    print(billing1)
-    if billing == 1: return ('%s - OK' %(service['zapros']))
-    else: return ('%s - notOK   Status - %s     Trext:%s' %(service['zapros'], STATUS, text) )
+    except Exception as e:
+        print(e)
 
 
 
 
-WD = login()
-try:
-    for service in FL:
-        print(countBilling(billingFLURL, service, requestFLURL))
+if __name__ == '__main__':
+    login()
 
-    for service in UL:
-        print(countBilling(billingULURL, service, requestULURL))
-
-    for service in IP:
-        print(countBilling(billingIPURL, service, requestIPURL))
-
-    for service in AD:
-        print(countBilling(billingADURL, service, requestADURL))
-
-    for service in PASP:
-        print(countBilling(billingPASPURL, service, requestPASPURL))
-
-    for service in GIBDD:
-        print(countBilling(billingGIBDDURL, service, requestGIBDDURL))
+    for service in Services:
+            for s in service:
+                billing = getBilling(s['billingURL'])
+                first = billing['limitCurrent']
+                #print(billing['billing'])
+                price = ''
+                for f in billing['billing']:
+                    if str(f['code']) == str(s['zapros']):
+                        price = f['price']
 
 
+                request(s['requestURL'], WD, s)
+                second = getBilling(s['billingURL'])['limitCurrent']
 
-except Exception as e:
-    print('Fail request: ' + str(e))
+                if int(second) == int(first) - int(price):
+                    print('URA  -   ZAPROS:%s   -   PRICE:%s  -   difference:%s' % (s['zapros'], price, int(first)-int(second)))
+                else: print('huevo  -   ZAPROS:%s' % s['zapros'])
 
 
-# i = 0
-# while i < 20:
-#     service = Exp
-#     print(countBilling(billingFLURL, service, requestFLURL))
-#     i += 1
-#     sleep(1)
 
-logout()

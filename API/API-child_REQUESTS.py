@@ -21,16 +21,16 @@ urllib3.disable_warnings()
 # vips1 'http://127.0.0.1:3331/api'
 
 
-URL = 'https://vips1:451/api' #'http://127.0.0.1:3331/api' - випс через stunnel  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
-LOGIN = 'ander_автомат'#'demo' #'Svetka' #'ander_автомат'
-PASSWORD = '687dd78R'#'Gfd!1qaz40' #'153759' #'687dd78R'
+URL = 'http://ips1:3777/api' #'http://127.0.0.1:3331/api' - випс через stunnel  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+LOGIN = 'demo'#'demo' #'Svetka' #'ander_автомат'
+PASSWORD = 'Gfd!1qaz40'#'Gfd!1qaz40' #'153759' #'687dd78R'
 R = requests.Session()
 Exceptions = []
 ERRORS = []
 HEADERS={
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
 WD = ''
-RNs = []
+RNs = {}
 
 
 
@@ -350,7 +350,7 @@ FLRaiting_3R = {'Type': 'Request',
                 'Raiting_3R': '1',
                 'SurName': 'ХРОМОВ',
                 'FirstName': 'АЛЕКСАНДР',
-                'MiddleName': 'ВАЛЕРИАНОВИЧ',
+                #'MiddleName': 'ВАЛЕРИАНОВИЧ',
                 'DateOfBirth': '03.08.1969',
                 'Seria': '4597',
                 'Number': '005229',
@@ -369,7 +369,7 @@ FLRaiting_4R = {'Type': 'Request',
                 'IssueDate': '03.08.1969',
                 'RegionExp': '45',
                 'CityExp': u'МОСКВА',
-                'StreetExp': u'Новгородская',
+                'StreetExp': u'Зои и Александра Космодемьянских',
                 'HouseExp': '33',
                 'BuildExp': '',  # или
                 'BuildingExp': '',
@@ -431,13 +431,13 @@ FLExp = {
     'FirstName': u'Роман',
     'MiddleName': u'Сергеевич',
     'DateOfBirth': '31.07.1983',
-    'Seria': '5604',
-    'Number': '442897',
+    'Seria': '4703',
+    'Number': '853404',
     #'INNExp': '770404319004',
     # Блок Адрес Постоянный
     'RegionExp': '45',
     'CityExp': u'МОСКВА',
-    'StreetExp': u'Новгородская',
+    'StreetExp': u'Зои и Александра Космодемьянских',
     'HouseExp': '33',
     'BuildExp': '',  # или
     'BuildingExp': '',
@@ -770,7 +770,7 @@ def request(WD,service):
         ERRORS.append(service['zapros'] + ' - ' + 'ERROR: ' + RN)
         #ERRORS.append(RN)
         ERRORS.append('---------------------------')
-    RNs.append(RN)
+    RNs[RN]= service['zapros']
 
     request_end_time = datetime.now()
     request_total_time = request_end_time - request_start_time
@@ -787,7 +787,7 @@ def response(WD, RN, service):
     response_start_time = datetime.now()
     StatusANS = '3'
     StatisticANS = ''
-    tryes = 30
+    tryes = 9999
     while StatusANS == '3' and tryes >= 1:
 
         post = {'Type': 'Answer',
@@ -931,14 +931,16 @@ if __name__ == '__main__':
         #
         #
         #
-        #     for key, value in RNs.items():
-        #             resp = response(WD, key, value)
-        #             while resp == 'err':
-        #                 WD = login()
-        #                 sleep(3)
-        #                 if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
-        #                     resp = response(WD, key, value)
-        #                     break
+        #     for RN, service in RNs.items():
+        #         print(RN)
+        #         print(service)
+        #         resp = response(WD, RN, service)
+        #         while resp == 'err':
+        #             WD = login()
+        #             sleep(3)
+        #             if WD != 'ERROR_VALIDATION_WORKINGDIRECTORY':
+        #                 resp = response(WD, RN, service)
+        #                 break
         #
         #     it+=1
 
@@ -946,7 +948,7 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        # service = FLExp # IDFL
+        # service = FLRaiting_4R # IDFL
         # RN = request(WD, service)
         # response(WD, RN, service)
 
@@ -971,9 +973,9 @@ if __name__ == '__main__':
 
         # НАГРУЗКА ОТВЕТ ПОТОМ
 
-        service = FLExp # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
+        service = IDADDRESS # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
         t = 0
-        while t < 1:
+        while t < 30:
 
             RN = request(WD, service)
             while RN == 'err':
@@ -984,8 +986,8 @@ if __name__ == '__main__':
                     break
             t += 1
 
-        for RN in RNs:
-            response(WD, RN, service)
+        for Rn in RNs.keys():
+            response(WD, Rn, service)
 
 
 
