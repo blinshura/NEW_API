@@ -1,3 +1,5 @@
+import json
+import random
 from datetime import datetime
 
 from lxml import etree
@@ -21,9 +23,9 @@ urllib3.disable_warnings()
 # vips1 'http://127.0.0.1:3331/api'
 
 
-URL = 'http://ips1:3777/api' #'http://127.0.0.1:3331/api' - випс через stunnel  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+URL = 'http://vips1:3777/api' #'http://127.0.0.1:3331/api' - випс через stunnel  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
 LOGIN = 'demo'#'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'Gfd!1qaz40'#'Gfd!1qaz40' #'153759' #'687dd78R'
+PASSWORD = 'demo'#'Gfd!1qaz40' #'153759' #'687dd78R'
 R = requests.Session()
 Exceptions = []
 ERRORS = []
@@ -762,7 +764,7 @@ def request(WD,service):
     rg = re.compile(re1,re.IGNORECASE|re.DOTALL)
     rg = rg.search(RN)
     if rg:
-        print('RN ' + str(RN))
+        #print('RN ' + str(RN))
         print(service['zapros'] + ' - ' + 'RN: ' + str(RN) + '\n')
     else:
         print(RN)
@@ -973,9 +975,22 @@ if __name__ == '__main__':
 
         # НАГРУЗКА ОТВЕТ ПОТОМ
 
-        service = IDADDRESS # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
+        service = FLExp # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
         t = 0
-        while t < 30:
+        with open ('C:\Projects_Python3-5-2\\3-5-2\API\FILES\\40FL.json',encoding='utf-8')as file:
+            jFile = json.load(file)
+
+
+        while t < 500:
+            jRandom = random.choice(jFile)
+            #print(jRandom)
+
+            service['SurName'] = jRandom['SurName']
+            service['FirstName'] = jRandom['FirstName']
+            service['MiddleName'] = jRandom['MiddleName']
+            service['DateOfBirth'] = jRandom['DateOfBirth']
+            service['Seria'] = jRandom['Seria']
+            service['Number'] = jRandom['Number']
 
             RN = request(WD, service)
             while RN == 'err':
