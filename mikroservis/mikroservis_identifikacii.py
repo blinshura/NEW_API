@@ -6,8 +6,8 @@ from datetime import datetime
 
 # vips1 127.0.0.1:3332
 
-user = 'danis'#"Svetka" 'kdinisv'
-password = '123'#"153759" #'Gfd!1qaz40'
+user = 'demo'#"Svetka" 'kdinisv'
+password = 'demo'#"153759" #'Gfd!1qaz40'
 url = 'http://vips1:3010/ms' #http://192.168.0.118:889/request    http://192.168.0.135:3010/request
 def login():
     i = 0
@@ -68,7 +68,7 @@ def login():
         j = random.choice(ran)
 
         # ---------------------------------------------------
-        j =FL
+        # j =FL
         # ---------------------------------------------------
 
 

@@ -6,7 +6,7 @@ from datetime import datetime
 
 start_time = datetime.now()
 
-child = os.path.join(os.path.dirname(__file__), "./API-child_REQUESTS.py")
+child = os.path.join(os.path.dirname(__file__), "./proxy_checker.py")
 word  = 'word'
 file = ['./parent.py','./child.py']
 

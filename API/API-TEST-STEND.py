@@ -27,7 +27,7 @@ import re
 # requests_log.propagate = True
 
 
-URL = 'https://vips1:450/api.test' #'http://ips1:3777/test'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
+URL = 'http://vips2:3777/api.test' #'http://ips1:3777/test'  #ips1: 192.168.0.118:450  vips1: 192.168.0.135:3777
 LOGIN = 'testAutomatUser' #'Svetka' #'ander_автомат'
 PASSWORD = 'testAutomatUser'#'testAutomatUser' #'153759' #'687dd78R'
 Exceptions = []

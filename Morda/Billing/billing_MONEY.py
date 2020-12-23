@@ -7,14 +7,14 @@ import requests
 from lxml import html
 import pandas as pd
 
-URL = 'http://vips1:3080/'#'http://127.0.0.1:3336/' #http://vips1/ #https://ips3:888/ #http://127.0.0.1:3333/
+URL = 'http://ips1:3080/'#'http://127.0.0.1:3336/' #http://vips1/ #https://ips3:888/ #http://127.0.0.1:3333/
 loginURL = URL + 'login'
 billingURL = URL + 'api/billing/'
 requestURL = URL + 'api/request/'
 pushURL = URL +  'admin/api/user/info'
 
 LOGIN = 'demo'#'demo' #'Svetka' #'ander_автомат'
-PASSWORD = 'demo'#'Gfd!1qaz40' #'153759' #'687dd78R'
+PASSWORD = 'Gfd!1qaz40'#'Gfd!1qaz40' #'153759' #'687dd78R'
 
 billingFLURL = billingURL + 'FL'
 billingULURL = billingURL + 'UL'

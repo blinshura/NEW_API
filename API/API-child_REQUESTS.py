@@ -522,7 +522,7 @@ FLBSFL = {'Type': 'Request',
           'SurName': 'ХРОМОВ',
           'FirstName': 'АЛЕКСАНДР',
           #'MiddleName': 'ВАЛЕРИАНОВИЧ',
-          'DateOfBirth': '03.08.1969',
+          'DateOfBirth': '13.04.2006',
           'Seria': '4597',
           'Number': '005229',
         #'IssueDate': '03.08.1969',
@@ -597,7 +597,7 @@ BSIP_BIP = {
     'SurName': 'ХРОМОВ',
     'FirstName': 'АЛЕКСАНДР',
     'MiddleName': 'ВАЛЕРИАНОВИЧ',
-    'DateOfBirth': '03.08.1969',
+    'DateOfBirth': '14.04.2006',
     'Seria': '4597',
     'Number': '005220',
     'OGRNIP': '312774618000575',
@@ -627,12 +627,12 @@ IDFL = {
     'Event': '8',
     'IDFL': '1',
 
-     'SurName': 'Мушанова',
-     'FirstName': 'Евгения',
-     'MiddleName': 'Васильевна',
-    'DateOfBirth': '30.10.1983',
-    # 'Seria': '4004',
-    # 'Number': '946593',
+     # 'SurName': 'Мушанова',
+     # 'FirstName': 'Евгения',
+     # 'MiddleName': 'Васильевна',
+    # 'DateOfBirth': '30.10.1983',
+    'Seria': '4004',
+    'Number': '946593',
     # 'Address': '40 САНКТ ПЕТЕРБУРГ ВОЗНЕСЕНСКИЙ 34 1',
     #'Phone': '1',
     #'GosNumber': '',
@@ -803,7 +803,7 @@ def response(WD, RN, service):
         sleep(0.5)
 
 
-        print(r.text)
+        #print(r.text)
 
 
 
@@ -950,14 +950,14 @@ if __name__ == '__main__':
 
         # ЕДИНИЧНЫЙ ЗАПРОС
 
-        # service = FLRaiting_4R # IDFL
+        # service = IDFL # IDFL FLBSFL
         # RN = request(WD, service)
         # response(WD, RN, service)
 
 
         # НАГРУЗКА ОТВЕТ СРАЗУ
 
-        # service = BSUL_BS  # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
+        # service = IDFL  # IDFL BSUL_RASH IPEmployer ULEmployer IDADDRESS BSUL_BS FLExp
         # t = 0
         # while t < 50:
         #     start = datetime.now()
@@ -981,9 +981,9 @@ if __name__ == '__main__':
             jFile = json.load(file)
 
 
-        while t < 500:
+        while t < 400:
             jRandom = random.choice(jFile)
-            #print(jRandom)
+            print(jRandom)
 
             service['SurName'] = jRandom['SurName']
             service['FirstName'] = jRandom['FirstName']
@@ -1000,7 +1000,10 @@ if __name__ == '__main__':
                     RN = request(WD, service)
                     break
             t += 1
-
+            sleep(3)
+        with open(r'C:\Projects_Python3-5-2\3-5-2\API\FILES\RNs.txt', 'w') as f:
+            for i in RNs:
+                f.write(i + '\n')
         for Rn in RNs.keys():
             response(WD, Rn, service)
 
